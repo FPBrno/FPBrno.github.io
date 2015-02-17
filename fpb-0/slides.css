@@ -1,0 +1,43 @@
+div.toolbar {
+  display: none !important;
+}
+div.initial_prompt {
+  display: none !important;
+}
+
+div.slide h1 {
+  color: #c33;
+  display: block;
+  /*
+  background-color: #999;
+  border-bottom: 1pt solid black;
+  background-color: #999;
+  margin: 0;
+  padding: 0;
+  */
+}
+
+body {
+  background-color: #ddd;
+}
+
+div.slide {
+  background-color: #eee;
+  border-radius: 15px 10px;
+  margin: 2ex 1em;
+  padding: 1ex 1em;
+  /*
+  border: 1pt solid black;
+  overflow: hidden;
+  */
+}
+div.figure {
+  margin: 0;
+  padding: 0;
+}
+div.figure .caption {
+  display: none !important;
+}
+div.slide img {
+  max-width: 100%;
+}
