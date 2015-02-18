@@ -26,7 +26,7 @@ img {
       ><p>Your user agent does not support the HTML5 Audio element.</p
     ></audio
     ><pre id="debug-data"></pre
-    ><img id="obrazek" src="slides/img-0.png"
+    ><img id="slides-placeholder" src="slides/img-0.png" alt="Slide..."
     ><script><!--
       audio = document.getElementById("my_audio");
       timing = [4,33,125,220,228,232,240,252,268,272,275,302,329,388,424];
@@ -42,7 +42,7 @@ img {
             change = true;
         }
         if (change) {
-            document.getElementById("obrazek").src = "slides/img-" + current + ".png";
+            document.getElementById("slides-placeholder").src = "slides/img-" + current + ".png";
             change = false;
         }
         document.getElementById("debug-data").innerHTML = [current,value];
