@@ -45,11 +45,13 @@ mFromMaybe_ = maybe (return ())
 presentation2html :: Presentation -> H.Html
 presentation2html p = H.div H.! A.class_ "presentation" $ do
     H.toHtml (title p)
-    " by "
+    " (by "
     H.toHtml (author p)
-    h "Slides" slides
-    h "Audio" audio
-    h "Player" player
+    ")"
+    H.div H.! A.class_ "pres_goodies" $ do
+        h "Slides" slides
+        h "Audio" audio
+        h "Player" player
     where
     g t u = H.a H.! A.href (H.toValue u) $ t
     h a b = mFromMaybe_ (g a) (b p)
@@ -64,17 +66,18 @@ presentations2html s = do
     mapM_ presentation2html s
 
 meetup2html :: Meetup -> H.Html
-meetup2html x = do
+meetup2html x = H.div H.! A.class_ "meetup" $ do
     H.h2 . H.toHtml $ "Meetup " ++ show (indexM x)
     H.ul $ do
-        H.li $ presentations2html (presentations x)
         H.li ("Time: " >> H.toHtml (show $ time x))
         H.li ("Participants: " >> H.toHtml (show $ participants x))
+        H.li $ presentations2html (presentations x)
 
 fpbTitle = "Functional Programming Brno"
 
 site = H.html $ do
     H.head $ do
+        H.meta H.! A.charset "UTF-8"
         H.title fpbTitle
         H.link H.! A.rel "stylesheet" H.! A.type_ "text/css" H.! A.href "style.css"
     H.body $ H.div H.! A.class_ "wrapper" $ do
@@ -83,4 +86,4 @@ site = H.html $ do
         H.p "More to come"
         mapM_ meetup2html . take 10 $ reverse meetups
 
-main = writeFile "test.html" . R.renderHtml $ H.docType >> site
+main = writeFile "index.html" . R.renderHtml $ H.docType >> site

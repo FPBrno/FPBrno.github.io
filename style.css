@@ -4,17 +4,51 @@
   list-style: none;
 }
 body {
-  background-color: #efe;
+  background-color: #eee;
   color: #101;
   font-family: Verdana, Arial, sans-serif;
   font-size: 110%;
-  text-shadow: 0 0, 1px 1px #ccc;
 }
 .wrapper {
   max-width: 800px;
   margin: 0 auto;
+  background-color: #fff;
+  padding: 0 1em;
+}
+h1, h2 {
+  font-weight: lighter;
+  text-shadow: 0 0, 1pt 1pt #999;
+  border-bottom: 1px solid black;
 }
 h1 {
-  font-weight: lighter;
   font-size: 275%;
+}
+p {
+  margin: 1ex 0;
+}
+.meetup {
+  margin: 1ex 0;
+}
+.presentation {
+  border-radius: 5px; 
+  display: block;
+  padding: 1ex 1em;
+  background-color: #eee;
+  margin: 1ex 0;
+}
+.pres_goodies a {
+  background-color: #333;
+  border-radius: 5px; 
+  color: white;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: none;
+  width: 31%;
+}
+.pres_goodies a {
+  margin-right: 3.5%;
+}
+.pres_goodies a:last-child {
+  margin-right: 0px;
 }
