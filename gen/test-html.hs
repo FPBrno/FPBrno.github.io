@@ -83,6 +83,7 @@ site = H.html $ do
     H.body $ H.div H.! A.class_ "wrapper" $ do
         H.header $ do
             H.h1 fpbTitle
+            H.img H.! A.src "images/FPB.svg" H.! A.alt "Functional Programming Brno"
         H.div H.! A.class_ "main" $ do
             H.p "More to come"
             mapM_ meetup2html . take 10 $ reverse meetups
