@@ -83,7 +83,10 @@ site = H.html $ do
     H.body $ H.div H.! A.class_ "wrapper" $ do
         H.header $ do
             H.h1 fpbTitle
-        H.p "More to come"
-        mapM_ meetup2html . take 10 $ reverse meetups
+        H.div H.! A.class_ "main" $ do
+            H.p "More to come"
+            mapM_ meetup2html . take 10 $ reverse meetups
+        H.footer $ do
+            H.a H.! A.href "https://github.com/FPBrno" $ "FPBrno on GitHub"
 
 main = writeFile "index.html" . R.renderHtml $ H.docType >> site
