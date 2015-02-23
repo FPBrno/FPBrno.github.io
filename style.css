@@ -1,7 +1,7 @@
 * {
+  list-style: none;
   margin: 0;
   padding: 0;
-  list-style: none;
 }
 body {
   background-color: #eee;
@@ -10,15 +10,18 @@ body {
   font-size: 110%;
 }
 .wrapper {
-  max-width: 800px;
-  margin: 0 auto;
   background-color: #fff;
-  padding: 0 1em;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  max-width: 800px;
+  min-height: 100vh;
 }
 h1, h2 {
-  font-weight: lighter;
-  text-shadow: 0 0, 1pt 1pt #999;
   border-bottom: 1px solid black;
+  font-weight: lighter;
+  margin: 1ex auto;
+  text-shadow: 0 0, 1pt 1pt #999;
 }
 h1 {
   font-size: 275%;
@@ -26,15 +29,32 @@ h1 {
 p {
   margin: 1ex 0;
 }
+header, .main, footer {
+  padding: 0 1em;
+}
+header {
+  background-color: #ddd;
+}
+footer {
+  background-color: #ddd;
+  font-size: 90%;
+  padding: 0.5ex;
+}
+footer a {
+  color: #999;
+}
+.main {
+  flex: 1;
+}
 .meetup {
   margin: 1ex 0;
 }
 .presentation {
+  background-color: #eee;
   border-radius: 5px; 
   display: block;
-  padding: 1ex 1em;
-  background-color: #eee;
   margin: 1ex 0;
+  padding: 1ex 1em;
 }
 .pres_goodies a {
   background-color: #333;
