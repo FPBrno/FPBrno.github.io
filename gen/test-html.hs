@@ -89,5 +89,6 @@ site = H.html $ do
             mapM_ meetup2html . take 10 $ reverse meetups
         H.footer $ do
             H.a H.! A.href "https://github.com/FPBrno" $ "FPBrno on GitHub"
+            H.div "© 2015 Functional Programming Brno"
 
 main = writeFile "index.html" . R.renderHtml $ H.docType >> site
