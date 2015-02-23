@@ -78,7 +78,7 @@ fpbTitle = "Functional Programming Brno"
 site = H.html $ do
     H.head $ do
         H.meta H.! A.charset "UTF-8"
-        H.title fpbTitle
+        H.title H.! A.class_ "head-title" $ fpbTitle
         H.link H.! A.rel "stylesheet" H.! A.type_ "text/css" H.! A.href "style.css"
     H.body $ H.div H.! A.class_ "wrapper" $ do
         H.header $ do

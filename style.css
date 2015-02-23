@@ -49,6 +49,9 @@ footer {
 footer a {
   color: #999;
 }
+.head-title {
+  min-height: 100px;
+}
 .main {
   flex: 1;
 }
