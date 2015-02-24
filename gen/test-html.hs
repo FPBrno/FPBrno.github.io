@@ -5,7 +5,9 @@ import qualified Text.Blaze.Html.Renderer.String as R
 -- import qualified Text.Blaze.Html.Renderer.Pretty as R
 
 import Control.Monad
+import Data.Monoid
 import Data.Time
+import Data.Time.ISO8601 (formatISO8601)
 
 data Presentation = Presentation
     { title :: String
@@ -39,6 +41,9 @@ meetups =
         }
     ]
 
+time2Html :: UTCTime -> H.Html
+time2Html t = H.time H.! A.class_ "timeago" H.! A.datetime (H.toValue $ formatISO8601 t) $ H.toHtml (show t)
+
 mFromMaybe_ :: Monad m => (a -> m ()) -> Maybe a -> m ()
 mFromMaybe_ = maybe (return ())
 
@@ -67,25 +72,39 @@ presentations2html s = do
 
 meetup2html :: Meetup -> H.Html
 meetup2html x = H.div H.! A.class_ "meetup" $ do
-    H.h2 . H.toHtml $ "Meetup " ++ show (indexM x)
+    H.h3 . H.toHtml $ "Meetup " ++ show (indexM x)
     H.ul $ do
-        H.li ("Time: " >> H.toHtml (show $ time x))
+        H.li $ do
+            "Time: "
+            time2Html $ time x
         H.li ("Participants: " >> H.toHtml (show $ participants x))
         H.li $ presentations2html (presentations x)
 
 fpbTitle = "Functional Programming Brno"
+
+cdns = mconcat
+    [ js "https://code.jquery.com/jquery-2.1.3.min.js"
+    , js "https://raw.githubusercontent.com/rmm5t/jquery-timeago/master/jquery.timeago.js"
+    ] where
+        css u = H.link H.! A.rel "stylesheet" H.! A.href u
+        js  u = H.script H.! A.src u $ mempty
 
 site = H.html $ do
     H.head $ do
         H.meta H.! A.charset "UTF-8"
         H.title H.! A.class_ "head-title" $ fpbTitle
         H.link H.! A.rel "stylesheet" H.! A.type_ "text/css" H.! A.href "style.css"
+        cdns
+        H.script . H.preEscapedToHtml $ ("jQuery(document).ready(function(){jQuery(\"time.timeago\").timeago();});" :: String)
     H.body $ H.div H.! A.class_ "wrapper" $ do
         H.header $ do
             H.h1 fpbTitle
             H.img H.! A.src "images/FPB.svg" H.! A.alt "Functional Programming Brno"
         H.div H.! A.class_ "main" $ do
             H.p "More to come"
+            H.h2 "Upcoming events"
+            H.p "More to come"
+            H.h2 "Past events"
             mapM_ meetup2html . take 10 $ reverse meetups
         H.footer $ do
             H.a H.! A.href "https://github.com/FPBrno" $ "FPBrno on GitHub"

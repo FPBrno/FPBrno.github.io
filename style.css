@@ -6,7 +6,7 @@
 body {
   background-color: #eee;
   color: #101;
-  font-family: Verdana, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   font-size: 110%;
 }
 .wrapper {
@@ -17,7 +17,7 @@ body {
   max-width: 800px;
   min-height: 100vh;
 }
-h1, h2 {
+h1, h2, h3 {
   font-weight: lighter;
   margin: 1ex auto;
   text-shadow: 0 0, 1pt 1pt #999;
@@ -59,25 +59,27 @@ footer a {
   margin: 1ex 0;
 }
 .presentation {
-  background-color: #eee;
+  background-color: #ddd;
   border-radius: 5px; 
   display: block;
   margin: 1ex 0;
   padding: 1ex 1em;
 }
 .pres_goodies a {
-  background-color: #333;
-  border-radius: 5px; 
-  color: white;
+  background-color: #bbb;
+  border-radius: 5px;
+  color: #333;
   display: inline-block;
+  margin-top: .5ex;
+  padding: .5ex 0;
   text-align: center;
   text-decoration: none;
   text-shadow: none;
-  width: 31%;
 }
 .pres_goodies a {
-  margin-right: 3.5%;
+  margin-left: 3.5%;
+  width: 31%;
 }
-.pres_goodies a:last-child {
-  margin-right: 0px;
+.pres_goodies a:first-child {
+  margin-left: 0;
 }
