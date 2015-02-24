@@ -4,7 +4,6 @@ import qualified Text.Blaze.Html5.Attributes as A
 import qualified Text.Blaze.Html.Renderer.String as R
 -- import qualified Text.Blaze.Html.Renderer.Pretty as R
 
-import Control.Monad
 import Data.Monoid
 import Data.Time
 import Data.Time.ISO8601 (formatISO8601)
@@ -24,6 +23,7 @@ data Meetup = Meetup
     , participants :: Integer
     } deriving Show
 
+meetups :: [Meetup]
 meetups =
     [ Meetup
         { indexM = 0
@@ -80,8 +80,10 @@ meetup2html x = H.div H.! A.class_ "meetup" $ do
         H.li ("Participants: " >> H.toHtml (show $ participants x))
         H.li $ presentations2html (presentations x)
 
+fpbTitle :: H.Html
 fpbTitle = "Functional Programming Brno"
 
+cdns :: H.Html
 cdns = mconcat
     [ js "https://code.jquery.com/jquery-2.1.3.min.js"
     , js "https://raw.githubusercontent.com/rmm5t/jquery-timeago/master/jquery.timeago.js"
@@ -89,13 +91,17 @@ cdns = mconcat
         css u = H.link H.! A.rel "stylesheet" H.! A.href u
         js  u = H.script H.! A.src u $ mempty
 
+timeago :: H.Html
+timeago = H.script . H.preEscapedToHtml $ ("jQuery(document).ready(function(){jQuery(\"time.timeago\").timeago();});" :: String)
+
+site :: H.Html
 site = H.html $ do
     H.head $ do
         H.meta H.! A.charset "UTF-8"
         H.title H.! A.class_ "head-title" $ fpbTitle
         H.link H.! A.rel "stylesheet" H.! A.type_ "text/css" H.! A.href "style.css"
         cdns
-        H.script . H.preEscapedToHtml $ ("jQuery(document).ready(function(){jQuery(\"time.timeago\").timeago();});" :: String)
+        timeago
     H.body $ H.div H.! A.class_ "wrapper" $ do
         H.header $ do
             H.h1 fpbTitle
@@ -110,4 +116,5 @@ site = H.html $ do
             H.a H.! A.href "https://github.com/FPBrno" $ "FPBrno on GitHub"
             H.div "© 2015 Functional Programming Brno"
 
+main :: IO ()
 main = writeFile "index.html" . R.renderHtml $ H.docType >> site
