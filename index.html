@@ -6,12 +6,11 @@ jQuery(document).ready(function(){
   $.getJSON( "https://api.github.com/orgs/FPBrno/members", function(data) {
     var items = [];
     $.each(data, function(item) {
-      x = $("<img>", {
+      items.push($("<a>", {href: data[item].url}).append($("<img>", {
         src: data[item].avatar_url,
         alt: data[item].login,
         title: data[item].login,
-      });
-      items.push(x);
+      })));
     });
     $(".members").before($("<h2>", {html: "Public members"})).empty().append(items);
   });
