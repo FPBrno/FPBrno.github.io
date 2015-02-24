@@ -34,7 +34,7 @@ meetups =
                 , player = Just "fpb-0/player.html"
                 }
             ]
-        , time = read "2014-02-16 19:00:00 CET"
+        , time = read "2015-02-16 19:00:00 CET"
         , participants = 6
         }
     ]
