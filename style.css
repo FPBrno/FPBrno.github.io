@@ -55,6 +55,9 @@ footer a {
 .main {
   flex: 1;
 }
+.main p:first-child {
+  margin-right: 110px;
+}
 .meetup {
   margin: 1ex 0;
 }

@@ -4,6 +4,7 @@ import qualified Text.Blaze.Html5.Attributes as A
 import qualified Text.Blaze.Html.Renderer.String as R
 -- import qualified Text.Blaze.Html.Renderer.Pretty as R
 
+import Data.List (intersperse)
 import Data.Monoid
 import Data.Time
 import Data.Time.ISO8601 (formatISO8601)
@@ -107,9 +108,13 @@ site = H.html $ do
             H.h1 fpbTitle
             H.img H.! A.src "images/FPB.svg" H.! A.alt "Functional Programming Brno"
         H.div H.! A.class_ "main" $ do
-            H.p "More to come"
+            H.p . mconcat $ intersperse " "
+                [ "Functional Programming Brno (FPBrno or FPB for short) is for all people with interest in functional programming that happen to be in Brno (https://goo.gl/maps/MIRi3) or nearby areas."
+                , "Activities include but are not limited to talks and discussions."
+                ]
+            H.p "More to come."
             H.h2 "Upcoming events"
-            H.p "More to come"
+            H.p "There are no planned events now. In the ideal case next meetup will occur between 1 and 2 months after the last meetup."
             H.h2 "Past events"
             mapM_ meetup2html . take 10 $ reverse meetups
         H.footer $ do
