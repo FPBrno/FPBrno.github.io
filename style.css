@@ -35,9 +35,10 @@ header {
   background-color: #ddd;
 }
 header img {
-  width: 200px;
   float: right;
+  height: 200px;
   margin: -100px;
+  width: 200px;
 }
 footer {
   background-color: #ddd;
