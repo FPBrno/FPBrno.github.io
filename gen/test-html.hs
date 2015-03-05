@@ -87,7 +87,7 @@ fpbTitle = "Functional Programming Brno"
 cdns :: H.Html
 cdns = mconcat
     [ js "https://code.jquery.com/jquery-2.1.3.min.js"
-    , js "https://raw.githubusercontent.com/rmm5t/jquery-timeago/master/jquery.timeago.js"
+    , js "https://cdn.rawgit.com/rmm5t/jquery-timeago/master/jquery.timeago.js"
     ] where
         css u = H.link H.! A.rel "stylesheet" H.! A.href u
         js  u = H.script H.! A.src u $ mempty
