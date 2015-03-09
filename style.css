@@ -47,6 +47,9 @@ footer {
   padding: 0.5ex;
   text-align: center;
 }
+a {
+  color: #333;
+}
 footer a {
   color: #999;
 }

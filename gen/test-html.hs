@@ -4,7 +4,7 @@ import qualified Text.Blaze.Html5.Attributes as A
 import qualified Text.Blaze.Html.Renderer.String as R
 -- import qualified Text.Blaze.Html.Renderer.Pretty as R
 
-import Data.List (intersperse)
+import Data.List (intercalate)
 import Data.Monoid
 import Data.Time
 import Data.Time.ISO8601 (formatISO8601)
@@ -106,12 +106,17 @@ cdns :: H.Html
 cdns = mconcat
     [ js "https://code.jquery.com/jquery-2.1.3.min.js"
     , js "https://cdn.rawgit.com/rmm5t/jquery-timeago/master/jquery.timeago.js"
+    -- , css "https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
+    -- , css "https://fonts.googleapis.com/css?family=Roboto:300,400"
     ] where
         css u = H.link H.! A.rel "stylesheet" H.! A.href u
         js  u = H.script H.! A.src u $ mempty
 
 timeago :: H.Html
 timeago = H.script $ H.preEscapedToHtml localjs
+
+fa :: String -> H.Html
+fa x = H.i H.! A.class_ (H.toValue $ "fa " ++ x) $ mempty
 
 site :: H.Html
 site = H.html $ do
@@ -125,9 +130,14 @@ site = H.html $ do
         H.header $ do
             H.h1 fpbTitle
             H.img H.! A.src "images/FPB.svg" H.! A.alt "Functional Programming Brno"
+        -- H.menu $ do
+        --     fa "fa-rss fa-fw" >> "All"
+        --     fa "fa-rss fa-fw" >> "Articles"
+        --     fa "fa-rss fa-fw" >> "Meetups"
+        --     fa "fa-rss fa-fw" >> "Talks"
         H.div H.! A.class_ "main" $ do
-            H.p . mconcat $ intersperse " "
-                [ "Functional Programming Brno (FPBrno or FPB for short) is for all people with interest in functional programming that happen to be in Brno (https://goo.gl/maps/MIRi3) or nearby areas."
+            H.p . H.preEscapedToHtml $ intercalate (" " :: String)
+                [ "Functional Programming Brno (FPBrno or FPB for short) is for all people with interest in functional programming that happen to be in <a href=\"https://goo.gl/maps/MIRi3\">Brno</a> or nearby areas."
                 , "Activities include but are not limited to talks and discussions."
                 ]
             H.p "More to come."
