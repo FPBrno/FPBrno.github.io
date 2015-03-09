@@ -42,6 +42,24 @@ meetups =
         }
     ]
 
+localjs :: String
+localjs = concatMap (dropWhile (' ' ==))
+    [ "$(document).ready(function(){"
+    , "  $(\"time.timeago\").timeago();"
+    , "  $.getJSON( \"https://api.github.com/orgs/FPBrno/members\", function(data) {"
+    , "    var items = [];"
+    , "    $.each(data, function(item) {"
+    , "      items.push($(\"<a>\", {href: data[item].html_url}).append($(\"<img>\", {"
+    , "        src: data[item].avatar_url,"
+    , "        alt: data[item].login,"
+    , "        title: data[item].login,"
+    , "      })));"
+    , "    });"
+    , "    $(\".members\").before($(\"<h2>\", {html: \"Public members\"})).empty().append(items);"
+    , "  });"
+    , "});"
+    ]
+
 time2Html :: UTCTime -> H.Html
 time2Html t = H.time H.! A.class_ "timeago" H.! A.datetime (H.toValue $ formatISO8601 t) $ H.toHtml (show t)
 
@@ -93,7 +111,7 @@ cdns = mconcat
         js  u = H.script H.! A.src u $ mempty
 
 timeago :: H.Html
-timeago = H.script . H.preEscapedToHtml $ ("jQuery(document).ready(function(){jQuery(\"time.timeago\").timeago();});" :: String)
+timeago = H.script $ H.preEscapedToHtml localjs
 
 site :: H.Html
 site = H.html $ do
@@ -117,6 +135,7 @@ site = H.html $ do
             H.p "There are no planned events now. In the ideal case next meetup will occur between 1 and 2 months after the last meetup."
             H.h2 "Past events"
             mapM_ meetup2html . take 10 $ reverse meetups
+            H.div H.! A.class_ "members" $ mempty
         H.footer $ do
             H.a H.! A.href "https://github.com/FPBrno" $ "FPBrno on GitHub"
             H.div "© 2015 Functional Programming Brno"
