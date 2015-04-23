@@ -30,7 +30,7 @@ meetups =
         { indexM = 0
         , presentations =
             [ Presentation
-                { title = "There is no Compiler"
+                { title = "There Is No Compiler"
                 , author = "Matej"
                 , slides = Just "fpb-0/fpb-0.html"
                 , audio = Just "fpb-0/fpb-0.ogg"
