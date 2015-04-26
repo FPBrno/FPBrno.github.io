@@ -20,13 +20,27 @@ data Presentation = Presentation
 data Meetup = Meetup
     { indexM :: Integer
     , presentations :: [Presentation]
-    , time :: UTCTime
-    , participants :: Integer
+    , time :: Maybe ZonedTime
+    , participants :: Maybe Integer
     } deriving Show
 
 meetups :: [Meetup]
 meetups =
     [ Meetup
+        { indexM = 1
+        , presentations =
+            [ Presentation
+                { title = "Apples and Oranges"
+                , author = "Matej"
+                , slides = Nothing
+                , audio = Nothing
+                , player = Nothing
+                }
+            ]
+        , time = Nothing
+        , participants = Nothing
+        }
+    , Meetup
         { indexM = 0
         , presentations =
             [ Presentation
@@ -37,8 +51,8 @@ meetups =
                 , player = Just "fpb-0/player.html"
                 }
             ]
-        , time = read "2015-02-16 19:00:00 CET"
-        , participants = 6
+        , time = Just $ read "2015-02-16 19:00:00 CET"
+        , participants = Just 6
         }
     ]
 
@@ -60,8 +74,8 @@ localjs = concatMap (dropWhile (' ' ==))
     , "});"
     ]
 
-time2Html :: UTCTime -> H.Html
-time2Html t = H.time H.! A.class_ "timeago" H.! A.datetime (H.toValue $ formatISO8601 t) $ H.toHtml (show t)
+time2Html :: ZonedTime -> H.Html
+time2Html t = H.time H.! A.class_ "timeago" H.! A.datetime (H.toValue . formatISO8601 $ zonedTimeToUTC t) $ H.toHtml (show t)
 
 mFromMaybe_ :: Monad m => (a -> m ()) -> Maybe a -> m ()
 mFromMaybe_ = maybe (return ())
@@ -95,8 +109,8 @@ meetup2html x = H.div H.! A.class_ "meetup" $ do
     H.ul $ do
         H.li $ do
             "Time: "
-            time2Html $ time x
-        H.li ("Participants: " >> H.toHtml (show $ participants x))
+            maybe "To be determined" time2Html $ time x
+        maybe mempty (\ n -> H.li ("Participants: " >> H.toHtml (show n))) $ participants x
         H.li $ presentations2html (presentations x)
 
 fpbTitle :: H.Html
@@ -144,7 +158,7 @@ site = H.html $ do
             H.h2 "Upcoming events"
             H.p "There are no planned events now. In the ideal case next meetup will occur between 1 and 2 months after the last meetup."
             H.h2 "Past events"
-            mapM_ meetup2html . take 10 $ reverse meetups
+            mapM_ meetup2html $ take 10 meetups
             H.div H.! A.class_ "members" $ mempty
         H.footer $ do
             H.a H.! A.href "https://github.com/FPBrno" $ "FPBrno on GitHub"
