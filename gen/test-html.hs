@@ -82,7 +82,7 @@ mFromMaybe_ = maybe (return ())
 
 presentation2html :: Presentation -> H.Html
 presentation2html p = H.div H.! A.class_ "presentation" $ do
-    H.toHtml (title p)
+    H.span H.! A.class_ "presentation_title" $ H.toHtml (title p)
     " (by "
     H.toHtml (author p)
     ")"
@@ -132,8 +132,8 @@ timeago = H.script $ H.preEscapedToHtml localjs
 fa :: String -> H.Html
 fa x = H.i H.! A.class_ (H.toValue $ "fa " ++ x) $ mempty
 
-site :: H.Html
-site = H.html $ do
+site :: UTCTime -> H.Html
+site t = H.html $ do
     H.head $ do
         H.meta H.! A.charset "UTF-8"
         H.title H.! A.class_ "head-title" $ fpbTitle
@@ -156,13 +156,19 @@ site = H.html $ do
                 ]
             H.p "More to come."
             H.h2 "Upcoming events"
-            H.p "There are no planned events now. In the ideal case next meetup will occur between 1 and 2 months after the last meetup."
+            let fe = filter (\ e -> maybe True ((t <=) . zonedTimeToUTC) $ time e) meetups
+            if null fe then
+                H.p "There are no planned events now. In the ideal case next meetup will occur between 1 and 2 months after the last meetup."
+            else
+                mapM_ meetup2html fe
             H.h2 "Past events"
-            mapM_ meetup2html $ take 10 meetups
+            mapM_ meetup2html . take 10 $ filter (\ e -> maybe False ((t >) . zonedTimeToUTC) $ time e) meetups
             H.div H.! A.class_ "members" $ mempty
         H.footer $ do
             H.a H.! A.href "https://github.com/FPBrno" $ "FPBrno on GitHub"
             H.div "© 2015 Functional Programming Brno"
 
 main :: IO ()
-main = writeFile "index.html" . R.renderHtml $ H.docType >> site
+main = do
+    t <- getCurrentTime
+    writeFile "index.html" . R.renderHtml $ H.docType >> site t

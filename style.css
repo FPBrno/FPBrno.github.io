@@ -72,6 +72,9 @@ footer a {
   margin: 1ex 0;
   padding: 1ex 1em;
 }
+.presentation_title {
+  font-weight: bold;
+}
 .pres_goodies a {
   background-color: #bbb;
   border-radius: 5px;
