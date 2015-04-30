@@ -37,7 +37,7 @@ meetups =
                 , player = Nothing
                 }
             ]
-        , time = Nothing
+        , time = Just $ read "2015-05-12 18:00:00 CEST"
         , participants = Nothing
         }
     , Meetup
@@ -59,6 +59,7 @@ meetups =
 localjs :: String
 localjs = concatMap (dropWhile (' ' ==))
     [ "$(document).ready(function(){"
+    , "  $.timeago.settings.allowFuture = true;"
     , "  $(\"time.timeago\").timeago();"
     , "  $.getJSON( \"https://api.github.com/orgs/FPBrno/members\", function(data) {"
     , "    var items = [];"
