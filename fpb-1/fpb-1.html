@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Matej Kollár mkollar+fpb1@redhat.com" />
+  <title>Apples and Oranges (How Not to Mix Things)</title>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+   href="slides.css" />
+  <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js.gz"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body>
+<div class="slide titlepage">
+  <h1 class="title">Apples and Oranges <br />(How Not to Mix Things)</h1>
+  <p class="author">
+Matej Kollár <br /><a href="mailto:mkollar+fpb1@redhat.com">mkollar+fpb1@redhat.com</a>
+  </p>
+  <p class="date">May 2015</p>
+</div>
+<div class="section slide level2" id="we-are-fpb">
+<h1>We are FPB</h1>
+<div class="vbox"></div>
+<div class="hbox" style="height: 80%">
+<img src="http://fpbrno.github.io/images/FPB.svg">
+</div>
+
+</div>
+<div class="section slide level2" id="so-you-were-told">
+<h1>So You Were Told…</h1>
+<p>…that you should not mix apples and oranges…</p>
+<div class="vbox"></div>
+<div class="hbox">
+<img src="mixed.svg">
+</div>
+
+</div>
+<div class="section slide level2" id="everything-in-a-single-type">
+<h1>Everything in a Single Type</h1>
+<pre class="sourceCode haskell" file="Fruit1.hs"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Fruit1</span> <span class="kw">where</span>
+
+<span class="kw">data</span> <span class="dt">Fruit</span>
+    <span class="fu">=</span> <span class="dt">Apples</span>  <span class="dt">Integer</span>
+    <span class="fu">|</span> <span class="dt">Oranges</span> <span class="dt">Integer</span>
+    <span class="kw">deriving</span> <span class="kw">Show</span>
+
+<span class="ot">mix ::</span> <span class="dt">Fruit</span> <span class="ot">-&gt;</span> <span class="dt">Fruit</span> <span class="ot">-&gt;</span> <span class="dt">Fruit</span>
+mix (<span class="dt">Apples</span> m)  (<span class="dt">Apples</span> n)  <span class="fu">=</span> <span class="dt">Apples</span> (m <span class="fu">+</span> n)
+mix (<span class="dt">Oranges</span> m) (<span class="dt">Oranges</span> n) <span class="fu">=</span> <span class="dt">Oranges</span> (m <span class="fu">+</span> n)
+mix _ _ <span class="fu">=</span> <span class="fu">error</span> <span class="st">&quot;Not gonna happen!&quot;</span>
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> <span class="kw">do</span>
+    <span class="fu">print</span> <span class="fu">$</span> <span class="dt">Apples</span> <span class="dv">4</span>  <span class="ot">`mix`</span> <span class="dt">Apples</span> <span class="dv">5</span>
+    <span class="fu">print</span> <span class="fu">$</span> <span class="dt">Oranges</span> <span class="dv">4</span> <span class="ot">`mix`</span> <span class="dt">Oranges</span> <span class="dv">5</span>
+    <span class="fu">print</span> <span class="fu">$</span> <span class="dt">Apples</span> <span class="dv">4</span>  <span class="ot">`mix`</span> <span class="dt">Oranges</span> <span class="dv">5</span> <span class="co">-- :-(</span></code></pre>
+<div class="handout">
+
+<ul>
+<li>Programmer have to be careful.</li>
+<li>Errors occur at runtime (too late).</li>
+</ul>
+</div>
+
+</div>
+<div class="section slide level2" id="multiple-types">
+<h1>Multiple Types</h1>
+<pre class="sourceCode haskell" file="Fruit2.hs"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Fruit2</span> <span class="kw">where</span>
+
+<span class="kw">newtype</span> <span class="dt">Apples</span>  <span class="fu">=</span> <span class="dt">Apples</span>  <span class="dt">Integer</span> <span class="kw">deriving</span> <span class="kw">Show</span>
+<span class="kw">newtype</span> <span class="dt">Oranges</span> <span class="fu">=</span> <span class="dt">Oranges</span> <span class="dt">Integer</span> <span class="kw">deriving</span> <span class="kw">Show</span>
+
+<span class="ot">mixApples ::</span> <span class="dt">Apples</span> <span class="ot">-&gt;</span> <span class="dt">Apples</span> <span class="ot">-&gt;</span> <span class="dt">Apples</span>
+<span class="dt">Apples</span> m <span class="ot">`mixApples`</span> <span class="dt">Apples</span> n <span class="fu">=</span> <span class="dt">Apples</span> (m <span class="fu">+</span> n)
+
+<span class="ot">mixOranges ::</span> <span class="dt">Oranges</span> <span class="ot">-&gt;</span> <span class="dt">Oranges</span> <span class="ot">-&gt;</span> <span class="dt">Oranges</span>
+<span class="dt">Oranges</span> m <span class="ot">`mixOranges`</span> <span class="dt">Oranges</span> n <span class="fu">=</span> <span class="dt">Oranges</span> (m <span class="fu">+</span> n)
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> <span class="kw">do</span>
+    <span class="fu">print</span> <span class="fu">$</span> <span class="dt">Apples</span> <span class="dv">4</span>  <span class="ot">`mixApples`</span>  <span class="dt">Apples</span> <span class="dv">5</span>
+    <span class="fu">print</span> <span class="fu">$</span> <span class="dt">Oranges</span> <span class="dv">4</span> <span class="ot">`mixOranges`</span> <span class="dt">Oranges</span> <span class="dv">5</span>
+    <span class="co">-- print $ Apples 4  `mixApples`  Oranges 5</span></code></pre>
+<div class="handout">
+
+<ul>
+<li>Violates DRY.</li>
+<li>Function with same abstract semantics have different names.</li>
+</ul>
+</div>
+
+</div>
+<div class="section slide level2" id="template-haskell">
+<h1>Template Haskell</h1>
+<pre class="sourceCode haskell" file="Fruit2THHelper.hs"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Fruit2THHelper</span> (genFruit) <span class="kw">where</span>
+
+<span class="kw">import</span> <span class="dt">Language.Haskell.TH</span>
+
+<span class="ot">genFruit ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Q</span> [<span class="dt">Dec</span>]
+genFruit fruit_name&#39; <span class="fu">=</span> <span class="kw">do</span>
+    <span class="kw">let</span> fun_name  <span class="fu">=</span> mkName (<span class="st">&quot;mix&quot;</span> <span class="fu">++</span> fruit_name&#39;)
+        fruit_name <span class="fu">=</span> mkName fruit_name&#39;
+    m <span class="ot">&lt;-</span> newName <span class="st">&quot;m&quot;</span>
+    n <span class="ot">&lt;-</span> newName <span class="st">&quot;n&quot;</span>
+    <span class="fu">return</span>
+        [ <span class="dt">NewtypeD</span> [] fruit_name []
+            (<span class="dt">NormalC</span> fruit_name [(<span class="dt">NotStrict</span>, <span class="dt">ConT</span> (mkName <span class="st">&quot;Integer&quot;</span>))])
+            [mkName <span class="st">&quot;Show&quot;</span>]
+        , <span class="dt">SigD</span> fun_name (<span class="dt">ArrowT</span> <span class="ot">`AppT`</span> <span class="dt">ConT</span> fruit_name
+            <span class="ot">`AppT`</span> (<span class="dt">ArrowT</span> <span class="ot">`AppT`</span> <span class="dt">ConT</span> fruit_name <span class="ot">`AppT`</span> <span class="dt">ConT</span> fruit_name))
+        , <span class="dt">FunD</span> fun_name
+            [ <span class="dt">Clause</span>
+                [<span class="dt">ConP</span> fruit_name [<span class="dt">VarP</span> m],<span class="dt">ConP</span> fruit_name [<span class="dt">VarP</span> n]]
+                (<span class="dt">NormalB</span> (<span class="dt">ConE</span> fruit_name
+                    <span class="ot">`AppE`</span> <span class="dt">UInfixE</span> (<span class="dt">VarE</span> m) (<span class="dt">VarE</span> (mkName <span class="st">&quot;+&quot;</span>)) (<span class="dt">VarE</span> n)))
+                []
+            ]
+        ]</code></pre>
+</div>
+<div class="section slide level2" id="section">
+
+<pre class="sourceCode haskell" file="Fruit2TH.hs"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE TemplateHaskell #-}</span>
+<span class="kw">module</span> <span class="dt">Fruit2TH</span> <span class="kw">where</span>
+
+<span class="kw">import</span> <span class="dt">Fruit2THHelper</span>
+
+genFruit <span class="st">&quot;Apples&quot;</span>
+genFruit <span class="st">&quot;Oranges&quot;</span></code></pre>
+<div class="handout">
+
+<ul>
+<li>Helps with DRY.</li>
+<li>Meta magic (hides definitions).</li>
+</ul>
+</div>
+
+</div>
+<div class="section slide level2" id="type-classes">
+<h1>Type Classes</h1>
+<pre class="sourceCode haskell" file="Fruit3.hs"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Fruit3</span> <span class="kw">where</span>
+
+<span class="kw">newtype</span> <span class="dt">Apples</span>  <span class="fu">=</span> <span class="dt">Apples</span>  <span class="dt">Integer</span>
+<span class="kw">newtype</span> <span class="dt">Oranges</span> <span class="fu">=</span> <span class="dt">Oranges</span> <span class="dt">Integer</span>
+
+<span class="kw">class</span> <span class="dt">Fruit</span> a <span class="kw">where</span>
+<span class="ot">    mix ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a
+
+<span class="kw">instance</span> <span class="dt">Fruit</span> <span class="dt">Apples</span> <span class="kw">where</span>
+    <span class="dt">Apples</span> m <span class="ot">`mix`</span> <span class="dt">Apples</span> n <span class="fu">=</span> <span class="dt">Apples</span> (m <span class="fu">+</span> n)
+
+<span class="kw">instance</span> <span class="dt">Fruit</span> <span class="dt">Oranges</span> <span class="kw">where</span>
+    <span class="dt">Oranges</span> m <span class="ot">`mix`</span> <span class="dt">Oranges</span> n <span class="fu">=</span> <span class="dt">Oranges</span> (m <span class="fu">+</span> n)</code></pre>
+<div class="handout">
+
+<ul>
+<li>Fixes issue with semantically same things having different names.</li>
+</ul>
+</div>
+
+</div>
+<div class="section slide level2" id="template-haskell-again">
+<h1>Template Haskell (Again)</h1>
+<pre class="sourceCode haskell" file="Fruit3THHelper.hs"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE OverloadedStrings #-}</span>
+<span class="ot">{-# OPTIONS_GHC -fno-warn-orphans #-}</span>
+<span class="kw">module</span> <span class="dt">Fruit3THHelper</span> <span class="kw">where</span>
+
+<span class="kw">import</span> <span class="dt">Data.String</span>
+<span class="kw">import</span> <span class="dt">Language.Haskell.TH</span>
+
+<span class="kw">class</span> <span class="dt">Fruit</span> a <span class="kw">where</span>
+<span class="ot">    mix ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a
+
+<span class="kw">instance</span> <span class="dt">IsString</span> <span class="dt">Name</span> <span class="kw">where</span>
+    fromString <span class="fu">=</span> mkName
+
+<span class="ot">genFruit ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Q</span> [<span class="dt">Dec</span>]
+genFruit fruit_name&#39; <span class="fu">=</span> <span class="kw">do</span>
+    <span class="kw">let</span> fruit_name <span class="fu">=</span> mkName fruit_name&#39;
+    m <span class="ot">&lt;-</span> newName <span class="st">&quot;m&quot;</span>
+    n <span class="ot">&lt;-</span> newName <span class="st">&quot;n&quot;</span>
+    <span class="fu">return</span>
+        [ <span class="dt">NewtypeD</span> [] fruit_name []
+            (<span class="dt">NormalC</span> fruit_name [(<span class="dt">NotStrict</span>, <span class="dt">ConT</span> <span class="st">&quot;Integer&quot;</span>)])
+            [<span class="st">&quot;Show&quot;</span>]
+        , <span class="dt">InstanceD</span> [] (<span class="dt">ConT</span> <span class="st">&quot;Fruit&quot;</span> <span class="ot">`AppT`</span> <span class="dt">ConT</span> fruit_name)
+            [ <span class="dt">FunD</span> <span class="st">&quot;mix&quot;</span>
+                [ <span class="dt">Clause</span>
+                    [<span class="dt">ConP</span> fruit_name [<span class="dt">VarP</span> m],<span class="dt">ConP</span> fruit_name [<span class="dt">VarP</span> n]]
+                    (<span class="dt">NormalB</span> (<span class="dt">ConE</span> fruit_name
+                        <span class="ot">`AppE`</span> <span class="dt">UInfixE</span> (<span class="dt">VarE</span> m) (<span class="dt">VarE</span> <span class="st">&quot;+&quot;</span>) (<span class="dt">VarE</span> n)))
+                    []
+                ]
+            ]
+        ]</code></pre>
+</div>
+<div class="section slide level2" id="section-1">
+
+<pre class="sourceCode haskell" file="Fruit3TH.hs"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE TemplateHaskell #-}</span>
+<span class="kw">module</span> <span class="dt">Fruit3TH</span> <span class="kw">where</span>
+
+<span class="kw">import</span> <span class="dt">Fruit3THHelper</span>
+
+genFruit <span class="st">&quot;Apples&quot;</span>
+genFruit <span class="st">&quot;Oranges&quot;</span></code></pre>
+<div class="handout">
+
+<ul>
+<li>Again magic…</li>
+</ul>
+</div>
+
+</div>
+<div class="section slide level2" id="phantom-types">
+<h1>Phantom Types</h1>
+<pre class="sourceCode haskell" file="FruitPhantom.hs"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">FruitPhantom</span> <span class="kw">where</span>
+
+<span class="kw">data</span> <span class="dt">Count</span> a <span class="fu">=</span> <span class="dt">Count</span> <span class="dt">Integer</span> <span class="kw">deriving</span> <span class="kw">Show</span>
+
+<span class="ot">mix ::</span> <span class="dt">Count</span> a <span class="ot">-&gt;</span> <span class="dt">Count</span> a <span class="ot">-&gt;</span> <span class="dt">Count</span> a
+<span class="dt">Count</span> m <span class="ot">`mix`</span> <span class="dt">Count</span> n <span class="fu">=</span> <span class="dt">Count</span> (m <span class="fu">+</span> n)
+
+<span class="kw">data</span> <span class="dt">Apples</span>
+<span class="kw">data</span> <span class="dt">Oranges</span></code></pre>
+<div class="handout">
+
+<ul>
+<li>Type annotation of <code>mix</code> is important. Otherwise it would be <code>Count a -&gt; Count b -&gt; Count c</code>.</li>
+<li>One have to explicitly annotate values (not really a issue in code, only when playing).</li>
+<li>Note that you do not have to make fruit type instances of <code>Show</code>.
+<ul>
+<li>Exercise: Why?</li>
+<li>Hint: What is the type of <code>[]</code> and why are you able to <code>show</code> it?</li>
+</ul></li>
+</ul>
+</div>
+
+</div>
+<div class="section slide level2" id="phantom-types-in-the-wild">
+<h1>Phantom Types in the Wild</h1>
+<ul>
+<li><a href="https://hackage.haskell.org/package/gps-0.3.0">Data.GPS</a> used phantom types (in older versions) to differentiate latitude and longitude.</li>
+<li><a href="https://hackage.haskell.org/package/tagged">Data.Tagged</a> use phantom types to avoid unsafely passing dummy arguments.</li>
+</ul>
+</div>
+<div class="section slide level2" id="gadts">
+<h1>GADTs</h1>
+<pre class="sourceCode haskell" file="FruitGADTs.hs"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE GADTs #-}</span>
+<span class="ot">{-# OPTIONS_GHC -fno-warn-incomplete-patterns #-}</span>
+<span class="kw">module</span> <span class="dt">FruitGADTs</span> <span class="kw">where</span>
+
+<span class="kw">data</span> <span class="dt">Apples</span>
+<span class="kw">data</span> <span class="dt">Oranges</span>
+
+<span class="kw">data</span> <span class="dt">Fruit</span> a <span class="kw">where</span>
+    <span class="dt">Apples</span><span class="ot">  ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Fruit</span> <span class="dt">Apples</span>
+    <span class="dt">Oranges</span><span class="ot"> ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Fruit</span> <span class="dt">Oranges</span>
+
+<span class="ot">mix ::</span> <span class="dt">Fruit</span> a <span class="ot">-&gt;</span> <span class="dt">Fruit</span> a <span class="ot">-&gt;</span> <span class="dt">Fruit</span> a
+<span class="dt">Apples</span> m  <span class="ot">`mix`</span> <span class="dt">Apples</span> n  <span class="fu">=</span> <span class="dt">Apples</span> (m <span class="fu">+</span> n)
+<span class="dt">Oranges</span> m <span class="ot">`mix`</span> <span class="dt">Oranges</span> n <span class="fu">=</span> <span class="dt">Oranges</span> (m <span class="fu">+</span> n)</code></pre>
+<p>(Generalized Abstract Data Types)</p>
+<div class="handout">
+
+<ul>
+<li>Problematic checking of pattern-match exhaustiveness.</li>
+<li>You explicitly use appropriate constructors (more obvious code, easier to play with).</li>
+</ul>
+</div>
+
+</div>
+<div class="section slide level2" id="template-haskell-again-again">
+<h1>Template Haskell (Again Again)</h1>
+<ul>
+<li>Exercise for active reader: create TemplateHaskell generator <code>genFruit :: [String] -&gt; Q [Dec]</code>.</li>
+</ul>
+<div class=incremental>
+<ul>
+<li>Not really as there is no support in TH for GADTs syntax.</li>
+<li>Or I just do not understand resolution in <a href="https://ghc.haskell.org/trac/ghc/ticket/3497#comment:7">comment #7 of related issue</a>.
+</div>
+</li>
+</ul>
+</div>
+<div class="section slide level2" id="notes">
+<h1>Notes</h1>
+<ul>
+<li>Should you be (despite this presentation) compelled to play with Template Haskell (trying provided examples or suggested exercise), very useful switches to GHC(i) are <code>-ddump-splices</code> (dumps pieces of code generated by Template Haskell) and <code>-v0</code> (silences usual (non-interesting) stuff).</li>
+<li>Documentation for data structures to create syntax trees for latest Template Haskell can be found at <a href="http://hackage.haskell.org/package/template-haskell/docs/src/Language-Haskell-TH-Syntax.html"><code class="url">http://hackage.haskell.org/package/template-haskell/docs/src/Language-Haskell-TH-Syntax.html</code></a>.</li>
+</ul>
+</div>
+<div class="section slide level2" id="questions">
+<h1>Questions?</h1>
+<ul>
+<li>Thank you for your attention.</li>
+<li>Slides will be available at <a href="https://fpbrno.github.io/"><code class="url">https://fpbrno.github.io/</code></a>.</li>
+</ul>
+</div>
+<div class="section slide level2" id="attributions">
+<h1>Attributions</h1>
+<ul>
+<li>Images <a href="https://openclipart.org/search/?query=simple+fruit">Simple fruit</a>:
+<ul>
+<li><a href="https://openclipart.org/detail/8538/simple-fruit-apple"><code class="url">https://openclipart.org/detail/8538/simple-fruit-apple</code></a></li>
+<li><a href="https://openclipart.org/detail/8537/simple-fruit-orange"><code class="url">https://openclipart.org/detail/8537/simple-fruit-orange</code></a></li>
+<li><a href="https://openclipart.org/detail/8535/simple-fruit-pear"><code class="url">https://openclipart.org/detail/8535/simple-fruit-pear</code></a></li>
+<li><a href="https://openclipart.org/detail/8534/simple-fruit-strawberry"><code class="url">https://openclipart.org/detail/8534/simple-fruit-strawberry</code></a></li>
+<li><a href="https://openclipart.org/detail/8536/simple-fruit-lemon"><code class="url">https://openclipart.org/detail/8536/simple-fruit-lemon</code></a></li>
+</ul></li>
+<li>Slides created using <a href="http://pandoc.org/">Pandoc</a> and <a href="http://www.w3.org/Talks/Tools/Slidy2">Slidy</a>.</li>
+</ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+div.toolbar {
+  display: none !important;
+}
+div.initial_prompt {
+  display: none !important;
+}
+div.slide h1 {
+  color: #c33;
+  display: block;
+}
+body {
+  background-color: #ddd;
+}
+@import url(http://fonts.googleapis.com/css?family=Inconsolata:400,700);
+code {
+  font-family: Inconsolata, monospace;
+}
+div.slide {
+  background-color: #eee;
+  background-image: url('http://fpbrno.github.io/images/FPB.svg');
+  background-position: 100% 100%;
+  background-repeat: no-repeat;
+  background-size: 90px;
+  border-radius: 15px 10px;
+  margin: 1ex 0.5em;
+  overflow: none;
+  padding: 1ex 1em;
+}
+div.figure {
+  margin: 0;
+  padding: 0;
+}
+div.figure .caption {
+  display: none !important;
+}
+div.slide img {
+  height: 100%;
+  width: 100%;
+}
+div.vbox {
+  float: left;
+  height: 20%;
+  margin-top: -220px;
+  width: 70%;
+}
+div.hbox {
+  width:70%;
+  margin: 0 auto;
+  height: 70%;
+  overflow: none;
+  text-align: left;
+  clear: both;
+}
