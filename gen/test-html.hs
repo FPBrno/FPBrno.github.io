@@ -32,12 +32,12 @@ meetups =
             [ Presentation
                 { title = "Apples and Oranges"
                 , author = "Matej"
-                , slides = Nothing
+                , slides = Just "fpb-1/fpb-1.html"
                 , audio = Nothing
                 , player = Nothing
                 }
             ]
-        , time = Just $ read "2015-05-12 18:00:00 CEST"
+        , time = Just $ read "2015-05-12 18:00:00 +02:00"
         , participants = Nothing
         }
     , Meetup
@@ -51,7 +51,7 @@ meetups =
                 , player = Just "fpb-0/player.html"
                 }
             ]
-        , time = Just $ read "2015-02-16 19:00:00 CET"
+        , time = Just $ read "2015-02-16 19:00:00 +01:00"
         , participants = Just 6
         }
     ]
