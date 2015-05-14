@@ -1,7 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# OPTIONS_GHC -fno-warn-unused-do-bind #-}
+import qualified Data.Foldable as Foldable
+import qualified Text.Blaze.Html.Renderer.String as R
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
-import qualified Text.Blaze.Html.Renderer.String as R
 -- import qualified Text.Blaze.Html.Renderer.Pretty as R
 
 import Data.List (intercalate)
@@ -9,9 +11,16 @@ import Data.Monoid
 import Data.Time
 import Data.Time.ISO8601 (formatISO8601)
 
+data Tag
+    = Compiler
+    | Haskell
+    | Types
+    deriving Show
+
 data Presentation = Presentation
     { title :: String
     , author :: String
+    , tags :: [Tag]
     , slides :: Maybe String
     , audio :: Maybe String
     , player :: Maybe String
@@ -32,6 +41,7 @@ meetups =
             [ Presentation
                 { title = "Apples and Oranges"
                 , author = "Matej"
+                , tags = [Haskell, Types]
                 , slides = Just "fpb-1/fpb-1.html"
                 , audio = Nothing
                 , player = Nothing
@@ -46,6 +56,7 @@ meetups =
             [ Presentation
                 { title = "There Is No Compiler"
                 , author = "Matej"
+                , tags = [Haskell, Compiler]
                 , slides = Just "fpb-0/fpb-0.html"
                 , audio = Just "fpb-0/fpb-0.ogg"
                 , player = Just "fpb-0/player.html"
@@ -79,7 +90,7 @@ time2Html :: ZonedTime -> H.Html
 time2Html t = H.time H.! A.class_ "timeago" H.! A.datetime (H.toValue . formatISO8601 $ zonedTimeToUTC t) $ H.toHtml (show t)
 
 mFromMaybe_ :: Monad m => (a -> m ()) -> Maybe a -> m ()
-mFromMaybe_ = maybe (return ())
+mFromMaybe_ = Foldable.mapM_
 
 presentation2html :: Presentation -> H.Html
 presentation2html p = H.div H.! A.class_ "presentation" $ do
@@ -87,6 +98,7 @@ presentation2html p = H.div H.! A.class_ "presentation" $ do
     " (by "
     H.toHtml (author p)
     ")"
+    mapM_ (\ t -> " " >> ((H.span H.! A.class_ "tag") $ H.toHtml (show t))) (tags p)
     H.div H.! A.class_ "pres_goodies" $ do
         h "Slides" slides
         h "Audio" audio
@@ -157,13 +169,13 @@ site t = H.html $ do
                 ]
             H.p "More to come."
             H.h2 "Upcoming events"
-            let fe = filter (\ e -> maybe True ((t <=) . zonedTimeToUTC) $ time e) meetups
+            let fe = filter (maybe True ((t <=) . zonedTimeToUTC) . time) meetups
             if null fe then
                 H.p "There are no planned events now. In the ideal case next meetup will occur between 1 and 2 months after the last meetup."
             else
                 mapM_ meetup2html fe
             H.h2 "Past events"
-            mapM_ meetup2html . take 10 $ filter (\ e -> maybe False ((t >) . zonedTimeToUTC) $ time e) meetups
+            mapM_ meetup2html . take 10 $ filter (maybe False ((t >) . zonedTimeToUTC) . time) meetups
             H.div H.! A.class_ "members" $ mempty
         H.footer $ do
             H.a H.! A.href "https://github.com/FPBrno" $ "FPBrno on GitHub"

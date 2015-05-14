@@ -67,13 +67,21 @@ footer a {
 }
 .presentation {
   background-color: #ddd;
-  border-radius: 5px; 
+  border-radius: 5px;
   display: block;
   margin: 1ex 0;
   padding: 1ex 1em;
 }
 .presentation_title {
   font-weight: bold;
+}
+.tag {
+  background-color: #bbb;
+  border-radius: 2px;
+  display: inline-block;
+  font-family: monospace;
+  font-size: 75%;
+  padding: 2pt 4pt;
 }
 .pres_goodies a {
   background-color: #bbb;
