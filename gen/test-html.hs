@@ -48,7 +48,7 @@ meetups =
                 }
             ]
         , time = Just $ read "2015-05-12 18:00:00 +02:00"
-        , participants = Nothing
+        , participants = Just $ 4 + 18
         }
     , Meetup
         { indexM = 0
