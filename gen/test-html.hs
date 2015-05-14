@@ -89,9 +89,6 @@ localjs = concatMap (dropWhile (' ' ==))
 time2Html :: ZonedTime -> H.Html
 time2Html t = H.time H.! A.class_ "timeago" H.! A.datetime (H.toValue . formatISO8601 $ zonedTimeToUTC t) $ H.toHtml (show t)
 
-mFromMaybe_ :: Monad m => (a -> m ()) -> Maybe a -> m ()
-mFromMaybe_ = Foldable.mapM_
-
 presentation2html :: Presentation -> H.Html
 presentation2html p = H.div H.! A.class_ "presentation" $ do
     H.span H.! A.class_ "presentation_title" $ H.toHtml (title p)
@@ -105,7 +102,7 @@ presentation2html p = H.div H.! A.class_ "presentation" $ do
         h "Player" player
     where
     g t u = H.a H.! A.href (H.toValue u) $ t
-    h a b = mFromMaybe_ (g a) (b p)
+    h a b = Foldable.mapM_ (g a) (b p)
 
 presentations2html :: [Presentation] -> H.Html
 presentations2html [] = "No presentations"
