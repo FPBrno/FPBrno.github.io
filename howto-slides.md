@@ -39,6 +39,8 @@ Other
 
 * create new folder "fbb-X"
 * stuff it with data
-* modify index.html (TODO: better way?),
+* modify `gen/test-html.hs` and regenerate `index.html`
 * check locally how it looks
+* check that it will work over http and https
+  (for example use `//` instead of `http://` where possible)
 * create pull-request
