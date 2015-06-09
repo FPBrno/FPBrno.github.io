@@ -43,7 +43,7 @@ meetups =
                 , author = "Matej"
                 , tags = [Haskell, Types]
                 , slides = Just "fpb-1/fpb-1.html"
-                , audio = Nothing
+                , audio = Just "fpb-1/fpb-1.ogg"
                 , player = Nothing
                 }
             ]
