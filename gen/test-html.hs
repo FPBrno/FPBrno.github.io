@@ -164,6 +164,9 @@ site t = H.html $ do
                 [ "Functional Programming Brno (FPBrno or FPB for short) is for all people with interest in functional programming that happen to be in <a href=\"https://goo.gl/maps/MIRi3\">Brno</a> or nearby areas."
                 , "Activities include but are not limited to talks and discussions."
                 ]
+            H.p . H.preEscapedToHtml $ intercalate (" " :: String)
+                [ "We have a <a href=\"https://groups.google.com/d/forum/fpbrno\">mailing list</a> that you can sign-up to simply by sending mail to fpbrno+subscribe@googlegroups.com (even empty mail will do)."
+                ]
             H.p "More to come."
             H.h2 "Upcoming events"
             let fe = filter (maybe True ((t <=) . zonedTimeToUTC) . time) meetups
