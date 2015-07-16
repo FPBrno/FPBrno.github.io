@@ -27,7 +27,7 @@ n=0
 import -window root img-$n.png; len n+=1
 ~~~~
 
-Then minify screenshots at [https://tinypng.com/](https://tinypng.com/).
+Then minify screenshots at <https://tinypng.com/>.
 
 Create online player
 --------------------
