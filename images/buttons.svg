@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   viewBox="0 0 210 297"
+   id="svg2"
+   version="1.1"
+   width="210mm"
+   height="297mm">
+  <defs
+    id="defs4">
+    <g id="button">
+      <polygon points="16,0 16.2,1.5 15.8,1.5" />
+      <circle
+         cy="16"
+         cx="16"
+         r="16"
+         style="fill:none;stroke:#000000;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none"
+        />
+      <circle
+         cx="16"
+         cy="16"
+         r="12.5"
+         style="fill:none;stroke:#000000;stroke-width:0.1;opacity:0.5;stroke-miterlimit:4;stroke-dasharray:0.2, 1.6;stroke-dashoffset:0"
+        />
+    </g>
+    <g id="row" transform="translate(8.7,0)">
+      <use xlink:href="#button" transform="translate(0.1,0)" />
+      <use xlink:href="#button" transform="translate(32.3,0)" />
+      <use xlink:href="#button" transform="translate(64.5,0)" />
+      <use xlink:href="#button" transform="translate(96.7,0)" />
+      <use xlink:href="#button" transform="translate(128.9,0)" />
+      <use xlink:href="#button" transform="translate(161.1,0)" />
+    </g>
+  </defs>
+  <rect width="100%" height="100%" style="fill:none;stroke:#000000;stroke-width:0.1" />
+  <g transform="translate(0,4.05)">
+    <use xlink:href="#row" transform="translate(0,0.1)" />
+    <use xlink:href="#row" transform="translate(0,32.3)" />
+    <use xlink:href="#row" transform="translate(0,64.5)" />
+    <use xlink:href="#row" transform="translate(0,96.7)" />
+    <use xlink:href="#row" transform="translate(0,128.9)" />
+    <use xlink:href="#row" transform="translate(0,161.1)" />
+    <use xlink:href="#row" transform="translate(0,193.3)" />
+    <use xlink:href="#row" transform="translate(0,225.5)" />
+    <use xlink:href="#row" transform="translate(0,257.9)" />
+  </g>
+</svg>
