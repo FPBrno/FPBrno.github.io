@@ -44,7 +44,7 @@ meetups =
                 , tags = [Haskell, Types]
                 , slides = Just "fpb-1/fpb-1.html"
                 , audio = Just "fpb-1/fpb-1.ogg"
-                , player = Nothing
+                , player = Just "fpb-1/player.html"
                 }
             ]
         , time = Just $ read "2015-05-12 18:00:00 +02:00"
