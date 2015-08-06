@@ -165,7 +165,7 @@ site t = H.html $ do
                 , "Activities include but are not limited to talks and discussions."
                 ]
             H.p . H.preEscapedToHtml $ intercalate (" " :: String)
-                [ "We have a <a href=\"https://groups.google.com/d/forum/fpbrno\">mailing list</a> that you can sign-up to simply by sending mail to fpbrno+subscribe@googlegroups.com (even empty mail will do)."
+                [ "We have a mailing list (<a href=\"https://groups.google.com/d/forum/fpbrno\">online archive</a>) that you can sign-up to simply by sending mail to fpbrno+subscribe@googlegroups.com (even empty mail will do)."
                 ]
             H.p "More to come."
             H.h2 "Upcoming events"
