@@ -74,6 +74,16 @@ meetups :: [Meetup]
 meetups = indexMeetups
     [ def
         { presentations =
+            [ def
+                { title =
+                    "Types as values: Derive correctness from practicality"
+                , author = "Peter"
+                , tags = [Haskell, Types]
+                }
+            ]
+        }
+    , def
+        { presentations =
             [ Presentation
                 { title = "Apples and Oranges"
                 , author = "Matej"
