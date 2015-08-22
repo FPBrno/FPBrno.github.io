@@ -21,18 +21,31 @@ data Presentation = Presentation
     { title :: String
     , author :: String
     , tags :: [Tag]
-    , slides :: Maybe String
-    , audio :: Maybe String
-    , player :: Maybe String
+    , slides :: Maybe FilePath
+    -- ^ Relative path to slides.
+    , audio :: Maybe FilePath
+    -- ^ Relative path to audio recording of this presentation.
+    , player :: Maybe FilePath
+    -- ^ Relative path to web player able to handle audio recording of this
+    -- presentation.
     } deriving Show
 
 data Meetup = Meetup
     { indexM :: Integer
+    -- ^ Meetups form a total order in time and is mapped in to linear ordering
+    -- of 'Integer' numbers starting from 0.
     , presentations :: [Presentation]
+    -- ^ List of presentations presented during meetup.
     , time :: Maybe ZonedTime
+    -- ^ Time when the meetup occurred
     , participants :: Maybe Integer
+    -- ^ Number of participats, for future, or meetups currently being held,
+    -- this is set, obviously, to 'Nothing'.
     } deriving Show
 
+-- | List of all meetups, those that already occurred and those that are
+-- planned. Meetups are ordered from newest/future down to the oldes; so please
+-- add new meetups on top.
 meetups :: [Meetup]
 meetups =
     [ Meetup
