@@ -6,6 +6,7 @@ import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 -- import qualified Text.Blaze.Html.Renderer.Pretty as R
 
+import Data.Default.Class (Default(def))
 import Data.List (intercalate)
 import Data.Monoid
 import Data.Time
@@ -30,6 +31,16 @@ data Presentation = Presentation
     -- presentation.
     } deriving Show
 
+instance Default Presentation where
+    def = Presentation
+        { title = "Unknown title"
+        , author = "Unknown author"
+        , tags = []
+        , slides = Nothing
+        , audio = Nothing
+        , player = Nothing
+        }
+
 data Meetup = Meetup
     { indexM :: Integer
     -- ^ Meetups form a total order in time and is mapped in to linear ordering
@@ -43,14 +54,26 @@ data Meetup = Meetup
     -- this is set, obviously, to 'Nothing'.
     } deriving Show
 
+instance Default Meetup where
+    def = Meetup
+        { indexM = -1
+        , presentations = []
+        , time = Nothing
+        , participants = Nothing
+        }
+
+-- | Assign index to a 'Meetup'. It expects them to be in reverse order, i.e.
+-- newest/future first and oldest as last.
+indexMeetups :: [Meetup] -> [Meetup]
+indexMeetups = reverse . zipWith (\idx m -> m{indexM = idx}) [0..] . reverse
+
 -- | List of all meetups, those that already occurred and those that are
 -- planned. Meetups are ordered from newest/future down to the oldes; so please
 -- add new meetups on top.
 meetups :: [Meetup]
-meetups =
-    [ Meetup
-        { indexM = 1
-        , presentations =
+meetups = indexMeetups
+    [ def
+        { presentations =
             [ Presentation
                 { title = "Apples and Oranges"
                 , author = "Matej"
@@ -63,9 +86,8 @@ meetups =
         , time = Just $ read "2015-05-12 18:00:00 +02:00"
         , participants = Just $ 4 + 18
         }
-    , Meetup
-        { indexM = 0
-        , presentations =
+    , def
+        { presentations =
             [ Presentation
                 { title = "There Is No Compiler"
                 , author = "Matej"
