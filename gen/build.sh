@@ -37,7 +37,7 @@ checkExitCode()
     fi
 
     if (( ret )); then
-        printf '\n\n*** FAILED: exit code: %n\n' $ret
+        printf '\n\n*** FAILED: exit code: %d\n' $ret
         exit $ret
     else
         if (( isFinal )); then
