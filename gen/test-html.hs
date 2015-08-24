@@ -6,6 +6,8 @@ import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 -- import qualified Text.Blaze.Html.Renderer.Pretty as R
 
+import Control.Monad (unless)
+import Data.Default.Class (Default(def))
 import Data.List (intercalate)
 import Data.Monoid
 import Data.Time
@@ -17,25 +19,86 @@ data Tag
     | Types
     deriving Show
 
+type URL = String
+
 data Presentation = Presentation
     { title :: String
     , author :: String
     , tags :: [Tag]
-    , slides :: Maybe String
-    , audio :: Maybe String
-    , player :: Maybe String
+    , slides :: Maybe URL
+    -- ^ URL to slides of this presentation. 'Nothing' in case that there are
+    -- no slides.
+    , audio :: Maybe URL
+    -- ^ URL to audio recording of this presentation or 'Nothing' if there is
+    -- not any recording.
+    , player :: Maybe URL
+    -- ^ URL to web player able to handle audio recording of this presentation.
+    -- Set to 'Nothing' in case that wab player is not provided.
     } deriving Show
+
+instance Default Presentation where
+    def = Presentation
+        { title = "Unknown title"
+        , author = "Unknown author"
+        , tags = []
+        , slides = Nothing
+        , audio = Nothing
+        , player = Nothing
+        }
 
 data Meetup = Meetup
     { indexM :: Integer
+    -- ^ Meetups form a total order in time and is mapped in to linear ordering
+    -- of 'Integer' numbers starting from 0.
     , presentations :: [Presentation]
+    -- ^ List of presentations presented during meetup.
     , time :: Maybe ZonedTime
+    -- ^ Time when the meetup occurred
     , participants :: Maybe Integer
+    -- ^ Number of participats, for future, or meetups currently being held,
+    -- this is set, obviously, to 'Nothing'.
     } deriving Show
 
+futureMeetup :: Integer -> Meetup
+futureMeetup idx = Meetup
+    { indexM = idx
+    , presentations = []
+    , time = Nothing
+    , participants = Nothing
+    }
+
+-- | Assign index to a 'Meetup'. It expects them to be in reverse order, i.e.
+-- newest/future first and oldest as last.
+checkMeetupsIndex :: [Meetup] -> [Meetup]
+checkMeetupsIndex ms = case areCorrectlyOrdered ms of
+    Right ()  -> ms
+    Left  msg -> error msg
+  where
+    areCorrectlyOrdered = sequence_ . zipWith checkIndex [0..] . reverse
+
+    checkIndex expectedIndex m@Meetup{indexM = gotIndex} =
+        unless (expectedIndex == gotIndex) . Left $ concat
+            [ "Expected index ", show expectedIndex
+            , ", but got ", show gotIndex
+            , " in ", show m
+            ]
+
+-- | List of all meetups, those that already occurred and those that are
+-- planned. Meetups are ordered from newest/future down to the oldes; so please
+-- add new meetups on top.
 meetups :: [Meetup]
-meetups =
-    [ Meetup
+meetups = checkMeetupsIndex
+    [ (futureMeetup 2)
+        { presentations =
+            [ def
+                { title =
+                    "Types as values: Derive correctness from practicality"
+                , author = "Peter"
+                , tags = [Haskell, Types]
+                }
+            ]
+        }
+    , Meetup
         { indexM = 1
         , presentations =
             [ Presentation
