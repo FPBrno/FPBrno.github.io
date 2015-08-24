@@ -6,6 +6,7 @@ import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 -- import qualified Text.Blaze.Html.Renderer.Pretty as R
 
+import Control.Monad (unless)
 import Data.Default.Class (Default(def))
 import Data.List (intercalate)
 import Data.Monoid
@@ -58,25 +59,36 @@ data Meetup = Meetup
     -- this is set, obviously, to 'Nothing'.
     } deriving Show
 
-instance Default Meetup where
-    def = Meetup
-        { indexM = -1
-        , presentations = []
-        , time = Nothing
-        , participants = Nothing
-        }
+futureMeetup :: Integer -> Meetup
+futureMeetup idx = Meetup
+    { indexM = idx
+    , presentations = []
+    , time = Nothing
+    , participants = Nothing
+    }
 
 -- | Assign index to a 'Meetup'. It expects them to be in reverse order, i.e.
 -- newest/future first and oldest as last.
-indexMeetups :: [Meetup] -> [Meetup]
-indexMeetups = reverse . zipWith (\idx m -> m{indexM = idx}) [0..] . reverse
+checkMeetupsIndex :: [Meetup] -> [Meetup]
+checkMeetupsIndex ms = case areCorrectlyOrdered ms of
+    Right ()  -> ms
+    Left  msg -> error msg
+  where
+    areCorrectlyOrdered = sequence_ . zipWith checkIndex [0..] . reverse
+
+    checkIndex expectedIndex m@Meetup{indexM = gotIndex} =
+        unless (expectedIndex == gotIndex) . Left $ concat
+            [ "Expected index ", show expectedIndex
+            , ", but got ", show gotIndex
+            , " in ", show m
+            ]
 
 -- | List of all meetups, those that already occurred and those that are
 -- planned. Meetups are ordered from newest/future down to the oldes; so please
 -- add new meetups on top.
 meetups :: [Meetup]
-meetups = indexMeetups
-    [ def
+meetups = checkMeetupsIndex
+    [ (futureMeetup 2)
         { presentations =
             [ def
                 { title =
@@ -86,8 +98,9 @@ meetups = indexMeetups
                 }
             ]
         }
-    , def
-        { presentations =
+    , Meetup
+        { indexM = 1
+        , presentations =
             [ Presentation
                 { title = "Apples and Oranges"
                 , author = "Matej"
@@ -100,8 +113,9 @@ meetups = indexMeetups
         , time = Just $ read "2015-05-12 18:00:00 +02:00"
         , participants = Just $ 4 + 18
         }
-    , def
-        { presentations =
+    , Meetup
+        { indexM = 0
+        , presentations =
             [ Presentation
                 { title = "There Is No Compiler"
                 , author = "Matej"
