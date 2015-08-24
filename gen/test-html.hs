@@ -18,17 +18,21 @@ data Tag
     | Types
     deriving Show
 
+type URL = String
+
 data Presentation = Presentation
     { title :: String
     , author :: String
     , tags :: [Tag]
-    , slides :: Maybe FilePath
-    -- ^ Relative path to slides.
-    , audio :: Maybe FilePath
-    -- ^ Relative path to audio recording of this presentation.
-    , player :: Maybe FilePath
-    -- ^ Relative path to web player able to handle audio recording of this
-    -- presentation.
+    , slides :: Maybe URL
+    -- ^ URL to slides of this presentation. 'Nothing' in case that there are
+    -- no slides.
+    , audio :: Maybe URL
+    -- ^ URL to audio recording of this presentation or 'Nothing' if there is
+    -- not any recording.
+    , player :: Maybe URL
+    -- ^ URL to web player able to handle audio recording of this presentation.
+    -- Set to 'Nothing' in case that wab player is not provided.
     } deriving Show
 
 instance Default Presentation where
