@@ -6,7 +6,7 @@ import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 -- import qualified Text.Blaze.Html.Renderer.Pretty as R
 
-import Control.Monad (unless)
+import Control.Monad (unless, zipWithM_)
 import Data.Default.Class (Default(def))
 import Data.List (intercalate)
 import Data.Monoid
@@ -74,7 +74,7 @@ checkMeetupsIndex ms = case areCorrectlyOrdered ms of
     Right ()  -> ms
     Left  msg -> error msg
   where
-    areCorrectlyOrdered = sequence_ . zipWith checkIndex [0..] . reverse
+    areCorrectlyOrdered = zipWithM_ checkIndex [0 ..] . reverse
 
     checkIndex expectedIndex m@Meetup{indexM = gotIndex} =
         unless (expectedIndex == gotIndex) . Left $ concat
@@ -158,7 +158,7 @@ presentation2html p = H.div H.! A.class_ "presentation" $ do
     " (by "
     H.toHtml (author p)
     ")"
-    mapM_ (\ t -> " " >> ((H.span H.! A.class_ "tag") $ H.toHtml (show t))) (tags p)
+    mapM_ (\ t -> " " >> (H.span H.! A.class_ "tag" $ H.toHtml (show t))) (tags p)
     H.div H.! A.class_ "pres_goodies" $ do
         h "Slides" slides
         h "Audio" audio
@@ -196,7 +196,7 @@ cdns = mconcat
     -- , css "https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
     -- , css "https://fonts.googleapis.com/css?family=Roboto:300,400"
     ] where
-        css u = H.link H.! A.rel "stylesheet" H.! A.href u
+        -- css u = H.link H.! A.rel "stylesheet" H.! A.href u
         js  u = H.script H.! A.src u $ mempty
 
 timeago :: H.Html
