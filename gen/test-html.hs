@@ -97,6 +97,7 @@ meetups = checkMeetupsIndex
                 , tags = [Haskell, Types]
                 }
             ]
+        , time = Just $ read "2015-09-30 19:00:00 +02:00"
         }
     , Meetup
         { indexM = 1
