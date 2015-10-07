@@ -225,11 +225,14 @@ site t = H.html $ do
         --     fa "fa-rss fa-fw" >> "Talks"
         H.div H.! A.class_ "main" $ do
             H.p . H.preEscapedToHtml $ intercalate (" " :: String)
-                [ "Functional Programming Brno (FPBrno or FPB for short) is for all people with interest in functional programming that happen to be in <a href=\"https://goo.gl/maps/MIRi3\">Brno</a> or nearby areas."
+                [ "Functional Programming Brno (FPBrno or FPB for short) is for everyone interested in functional programming who happens to be in <a href=\"https://goo.gl/maps/MIRi3\">Brno</a> or nearby areas."
                 , "Activities include but are not limited to talks and discussions."
                 ]
             H.p . H.preEscapedToHtml $ intercalate (" " :: String)
-                [ "We have a mailing list (<a href=\"https://groups.google.com/d/forum/fpbrno\">online archive</a>) that you can sign-up to simply by sending mail to fpbrno+subscribe@googlegroups.com (even empty mail will do)."
+                [ "We have a mailing list (<a href=\"https://groups.google.com/d/forum/fpbrno\">online archive</a>) that you can sign-up to simply by sending an email to fpbrno+subscribe@googlegroups.com (even an empty email will do)."
+                ]
+            H.p . H.preEscapedToHtml $ intercalate (" " :: String)
+                [ "We also have a <a href=\"http://www.meetup.com/Functional-Programming-Brno\">Meetup group</a> so feel free to join us there as well."
                 ]
             H.p "More to come."
             H.h2 "Upcoming events"
