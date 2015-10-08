@@ -88,16 +88,21 @@ checkMeetupsIndex ms = case areCorrectlyOrdered ms of
 -- add new meetups on top.
 meetups :: [Meetup]
 meetups = checkMeetupsIndex
-    [ (futureMeetup 2)
-        { presentations =
+    [ Meetup
+        { indexM = 2
+        , presentations =
             [ def
                 { title =
                     "Types as values: Derive correctness from practicality"
                 , author = "Peter"
                 , tags = [Haskell, Types]
+                -- , slides = Just "..." -- TODO
+                , audio = Nothing
+                , player = Nothing
                 }
             ]
         , time = Just $ read "2015-09-30 19:00:00 +02:00"
+        , participants = Just 14
         }
     , Meetup
         { indexM = 1
