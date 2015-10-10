@@ -91,12 +91,14 @@ meetups = checkMeetupsIndex
     [ Meetup
         { indexM = 2
         , presentations =
-            [ def
+            [ Presentation
                 { title =
                     "Types as values: Derive correctness from practicality"
                 , author = "Peter"
                 , tags = [Haskell, Types]
                 , slides = Just "fpb-2/types-as-values.html"
+                , audio = Nothing -- I forgot to start recording
+                , player = Nothing -- Does not make sense without audio
                 }
             ]
         , time = Just $ read "2015-09-30 19:00:00 +02:00"
