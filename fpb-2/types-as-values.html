@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Peter Trško &lt;peter.trsko@gmail.com&gt;" />
+  <title>Types as Values: Derive correctness from practicality</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+   href="slides.css" />
+  <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body>
+<div class="slide titlepage">
+  <h1 class="title">Types as Values: Derive correctness from practicality</h1>
+  <p class="author">
+Peter Trško &lt;<a href="mailto:peter.trsko@gmail.com">peter.trsko@gmail.com</a>&gt;
+  </p>
+  <p class="date">30th May, 2015</p>
+</div>
+<div id="introduction" class="titleslide slide section level1"><h1>Introduction</h1></div><div id="introduction-1" class="slide section level2">
+<h1>Introduction</h1>
+<p>There are corner cases where Haskell doesn’t shine that well, but smart people found ways around them.</p>
+<p>I would like to expand your horizons when it comes to Haskell, as a language, and also introduce you to few GHC language extensions.</p>
+<p>This is a shallow talk, it doesn’t go in to details or too deep in to the problems, its here just to inspire you to do that your self.</p>
+</div>
+<div id="values-types-and-kinds" class="titleslide slide section level1"><h1>Values, Types, and Kinds</h1></div><div id="haskell-type-hierarchy" class="slide section level2">
+<h1>Haskell Type Hierarchy</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">value ::</span> <span class="kw">type</span>
+<span class="kw">type</span><span class="ot"> ::</span> kind</code></pre></div>
+<div class="incremental">
+<div>
+<p>Values have types:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">True</span><span class="ot"> ::</span> <span class="dt">Bool</span>
+map<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]</code></pre></div>
+</div>
+<div>
+<p>Types have kinds:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">Int</span><span class="ot"> ::</span> <span class="fu">*</span>
+<span class="dt">Maybe</span><span class="ot"> ::</span> <span class="fu">*</span> <span class="ot">-&gt;</span> <span class="fu">*</span>
+<span class="ot">(-&gt;) ::</span> <span class="fu">*</span> <span class="ot">-&gt;</span> <span class="fu">*</span> <span class="ot">-&gt;</span> <span class="fu">*</span></code></pre></div>
+</div>
+<p>And all the way up, until you reach co-turtles.</p>
+</div>
+</div>
+<div id="information-loss" class="titleslide slide section level1"><h1>Information Loss</h1></div><div id="information-loss-1" class="slide section level2">
+<h1>Information Loss</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">read <span class="fu">.</span> show</code></pre></div>
+<p>Have you ever tried this? Lets try it together, in GHCi.</p>
+</div><div id="read-.-show" class="slide section level2">
+<h1>read . show</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">GHCi</span><span class="fu">&gt;</span> read <span class="fu">.</span> show <span class="fu">$</span> <span class="dt">True</span></code></pre></div>
+</div><div id="read-.-show-1" class="slide section level2">
+<h1>read . show</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">GHCi</span><span class="fu">&gt;</span> read <span class="fu">.</span> show <span class="fu">$</span> <span class="dt">True</span>
+<span class="fu">***</span> <span class="dt">Exception</span><span class="fu">:</span> Prelude.read<span class="fu">:</span> no parse</code></pre></div>
+<div class="incremental">
+<p>What the <code class="sourceCode haskell"><span class="fu">&lt;$&gt;</span></code> happened? Let us investigate.</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">GHCi</span><span class="fu">&gt;</span> <span class="fu">:</span>set <span class="fu">-</span><span class="dt">Wall</span>
+<span class="dt">GHCi</span><span class="fu">&gt;</span> read <span class="fu">.</span> show <span class="fu">$</span> <span class="dt">True</span>
+
+<span class="fu">&lt;</span>interactive<span class="fu">&gt;:</span><span class="dv">4</span><span class="fu">:</span><span class="dv">1</span><span class="fu">:</span> <span class="dt">Warning</span><span class="fu">:</span>
+    <span class="dt">Defaulting</span> the following constraint(s) to <span class="kw">type</span> ‘()’
+      (<span class="dt">Read</span> a0) arising from a use <span class="kw">of</span> ‘it’ at <span class="fu">&lt;</span>interactive<span class="fu">&gt;:</span><span class="dv">4</span><span class="fu">:</span><span class="dv">1</span><span class="fu">-</span><span class="dv">18</span>
+      (<span class="dt">Show</span> a0) arising from a use <span class="kw">of</span> ‘print’ at <span class="fu">&lt;</span>interactive<span class="fu">&gt;:</span><span class="dv">4</span><span class="fu">:</span><span class="dv">1</span><span class="fu">-</span><span class="dv">18</span>
+    <span class="dt">In</span> the first argument <span class="kw">of</span> ‘print’, namely ‘it’
+    <span class="dt">In</span> a stmt <span class="kw">of</span> an interactive <span class="dt">GHCi</span> command<span class="fu">:</span> print it
+<span class="fu">***</span> <span class="dt">Exception</span><span class="fu">:</span> Prelude.read<span class="fu">:</span> no parse</code></pre></div>
+</div>
+</div><div id="read-.-show-again" class="slide section level2">
+<h1>read . show (again)</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- Type signature intentionally omitted.</span>
+example <span class="fu">=</span> read <span class="fu">.</span> show <span class="fu">$</span> <span class="dt">True</span></code></pre></div>
+<div class="incremental">
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[ someone<span class="fu">@</span>something types<span class="fu">-</span>as<span class="fu">-</span>values ]<span class="fu">$</span> ghci information<span class="fu">-</span>loss<span class="fu">-</span>example<span class="fu">.</span>hs 
+<span class="dt">GHCi</span>, version <span class="fl">7.10</span><span class="fu">.</span><span class="dv">1</span><span class="fu">:</span> http<span class="fu">://</span>www<span class="fu">.</span>haskell<span class="fu">.</span>org<span class="fu">/</span>ghc<span class="fu">/</span>  <span class="fu">:?</span> for help
+[<span class="dv">1</span> <span class="kw">of</span> <span class="dv">1</span>] <span class="dt">Compiling</span> <span class="dt">Main</span>             ( information<span class="fu">-</span>loss<span class="fu">-</span>example<span class="fu">.</span>hs, interpreted )
+
+information<span class="fu">-</span>loss<span class="fu">-</span>example<span class="fu">.</span>hs<span class="fu">:</span><span class="dv">2</span><span class="fu">:</span><span class="dv">8</span><span class="fu">:</span>
+    <span class="dt">No</span> <span class="kw">instance</span> for (<span class="dt">Read</span> c0) arising from a use <span class="kw">of</span> ‘read’
+    <span class="dt">The</span> <span class="kw">type</span> variable ‘c0’ is ambiguous
+    <span class="dt">Relevant</span> bindings include
+<span class="ot">      bool ::</span> c0 (bound at information<span class="fu">-</span>loss<span class="fu">-</span>example<span class="fu">.</span>hs<span class="fu">:</span><span class="dv">2</span><span class="fu">:</span><span class="dv">1</span>)
+    <span class="dt">Note</span><span class="fu">:</span> there are several potential instances<span class="fu">:</span>
+      <span class="kw">instance</span> (<span class="dt">GHC.Arr.Ix</span> a, <span class="dt">Read</span> a, <span class="dt">Read</span> b) <span class="ot">=&gt;</span> <span class="dt">Read</span> (<span class="dt">GHC.Arr.Array</span> a b)
+        <span class="co">-- Defined in ‘GHC.Read’</span>
+      <span class="kw">instance</span> <span class="dt">Read</span> a <span class="ot">=&gt;</span> <span class="dt">Read</span> (<span class="dt">Maybe</span> a) <span class="co">-- Defined in ‘GHC.Read’</span>
+      <span class="kw">instance</span> (<span class="dt">Integral</span> a, <span class="dt">Read</span> a) <span class="ot">=&gt;</span> <span class="dt">Read</span> (<span class="dt">GHC.Real.Ratio</span> a)
+        <span class="co">-- Defined in ‘GHC.Read’</span>
+      <span class="fu">...</span>plus <span class="dv">25</span> others
+    <span class="dt">In</span> the first argument <span class="kw">of</span> ‘(<span class="fu">.</span>)’, namely ‘read’
+    <span class="dt">In</span> the expression<span class="fu">:</span> read <span class="fu">.</span> show
+    <span class="dt">In</span> the expression<span class="fu">:</span> read <span class="fu">.</span> show <span class="fu">$</span> <span class="dt">True</span>
+<span class="dt">Failed</span>, modules loaded<span class="fu">:</span> none<span class="fu">.</span></code></pre></div>
+</div>
+</div><div id="phantom-of-the-type-soapopera" class="slide section level2">
+<h1>Phantom of The Type (Soap)Opera</h1>
+<p>We lost the type information. How can we pass it around?</p>
+<div class="incremental">
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Proxy</span> a <span class="fu">=</span> <span class="dt">Proxy</span></code></pre></div>
+<p>Eh, not really.</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE PolyKinds #-}</span>
+
+<span class="kw">data</span> <span class="dt">Proxy</span> (<span class="ot">a ::</span> k) <span class="fu">=</span> <span class="dt">Proxy</span>
+    <span class="co">-- Defined in ‘Data.Proxy’</span></code></pre></div>
+<p>Do I need to care about <code>PolyKinds</code>? That depends. Do you want to be ready for dependent types in Haskell?</p>
+</div>
+</div><div id="phantom-of-the-type-soapopera-cont." class="slide section level2">
+<h1>Phantom of The Type (Soap)Opera (cont.)</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE TupleSections #-}</span>
+
+<span class="kw">import </span><span class="dt">Data.Proxy</span> <span class="co">-- Surprisingly, this is in base. And the Thanks goes to ekmett.</span>
+
+
+<span class="ot">readMe ::</span> <span class="dt">Read</span> a <span class="ot">=&gt;</span> (<span class="dt">String</span>, <span class="dt">Proxy</span> a) <span class="ot">-&gt;</span> a
+readMe (str, _) <span class="fu">=</span> read str
+
+<span class="ot">showMe ::</span> <span class="dt">Show</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> (<span class="dt">String</span>, <span class="dt">Proxy</span> a)
+showMe <span class="fu">=</span> (, <span class="dt">Proxy</span>) <span class="fu">.</span> show
+
+example <span class="fu">=</span> readMe <span class="fu">.</span> showMe <span class="fu">$</span> <span class="dt">True</span></code></pre></div>
+<div class="incremental">
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">GHCi</span><span class="fu">&gt;</span> example
+<span class="dt">True</span></code></pre></div>
+<p>We have just successfully passed around a type variable.</p>
+</div>
+</div>
+<div id="the-phantom-menace-err-delight" class="titleslide slide section level1"><h1>The Phantom Menace, err, Delight</h1></div><div id="this-tea-you-serve-is-delightful" class="slide section level2">
+<h1>This Tea You Serve is Delightful</h1>
+<ul>
+<li>We can pass around types as first class citizens.</li>
+<li>Phantom types passed using <code>Proxy</code> allow us to get rid of these ugly <code class="sourceCode haskell"><span class="ot">undefined ::</span> <span class="kw">type</span></code> expression.</li>
+</ul>
+<div class="incremental">
+<p>Wait, that’s it?! No, we are just getting started.</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">Data.Typeable.typeRep<span class="ot"> ::</span> <span class="dt">Typeable</span> a <span class="ot">=&gt;</span> proxy a <span class="ot">-&gt;</span> <span class="dt">TypeRep</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">GHCi</span><span class="fu">&gt;</span> typeRep (<span class="dt">Proxy</span><span class="ot"> ::</span> <span class="dt">Proxy</span> (<span class="dt">Maybe</span> <span class="dt">Int</span>))
+<span class="dt">Maybe</span> <span class="dt">Int</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">GHC.TypeLits.symbolVal<span class="ot"> ::</span> <span class="dt">KnownSymbol</span> n <span class="ot">=&gt;</span> proxy n <span class="ot">-&gt;</span> <span class="dt">String</span>
+GHC.TypeLits.natVal<span class="ot"> ::</span> <span class="dt">KnownNat</span> n <span class="ot">=&gt;</span> proxy n <span class="ot">-&gt;</span> <span class="dt">Integer</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">GHCi</span><span class="fu">&gt;</span> <span class="fu">:</span>set <span class="fu">-</span><span class="dt">XDataKinds</span>
+<span class="dt">GHCi</span><span class="fu">&gt;</span> <span class="fu">:</span>k <span class="st">&quot;type-level-string&quot;</span>
+<span class="st">&quot;type-level-string&quot;</span><span class="ot"> ::</span> <span class="dt">Symbol</span>
+<span class="dt">GHCi</span><span class="fu">&gt;</span> symbolVal (<span class="dt">Proxy</span><span class="ot"> ::</span> <span class="dt">Proxy</span> <span class="st">&quot;type-level-string&quot;</span>)
+<span class="st">&quot;type-level-string&quot;</span></code></pre></div>
+</div>
+</div><div id="apples-and-oranges-do-not-mix-well" class="slide section level2">
+<h1>Apples And Oranges Do Not Mix Well</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE DataKinds #-}</span>
+<span class="ot">{-# LANGUAGE GeneralizedNewtypeDeriving #-}</span>
+<span class="ot">{-# LANGUAGE PolyKinds #-}</span>
+
+<span class="kw">import </span><span class="dt">Data.Proxy</span>
+
+
+<span class="kw">newtype</span> <span class="dt">Weight</span> (<span class="ot">t ::</span> k) <span class="fu">=</span> <span class="dt">Weight</span> {<span class="ot">getWeight ::</span> <span class="dt">Rational</span>}
+  <span class="kw">deriving</span> (<span class="dt">Num</span>, <span class="dt">Show</span>)
+
+<span class="kw">data</span> <span class="dt">Apple</span>
+<span class="kw">data</span> <span class="dt">Orange</span>
+
+<span class="ot">ofApples ::</span> <span class="dt">Proxy</span> <span class="dt">Apple</span>
+ofApples <span class="fu">=</span> <span class="dt">Proxy</span>
+
+<span class="ot">ofOranges ::</span> <span class="dt">Proxy</span> <span class="dt">Orange</span>
+ofOranges <span class="fu">=</span> <span class="dt">Proxy</span>
+
+<span class="ot">sumWeight ::</span> <span class="dt">Proxy</span> t <span class="ot">-&gt;</span> [<span class="dt">Weight</span> t] <span class="ot">-&gt;</span> <span class="dt">Weight</span> t
+sumWeight <span class="dt">Proxy</span> <span class="fu">=</span> sum
+
+<span class="ot">weight ::</span> <span class="dt">Proxy</span> t <span class="ot">-&gt;</span> <span class="dt">Weight</span> t <span class="ot">-&gt;</span> <span class="dt">Weight</span> t
+weight <span class="dt">Proxy</span> <span class="fu">=</span> id</code></pre></div>
+</div><div id="apples-and-oranges-do-not-mix-well-cont." class="slide section level2">
+<h1>Apples And Oranges Do Not Mix Well (cont.)</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">GHCi</span><span class="fu">&gt;</span> sumWeight ofApples [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>] <span class="fu">+</span> weight ofApples <span class="dv">6</span>
+<span class="dt">Weight</span> {getWeight <span class="fu">=</span> <span class="dv">12</span> <span class="fu">%</span> <span class="dv">1</span>}</code></pre></div>
+<div class="incremental">
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">GHCi</span><span class="fu">&gt;</span> sumWeight ofApples [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>] <span class="fu">+</span> weight ofOranges <span class="dv">6</span>
+
+<span class="fu">&lt;</span>interactive<span class="fu">&gt;:</span><span class="dv">19</span><span class="fu">:</span><span class="dv">40</span><span class="fu">:</span>
+    <span class="dt">Couldn&#39;t</span> match <span class="kw">type</span> ‘<span class="dt">Orange</span>’ with ‘<span class="dt">Apple</span>’
+    <span class="dt">Expected</span> <span class="kw">type</span><span class="fu">:</span> <span class="dt">Proxy</span> <span class="dt">Apple</span>
+      <span class="dt">Actual</span> <span class="kw">type</span><span class="fu">:</span> <span class="dt">Proxy</span> <span class="dt">Orange</span>
+    <span class="dt">In</span> the first argument <span class="kw">of</span> ‘sumWeight’, namely ‘ofOranges’
+    <span class="dt">In</span> the second argument <span class="kw">of</span> ‘(<span class="fu">+</span>)’, namely
+      ‘sumWeight ofOranges [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]’</code></pre></div>
+</div>
+</div>
+<div id="real-world-phantom-types" class="titleslide slide section level1"><h1>Real-World Phantom Types</h1></div><div id="exception-handling" class="slide section level2">
+<h1>Exception Handling</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Control.Exception</span>
+<span class="kw">import </span><span class="dt">Data.Proxy</span>
+
+
+<span class="ot">someException ::</span> <span class="dt">Proxy</span> <span class="dt">SomeException</span>
+someException <span class="fu">=</span> <span class="dt">Proxy</span>
+
+<span class="ot">ignoring ::</span> <span class="dt">Exception</span> e <span class="ot">=&gt;</span> <span class="dt">IO</span> () <span class="ot">-&gt;</span> <span class="dt">Proxy</span> e <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
+ignoring m proxy <span class="fu">=</span> m <span class="ot">`catch`</span> \e <span class="ot">-&gt;</span> handler (e <span class="ot">`asProxyTypeOf`</span> proxy)
+  <span class="kw">where</span>
+    handler _ <span class="fu">=</span> return ()
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> <span class="kw">do</span>
+    error <span class="st">&quot;Hear, hear, we have an ERROR in our land!&quot;</span>
+        <span class="ot">`ignoring`</span> someException
+    putStrLn <span class="st">&quot;Nothing ever happens in this town.&quot;</span></code></pre></div>
+<div class="incremental">
+<pre><code>GHCi&gt; :main
+Nothing ever happens in this town.</code></pre>
+</div>
+</div><div id="same-food-multiple-flavors" class="slide section level2">
+<h1>Same Food, Multiple Flavors</h1>
+<p>Get down and dirty with phantom types on a first date. Don’t forget to be safe, and use <a href="https://hackage.haskell.org/package/tagged">tagged</a>.</p>
+<div class="incremental">
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE FlexibleInstances #-}</span>
+<span class="ot">{-# LANGUAGE OverloadedStrings #-}</span>
+<span class="kw">import </span><span class="dt">Data.Aeson</span> <span class="kw">as</span> <span class="dt">Aeson</span>
+<span class="kw">import </span><span class="dt">Data.Tagged</span>
+<span class="kw">import </span><span class="dt">Data.ByteString.Lazy.Char8</span> <span class="kw">as</span> <span class="dt">Lazy</span>
+<span class="kw">import </span><span class="dt">System.Process</span>
+
+<span class="kw">data</span> <span class="dt">AsObject</span>
+<span class="kw">data</span> <span class="dt">AsArray</span>
+
+<span class="kw">instance</span> (<span class="dt">ToJSON</span> a, <span class="dt">ToJSON</span> b) <span class="ot">=&gt;</span> <span class="dt">ToJSON</span> (<span class="dt">Tagged</span> <span class="dt">AsObject</span> (a, b)) <span class="kw">where</span>
+    toJSON (<span class="dt">Tagged</span> (a, b)) <span class="fu">=</span> Aeson.object
+        [ <span class="st">&quot;first&quot;</span>  <span class="fu">.=</span> a
+        , <span class="st">&quot;second&quot;</span> <span class="fu">.=</span> b
+        ]
+
+<span class="kw">instance</span> (<span class="dt">ToJSON</span> a, <span class="dt">ToJSON</span> b) <span class="ot">=&gt;</span> <span class="dt">ToJSON</span> (<span class="dt">Tagged</span> <span class="dt">AsArray</span> (a, b)) <span class="kw">where</span>
+    toJSON (<span class="dt">Tagged</span> (a, b)) <span class="fu">=</span> toJSON [toJSON a, toJSON b]</code></pre></div>
+</div>
+</div><div id="same-food-multiple-flavors-cont." class="slide section level2">
+<h1>Same Food, Multiple Flavors (cont.)</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">asObject ::</span> a <span class="ot">-&gt;</span> <span class="dt">Tagged</span> <span class="dt">AsObject</span> a
+asObject <span class="fu">=</span> <span class="dt">Tagged</span>
+
+<span class="ot">asArray ::</span> a <span class="ot">-&gt;</span> <span class="dt">Tagged</span> <span class="dt">AsArray</span> a
+asArray <span class="fu">=</span> <span class="dt">Tagged</span>
+
+<span class="ot">printPrettyJson ::</span> <span class="dt">Lazy.ByteString</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
+printPrettyJson json <span class="fu">=</span>
+    readProcess <span class="st">&quot;jq&quot;</span> [<span class="st">&quot;.&quot;</span>, <span class="st">&quot;-C&quot;</span>] (unpack json) <span class="fu">&gt;&gt;=</span> Prelude.putStr</code></pre></div>
+<div class="incremental">
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">GHCi</span><span class="fu">&gt;</span> printPrettyJson <span class="fu">.</span> encode <span class="fu">$</span> asObject (<span class="dv">1</span><span class="ot"> ::</span> <span class="dt">Int</span>, <span class="st">&quot;foo&quot;</span>)
+{
+  <span class="st">&quot;second&quot;</span><span class="fu">:</span> <span class="st">&quot;foo&quot;</span>,
+  <span class="st">&quot;first&quot;</span><span class="fu">:</span> <span class="dv">1</span>
+}
+<span class="dt">GHCi</span><span class="fu">&gt;</span> printPrettyJson <span class="fu">.</span> encode <span class="fu">$</span> asArray (<span class="dv">1</span><span class="ot"> ::</span> <span class="dt">Int</span>, <span class="st">&quot;foo&quot;</span>)
+[
+  <span class="dv">1</span>,
+  <span class="st">&quot;foo&quot;</span>
+]</code></pre></div>
+</div>
+</div><div id="beyond-the-infinite" class="slide section level2">
+<h1>Beyond The Infinite</h1>
+<p>Last example is little bit longer, and Web related.</p>
+<div class="incremental">
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE DataKinds #-}</span>
+<span class="ot">{-# LANGUAGE DeriveDataTypeable #-}</span>
+<span class="ot">{-# LANGUAGE LambdaCase #-}</span>
+<span class="ot">{-# LANGUAGE OverloadedStrings #-}</span>
+<span class="ot">{-# LANGUAGE TypeOperators #-}</span>
+<span class="kw">import </span><span class="dt">Data.Char</span> (toLower)
+<span class="kw">import </span><span class="dt">Data.Data</span> (<span class="dt">Data</span>(toConstr), <span class="dt">Typeable</span>, showConstr)
+<span class="kw">import </span><span class="dt">Data.Monoid</span> ((&lt;&gt;))
+<span class="kw">import </span><span class="dt">Data.String</span> (<span class="dt">IsString</span>(fromString))
+<span class="kw">import </span><span class="dt">Data.Proxy</span> (<span class="dt">Proxy</span>(<span class="dt">Proxy</span>))
+
+<span class="kw">import </span><span class="dt">Data.Text</span> (<span class="dt">Text</span>)
+
+<span class="kw">import </span><span class="dt">Data.CaseInsensitive</span> <span class="kw">as</span> <span class="dt">CI</span> (mk)
+<span class="kw">import </span><span class="dt">Web.PathPieces</span> (<span class="dt">PathPiece</span>(fromPathPiece, toPathPiece))
+<span class="kw">import </span><span class="dt">Web.Spock.Safe</span></code></pre></div>
+</div>
+</div><div id="beyond-the-infinite-cont." class="slide section level2">
+<h1>Beyond The Infinite (cont.)</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">StarTrekTerm</span> <span class="fu">=</span> <span class="dt">Scotty</span> <span class="fu">|</span> <span class="dt">Spock</span> <span class="fu">|</span> <span class="dt">Warp</span>
+  <span class="kw">deriving</span> (<span class="dt">Bounded</span>, <span class="dt">Data</span>, <span class="dt">Enum</span>, <span class="dt">Eq</span>, <span class="dt">Ord</span>, <span class="dt">Typeable</span>)
+
+<span class="kw">instance</span> <span class="dt">PathPiece</span> <span class="dt">StarTrekTerm</span> <span class="kw">where</span>
+    fromPathPiece txt <span class="fu">=</span> CI.mk txt <span class="ot">`lookup`</span> [(str v, v) <span class="fu">|</span> v <span class="ot">&lt;-</span> terms]
+      <span class="kw">where</span>
+        str <span class="fu">=</span> fromString <span class="fu">.</span> showConstr <span class="fu">.</span> toConstr
+        terms <span class="fu">=</span> [minBound<span class="fu">..</span>maxBound<span class="ot"> ::</span> <span class="dt">StarTrekTerm</span>]
+
+    toPathPiece <span class="fu">=</span> fromString <span class="fu">.</span> map toLower <span class="fu">.</span> showConstr <span class="fu">.</span> toConstr
+
+<span class="ot">toUrl ::</span> <span class="dt">StarTrekTerm</span> <span class="ot">-&gt;</span> <span class="dt">Text</span>
+toUrl <span class="fu">=</span> (packageUrl <span class="fu">&lt;&gt;</span>) <span class="fu">.</span> \<span class="kw">case</span>
+    <span class="dt">Scotty</span> <span class="ot">-&gt;</span> <span class="st">&quot;scotty&quot;</span>
+    <span class="dt">Spock</span> <span class="ot">-&gt;</span> <span class="st">&quot;Spock&quot;</span>
+    <span class="dt">Warp</span> <span class="ot">-&gt;</span> <span class="st">&quot;warp&quot;</span>
+  <span class="kw">where</span>
+    packageUrl <span class="fu">=</span> <span class="st">&quot;https://hackage.haskell.org/package/&quot;</span></code></pre></div>
+</div><div id="beyond-the-infinite-cont.-1" class="slide section level2">
+<h1>Beyond The Infinite (cont.)</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">starTrekTerm ::</span> <span class="dt">Proxy</span> <span class="dt">StarTrekTerm</span>
+starTrekTerm <span class="fu">=</span> <span class="dt">Proxy</span>
+
+<span class="ot">varOf ::</span> (<span class="dt">Typeable</span> a, <span class="dt">PathPiece</span> a) <span class="ot">=&gt;</span> <span class="dt">Proxy</span> a <span class="ot">-&gt;</span> <span class="dt">Path</span> (a <span class="ch">&#39;: &#39;</span>[])
+varOf _ <span class="fu">=</span> var
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> runSpock <span class="dv">3000</span> <span class="fu">.</span> spockT id
+    <span class="fu">.</span> get (<span class="st">&quot;haskell-package/by-star-trek-term&quot;</span> <span class="fu">&lt;//&gt;</span> varOf starTrekTerm)
+        <span class="fu">$</span> \term <span class="ot">-&gt;</span> text <span class="fu">$</span> toUrl term <span class="fu">&lt;&gt;</span> <span class="st">&quot;\n&quot;</span></code></pre></div>
+<div class="incremental">
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">GHCi</span><span class="fu">&gt;</span> <span class="fu">:</span>t get (<span class="st">&quot;haskell-package/by-star-trek-term&quot;</span> <span class="fu">&lt;//&gt;</span> varOf starTrekTerm)
+get (<span class="st">&quot;haskell-package/by-star-trek-term&quot;</span> <span class="fu">&lt;//&gt;</span> varOf starTrekTerm)
+<span class="ot">    ::</span> <span class="dt">Control.Monad.IO.Class.MonadIO</span> m
+    <span class="ot">=&gt;</span> <span class="dt">Data.HVect.HVectElim</span> <span class="ch">&#39;[StarTrekTerm] (ActionCtxT ctx m ())</span>
+    <span class="ot">-&gt;</span> <span class="dt">SpockCtxT</span> ctx m ()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> family <span class="dt">HVectElim</span> (<span class="ot">ts ::</span> [<span class="fu">*</span>]) (<span class="ot">a ::</span> <span class="fu">*</span>)<span class="ot"> ::</span> <span class="fu">*</span> <span class="kw">where</span>
+    <span class="dt">HVectElim</span> <span class="ch">&#39;[] a = a</span>
+    <span class="dt">HVectElim</span> (t <span class="ch">&#39;: ts) a = t -&gt; HVectElim ts a</span></code></pre></div>
+<pre><code>[ someone@somewhere types-as-values ]$ curl localhost:3000/haskell-package/by-star-trek-term/spock
+https://hackage.haskell.org/package/Spock
+[ someone@somewhere types-as-values ]$ curl localhost:3000/haskell-package/by-star-trek-term/foo; echo
+&lt;html&gt;&lt;head&gt;&lt;title&gt;404 - File not found&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&lt;h1&gt;404 - File not found&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;</code></pre>
+</div>
+</div>
+<div id="outro" class="titleslide slide section level1"><h1>Outro</h1></div><div id="outro-1" class="slide section level2">
+<h1>Outro</h1>
+<p>(Imagine sad music playing in the background.)</p>
+<p><strong>Thank you for your attention.</strong></p>
+</div><div id="thanks-and-credits" class="slide section level2">
+<h1>Thanks And Credits</h1>
+<p>My many thanks goes to Matej Kollár for making FPB happen and for kicking me in to actually doing this.</p>
+<p>Some of the libraries and tools used in this talk or while creating it: <a href="https://hackage.haskell.org/package/aeson">aeson</a>, <a href="https://hackage.haskell.org/package/base">base</a>, <a href="https://hackage.haskell.org/package/bytestring">bytestring</a>, <a href="https://hackage.haskell.org/package/case-insensitive">case-insensitive</a>, <a href="https://www.haskell.org/ghc/">GHC</a>, <a href="https://hackage.haskell.org/package/hvect">hvect</a>, <a href="https://stedolan.github.io/jq/">jq</a>, <a href="https://hackage.haskell.org/package/pandoc">pandoc</a>, <a href="https://hackage.haskell.org/package/path-pieces">path-pieces</a>, <a href="https://hackage.haskell.org/package/process">process</a>, <a href="http://www.w3.org/Talks/Tools/Slidy2/">Slidy2</a>, <a href="https://hackage.haskell.org/package/Spock">Spock</a>, <a href="https://hackage.haskell.org/package/tagged">tagged</a>, <a href="https://hackage.haskell.org/package/text">text</a>, and many others.</p>
+</div><div id="co-beginning" class="slide section level2">
+<h1>Co-Beginning</h1>
+<p>If you have any questions then you can</p>
+<ul>
+<li>ask me personally,</li>
+<li>or on <a href="https://groups.google.com/d/forum/fpbrno">FPB mailing</a> list,</li>
+<li>or send me an email to Peter Trško &lt;<a href="mailto:peter.trsko@gmail.com">peter.trsko@gmail.com</a>&gt;.</li>
+</ul>
+<p>Social: <a href="https://www.google.com/+PeterTr%C5%A1ko">G+</a> and <a href="https://github.com/trskop">GitHub</a>.</p>
+<!--
+vim: filetype=markdown spell spelllang=en
+-->
+</div>
+</body>
+</html>

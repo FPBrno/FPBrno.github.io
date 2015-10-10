@@ -96,9 +96,7 @@ meetups = checkMeetupsIndex
                     "Types as values: Derive correctness from practicality"
                 , author = "Peter"
                 , tags = [Haskell, Types]
-                -- , slides = Just "..." -- TODO
-                , audio = Nothing
-                , player = Nothing
+                , slides = Just "fpb-2/types-as-values.html"
                 }
             ]
         , time = Just $ read "2015-09-30 19:00:00 +02:00"
