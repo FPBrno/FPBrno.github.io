@@ -17,7 +17,10 @@ Steps
     * Find time
         * Ask speaker
         * Is place free for the time
-        * Make poll from remaining options
+        * Make poll from remaining options (Doodle.com)
+            * Be first to participate in the poll (choose all the options)
+            * Send it over Mailing list
+            * Post(?) on Meetup.com
     * Announce the meetup
         * Mailing list
         * Meetup.com
@@ -26,6 +29,7 @@ Steps
     * Recording
     * Introduction
     * Talk
+    * Governed socialization(?)
     * Free part
 * After the event
     * Ask people for feedback
