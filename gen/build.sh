@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -eu
 
 readonly -a dependencies=(
     'blaze-html'

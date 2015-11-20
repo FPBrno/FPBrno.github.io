@@ -15,8 +15,12 @@ import Data.Time.ISO8601 (formatISO8601)
 
 data Tag
     = Compiler
+    | Erlang
     | Haskell
     | Types
+    | Concurrent
+    | Reliability
+    | HotCodeSwap
     deriving Show
 
 type URL = String
@@ -88,7 +92,19 @@ checkMeetupsIndex ms = case areCorrectlyOrdered ms of
 -- add new meetups on top.
 meetups :: [Meetup]
 meetups = checkMeetupsIndex
-    [ Meetup
+    [ (futureMeetup 3)
+        { presentations =
+            [ Presentation
+                { title = "Erlang for Haskellist"
+                , author = "Hynek Vychodil"
+                , tags = [Erlang, Concurrent, Reliability, HotCodeSwap]
+                , slides = Nothing
+                , audio = Nothing
+                , player = Nothing
+                }
+            ]
+        }
+    , Meetup
         { indexM = 2
         , presentations =
             [ Presentation
