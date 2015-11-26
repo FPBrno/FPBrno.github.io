@@ -92,17 +92,20 @@ checkMeetupsIndex ms = case areCorrectlyOrdered ms of
 -- add new meetups on top.
 meetups :: [Meetup]
 meetups = checkMeetupsIndex
-    [ (futureMeetup 3)
-        { presentations =
+    [ Meetup
+        { indexM = 3
+        , presentations =
             [ Presentation
-                { title = "Erlang for Haskellist"
+                { title = "Erlang for Haskellers"
                 , author = "Hynek Vychodil"
                 , tags = [Erlang, Concurrent, Reliability, HotCodeSwap]
-                , slides = Nothing
+                , slides = Just "fpb-3/erlang_for_haskellers.pdf"
                 , audio = Nothing
                 , player = Nothing
                 }
             ]
+        , time = Just $ read "2015-11-25 18:30:00 +01:00"
+        , participants = Just 28
         }
     , Meetup
         { indexM = 2
