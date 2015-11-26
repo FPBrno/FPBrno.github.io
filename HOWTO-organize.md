@@ -13,6 +13,9 @@ Steps
 
 * Before the event
     * Find speaker
+        * Offer him help with presentation
+          (some people like like to try it beforehand so they
+          can catch some issues and polish stuff...)
     * Find place
     * Find time
         * Ask speaker
@@ -23,14 +26,23 @@ Steps
             * Post(?) on Meetup.com
     * Announce the meetup
         * Mailing list
-        * Meetup.com
         * GitHub
+        * Meetup.com
 * The event
+    * Bring buttons (for the speaker and for people)
     * Recording
-    * Introduction
+    * Introduction (FPB)
+    * Tell people the program (basically this sub-list)
+    * Short announcements
+    * Introduction (Talk)
     * Talk
-    * Governed socialization(?)
+    * Q/A (probably still part of Talk)
+    * Thank for the talk
+        * Give FPB Button to the talker
+    * Governed socialization
+        * Icebreaker, ...
     * Free part
+    * End
 * After the event
     * Ask people for feedback
     * Ask speaker(s) for slides
