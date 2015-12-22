@@ -271,6 +271,8 @@ site t = H.html $ do
         H.footer $ do
             H.a H.! A.href "https://github.com/FPBrno" $ "FPBrno on GitHub"
             " "
+            H.a H.! A.href "http://www.meetup.com/Functional-Programming-Brno" $ "FPBrno on Meetup"
+            " "
             H.a H.! A.href "https://groups.google.com/d/forum/fpbrno" $ "FPBrno mailing list"
             H.div "© 2015 Functional Programming Brno"
 
