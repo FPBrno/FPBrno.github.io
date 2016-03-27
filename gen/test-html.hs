@@ -100,7 +100,7 @@ meetups = checkMeetupsIndex
                 , author = "Hynek Vychodil"
                 , tags = [Erlang, Concurrent, Reliability, HotCodeSwap]
                 , slides = Just "fpb-3/erlang_for_haskellers.pdf"
-                , audio = Nothing
+                , audio = Just "fpb-3/fpb-3.ogg"
                 , player = Nothing
                 }
             ]
