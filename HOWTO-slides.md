@@ -27,6 +27,18 @@ n=0
 import -window root img-$n.png; len n+=1
 ~~~~
 
+or for `pdf`
+
+~~~~ {.sh}
+gs -dBATCH -dNOPAUSE -dSAFER \
+    -dAlignToPixels=0 -dGridFitTT=2 \
+    -dTextAlphaBits=4 -dGraphicsAlphaBits=4 \
+    -dPDFFitPage -g1024x598 \
+    -sOutputFile=slides/img-%d.png \
+    -sDEVICE=png48 \
+    "${slides}.pdf"
+~~~~
+
 Then minify screenshots at <https://tinypng.com/>.
 
 Create online player
