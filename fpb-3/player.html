@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html
+  ><head
+    ><meta charset=utf-8
+    ><title>Prezentation</title
+    ><style type="text/css"><!--
+html, body {
+  height: 100%;
+  margin: 0
+}
+div.box {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+audio {
+  margin: 7px 0 0 0;
+  width: 100%;
+}
+div.fbox {
+  clear: both;
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-align: center;
+  width:100%;
+}
+img {
+  height: auto;
+  margin: 0 auto;
+  max-height: 100%;
+  max-width: 100%;
+  width: auto;
+  /*
+  border: 1px solid black;
+  */
+}
+#debug-data {
+  display: none;
+}
+    --></style
+  ></head
+  ><body
+    ><div class="box"
+      ><audio id="my_audio" controls
+        ><source src="fpb-3.ogg" type='audio/ogg'
+        ><p>Your user agent does not support the HTML5 Audio element.</p
+      ></audio
+      ><pre id="debug-data"></pre
+      ><div class="fbox"
+        ><img id="slides-placeholder" src="slides/img-0.png" alt="Slide..."
+      ></div
+    ></div
+    ><script><!--
+      audio = document.getElementById("my_audio");
+      timing = [22,51,118,308,336,349,384,504,584,625,676,700,806,872,1068,1421];
+      current = 0;
+      audio.addEventListener('timeupdate', function() {
+        var value = audio.currentTime;
+        var change = false;
+        if (value > timing[current]) {
+            current += 1;
+            change = true;
+        } else if (current > 0 && value < timing[current-1]) {
+            current -= 1;
+            change = true;
+        }
+        if (change) {
+            document.getElementById("slides-placeholder").src = "slides/img-" + current + ".png";
+            change = false;
+        }
+        document.getElementById("debug-data").innerHTML = [current,value];
+      }, false);
+    --></script>
+  </body>
+</html>
