@@ -7,3 +7,6 @@ People and topics that would like to give talk on FPBrno meetup.
 * Practical Category Theory (_Haskell_)
 * Taming Recursion with Schemes (_Haskell_)
 * Types You Can Depend On (_Idris_)
+
+#### Jan Sipr
+* Typed RestAPI with servant (_Haskell_)
