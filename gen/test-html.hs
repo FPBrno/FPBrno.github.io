@@ -16,6 +16,7 @@ import Data.Time.ISO8601 (formatISO8601)
 data Tag
     = Compiler
     | Erlang
+    | Elm
     | Haskell
     | Types
     | Concurrent
@@ -93,6 +94,21 @@ checkMeetupsIndex ms = case areCorrectlyOrdered ms of
 meetups :: [Meetup]
 meetups = checkMeetupsIndex
     [ Meetup
+        { indexM = 4
+        , presentations =
+            [ Presentation
+                { title = "Elm - the Best of Functional Programming in Your Browser"
+                , author = "Adam Kövári"
+                , tags = [Elm]
+                , slides = Nothing
+                , audio = Nothing
+                , player = Nothing
+                }
+            ]
+        , time = Nothing
+        , participants = Nothing
+        }
+    , Meetup
         { indexM = 3
         , presentations =
             [ Presentation
