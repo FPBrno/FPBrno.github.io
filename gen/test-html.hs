@@ -15,13 +15,14 @@ import Data.Time.ISO8601 (formatISO8601)
 
 data Tag
     = Compiler
-    | Erlang
-    | Elm
-    | Haskell
-    | Types
     | Concurrent
-    | Reliability
+    | Elm
+    | Erlang
+    | Haskell
     | HotCodeSwap
+    | Reliability
+    | Types
+    | Web
     deriving Show
 
 type URL = String
@@ -99,7 +100,7 @@ meetups = checkMeetupsIndex
             [ Presentation
                 { title = "Elm - the Best of Functional Programming in Your Browser"
                 , author = "Adam Kövári"
-                , tags = [Elm]
+                , tags = [Elm, Web]
                 , slides = Nothing
                 , audio = Nothing
                 , player = Nothing
