@@ -106,7 +106,7 @@ meetups = checkMeetupsIndex
                 , player = Nothing
                 }
             ]
-        , time = Nothing
+        , time = Just $ read "2016-06-28 18:30:00 +02:00"
         , participants = Nothing
         }
     , Meetup
