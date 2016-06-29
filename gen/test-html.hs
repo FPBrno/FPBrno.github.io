@@ -90,8 +90,8 @@ checkMeetupsIndex ms = case areCorrectlyOrdered ms of
             ]
 
 -- | List of all meetups, those that already occurred and those that are
--- planned. Meetups are ordered from newest/future down to the oldes; so please
--- add new meetups on top.
+-- planned. Meetups are ordered from newest/future down to the oldest;
+-- so please add new meetups on top.
 meetups :: [Meetup]
 meetups = checkMeetupsIndex
     [ Meetup
@@ -107,7 +107,7 @@ meetups = checkMeetupsIndex
                 }
             ]
         , time = Just $ read "2016-06-28 18:30:00 +02:00"
-        , participants = Nothing
+        , participants = Just 8
         }
     , Meetup
         { indexM = 3
