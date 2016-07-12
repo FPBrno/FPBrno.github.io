@@ -18,8 +18,10 @@ data Tag
     | Concurrent
     | Elm
     | Erlang
+    | Theory
     | Haskell
     | HotCodeSwap
+    | HoTT
     | Reliability
     | Types
     | Web
@@ -95,6 +97,21 @@ checkMeetupsIndex ms = case areCorrectlyOrdered ms of
 meetups :: [Meetup]
 meetups = checkMeetupsIndex
     [ Meetup
+        { indexM = 5
+        , presentations =
+            [ Presentation
+                { title = "Types and Higher Groupoids"
+                , author = "John Bourke"
+                , tags = [HoTT, Theory]
+                , slides = Nothing
+                , audio = Nothing
+                , player = Nothing
+                }
+            ]
+        , time = Nothing
+        , participants = Nothing
+        }
+    , Meetup
         { indexM = 4
         , presentations =
             [ Presentation
