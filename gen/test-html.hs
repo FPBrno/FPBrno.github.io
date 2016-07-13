@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RecordWildCards #-}
 {-# OPTIONS_GHC -fno-warn-unused-do-bind #-}
 import qualified Data.Foldable as Foldable
 import qualified Text.Blaze.Html.Renderer.String as R
@@ -6,9 +7,9 @@ import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 -- import qualified Text.Blaze.Html.Renderer.Pretty as R
 
-import Control.Monad (unless, zipWithM_)
+import Control.Monad (sequence, unless, zipWithM_)
 import Data.Default.Class (Default(def))
-import Data.List (intercalate)
+import Data.List (intercalate, intersperse)
 import Data.Monoid
 import Data.Time
 import Data.Time.ISO8601 (formatISO8601)
@@ -27,11 +28,19 @@ data Tag
     | Web
     deriving Show
 
+data Language
+    = Cz
+    | En
+    | Sk
+    deriving Show
+
 type URL = String
 
 data Presentation = Presentation
     { title :: String
     , author :: String
+    , language :: [Language]
+    -- ^ In what language(s) talk can\ be/was.
     , tags :: [Tag]
     , slides :: Maybe URL
     -- ^ URL to slides of this presentation. 'Nothing' in case that there are
@@ -48,6 +57,7 @@ instance Default Presentation where
     def = Presentation
         { title = "Unknown title"
         , author = "Unknown author"
+        , language = [Cz, En]
         , tags = []
         , slides = Nothing
         , audio = Nothing
@@ -102,6 +112,7 @@ meetups = checkMeetupsIndex
             [ Presentation
                 { title = "Types and Higher Groupoids"
                 , author = "John Bourke"
+                , language = [En]
                 , tags = [HoTT, Theory]
                 , slides = Nothing
                 , audio = Nothing
@@ -117,6 +128,7 @@ meetups = checkMeetupsIndex
             [ Presentation
                 { title = "Elm - the Best of Functional Programming in Your Browser"
                 , author = "Adam Kövári"
+                , language = [En]
                 , tags = [Elm, Web]
                 , slides = Nothing
                 , audio = Nothing
@@ -132,6 +144,7 @@ meetups = checkMeetupsIndex
             [ Presentation
                 { title = "Erlang for Haskellers"
                 , author = "Hynek Vychodil"
+                , language = [Cz]
                 , tags = [Erlang, Concurrent, Reliability, HotCodeSwap]
                 , slides = Just "fpb-3/erlang_for_haskellers.pdf"
                 , audio = Just "fpb-3/fpb-3.ogg"
@@ -148,6 +161,7 @@ meetups = checkMeetupsIndex
                 { title =
                     "Types as values: Derive correctness from practicality"
                 , author = "Peter"
+                , language = [Sk]
                 , tags = [Haskell, Types]
                 , slides = Just "fpb-2/types-as-values.html"
                 , audio = Nothing -- I forgot to start recording
@@ -163,6 +177,7 @@ meetups = checkMeetupsIndex
             [ Presentation
                 { title = "Apples and Oranges"
                 , author = "Matej"
+                , language = [Sk]
                 , tags = [Haskell, Types]
                 , slides = Just "fpb-1/fpb-1.html"
                 , audio = Just "fpb-1/fpb-1.ogg"
@@ -178,6 +193,7 @@ meetups = checkMeetupsIndex
             [ Presentation
                 { title = "There Is No Compiler"
                 , author = "Matej"
+                , language = [Sk]
                 , tags = [Haskell, Compiler]
                 , slides = Just "fpb-0/fpb-0.html"
                 , audio = Just "fpb-0/fpb-0.ogg"
@@ -212,19 +228,23 @@ time2Html :: ZonedTime -> H.Html
 time2Html t = H.time H.! A.class_ "timeago" H.! A.datetime (H.toValue . formatISO8601 $ zonedTimeToUTC t) $ H.toHtml (show t)
 
 presentation2html :: Presentation -> H.Html
-presentation2html p = H.div H.! A.class_ "presentation" $ do
-    H.span H.! A.class_ "presentation_title" $ H.toHtml (title p)
+presentation2html Presentation{..} = H.div H.! A.class_ "presentation" $ do
+    classed "presentation_title" title
     " (by "
-    H.toHtml (author p)
+    H.toHtml author
+    ", "
+    sequence . intersperse ", " $ map (classedShow "lang") language
     ")"
-    mapM_ (\ t -> " " >> (H.span H.! A.class_ "tag" $ H.toHtml (show t))) (tags p)
+    mapM_ ((" " >>) . classedShow "tag") tags
     H.div H.! A.class_ "pres_goodies" $ do
         h "Slides" slides
         h "Audio" audio
         h "Player" player
     where
+    classed c x = H.span H.! A.class_ c $ H.toHtml x
+    classedShow c = classed c . show
     g t u = H.a H.! A.href (H.toValue u) $ t
-    h a b = Foldable.mapM_ (g a) (b p)
+    h = Foldable.mapM_ . g
 
 presentations2html :: [Presentation] -> H.Html
 presentations2html [] = "No presentations"
@@ -236,14 +256,14 @@ presentations2html s = do
     mapM_ presentation2html s
 
 meetup2html :: Meetup -> H.Html
-meetup2html x = H.div H.! A.class_ "meetup" $ do
-    H.h3 . H.toHtml $ "Meetup " ++ show (indexM x)
+meetup2html Meetup{..} = H.div H.! A.class_ "meetup" $ do
+    H.h3 . H.toHtml $ "Meetup " ++ show indexM
     H.ul $ do
         H.li $ do
             "Time: "
-            maybe "To be determined" time2Html $ time x
-        maybe mempty (\ n -> H.li ("Participants: " >> H.toHtml (show n))) $ participants x
-        H.li $ presentations2html (presentations x)
+            maybe "To be determined" time2Html time
+        maybe mempty (\ n -> H.li ("Participants: " >> H.toHtml (show n))) participants
+        H.li $ presentations2html presentations
 
 fpbTitle :: H.Html
 fpbTitle = "Functional Programming Brno"
