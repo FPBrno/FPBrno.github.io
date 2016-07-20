@@ -130,7 +130,7 @@ meetups = checkMeetupsIndex
                 , author = "Adam Kövári"
                 , language = [En]
                 , tags = [Elm, Web]
-                , slides = Nothing
+                , slides = Just "fpb-4/elm_best_of_fp_in_browser.pdf"
                 , audio = Nothing
                 , player = Nothing
                 }
