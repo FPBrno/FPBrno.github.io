@@ -120,7 +120,7 @@ meetups = checkMeetupsIndex
                 }
             ]
         , time = Just $ read "2016-07-27 18:00:00 +02:00"
-        , participants = Nothing
+        , participants = Just 12
         }
     , Meetup
         { indexM = 4
