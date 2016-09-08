@@ -15,7 +15,8 @@ import Data.Time
 import Data.Time.ISO8601 (formatISO8601)
 
 data Tag
-    = Compiler
+    = Agda
+    | Compiler
     | Concurrent
     | Elm
     | Erlang
@@ -107,6 +108,22 @@ checkMeetupsIndex ms = case areCorrectlyOrdered ms of
 meetups :: [Meetup]
 meetups = checkMeetupsIndex
     [ Meetup
+        { indexM = 6
+        , presentations =
+            [ Presentation
+                { title = "Introduction to Agda"
+                , author = "Adam Krupicka"
+                , language = [En, Sk]
+                , tags = [Agda, Theory]
+                , slides = Nothing
+                , audio = Nothing
+                , player = Nothing
+                }
+            ]
+        , time = Nothing
+        , participants = Nothing
+        }
+    , Meetup
         { indexM = 5
         , presentations =
             [ Presentation
