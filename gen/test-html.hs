@@ -346,7 +346,7 @@ site t = H.html $ do
             H.a H.! A.href "https://github.com/FPBrno" $ "FPBrno on GitHub"
             " "
             H.a H.! A.href "https://groups.google.com/d/forum/fpbrno" $ "FPBrno mailing list"
-            H.div "© 2015 Functional Programming Brno"
+            H.div "© 2015-2016 Functional Programming Brno"
 
 main :: IO ()
 main = do
