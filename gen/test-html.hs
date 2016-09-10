@@ -326,6 +326,9 @@ site t = H.html $ do
             H.p . H.preEscapedToHtml $ intercalate (" " :: String)
                 [ "We have a mailing list (<a href=\"https://groups.google.com/d/forum/fpbrno\">online archive</a>) that you can sign-up to simply by sending an email to fpbrno+subscribe@googlegroups.com (even an empty email will do)."
                 ]
+            H.p . H.preEscapedToHtml $ intercalate (" " :: String)
+                [ "Important news will also be tweeted on <a href=\"https://twitter.com/FPBrno\">@FPBrno</a>."
+                ]
             H.p "More to come."
             H.h2 "Upcoming events"
             let fe = filter (maybe True ((t <=) . zonedTimeToUTC) . time) meetups
@@ -346,6 +349,8 @@ site t = H.html $ do
             H.a H.! A.href "https://github.com/FPBrno" $ "FPBrno on GitHub"
             " "
             H.a H.! A.href "https://groups.google.com/d/forum/fpbrno" $ "FPBrno mailing list"
+            " "
+            H.a H.! A.href "https://twitter.com/FPBrno" $ "@FPBrno on Twitter"
             H.div "© 2015-2016 Functional Programming Brno"
 
 main :: IO ()
