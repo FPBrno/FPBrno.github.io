@@ -340,11 +340,14 @@ site t = H.html $ do
             mapM_ meetup2html . take 10 $ filter (maybe False ((t >) . zonedTimeToUTC) . time) meetups
             H.div H.! A.class_ "members" $ mempty
             H.p $ do
-                "Would you like to be on the list?"
-                " "
-                "It's simple: get a GitHub account and send us a pull request."
-                " "
-                "If nothing else, add yourself to PEOPLE.md :-)."
+                "Would you like to be on the list? \
+                \It's simple: get a GitHub account and send us a pull request. \
+                \If nothing else, add yourself to PEOPLE.md :-). \
+                \Already a member and you still don't see yourself? \
+                \Change your status to public on "
+                H.a H.! A.href "https://github.com/orgs/FPBrno/people"
+                    $ "people page"
+                ". (No pressure.)"
         H.footer $ do
             H.a H.! A.href "https://github.com/FPBrno" $ "FPBrno on GitHub"
             " "
