@@ -25,7 +25,7 @@ This is recording of Functional Programming Brno
 meetup number `__` where `____` `____` talks
 about `____`. Functional Programming Brno is platform
 for everyone with interest in functional programming
-that happens to be in or near the Brno. To find out
+that happens to be in or near Brno. To find out
 more visit <FPBrno.github.io>.
 
 Prepare data for player
