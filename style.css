@@ -114,9 +114,9 @@ footer a {
   -webkit-filter: grayscale(1); /* Google Chrome & Safari 6+ */
 }
 .members a {
-  margin-left: 1ex;
+  margin-right: 1ex;
 }
-.members a:first-child {
+.members a:last-child {
   margin-left: 0;
 }
 .members img:hover {
