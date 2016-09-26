@@ -9,3 +9,12 @@ xkollar
 * Types
 * Functional Fun
 * ...
+
+liskin
+------
+
+* Haskell
+* Scala
+* Erlang
+* Perl
+* bicycles :-)
