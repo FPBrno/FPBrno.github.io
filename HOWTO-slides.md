@@ -19,6 +19,9 @@ oggenc -q 4 \
     "${outfile}.wav"
 ~~~~
 
+Try to play with options to make file as small as possible, with as good qualit as possible.
+For example try `oggenc -q 2  -b 16 --resample 22000`
+
 Audio should start with informative message:
 
 This is recording of Functional Programming Brno
