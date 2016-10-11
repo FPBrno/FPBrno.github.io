@@ -332,10 +332,11 @@ site t = H.html $ do
             H.p "More to come."
             H.h2 "Upcoming events"
             let fe = filter (maybe True ((t <=) . zonedTimeToUTC) . time) meetups
-            if null fe then
-                H.p "There are no planned events now. In the ideal case next meetup will occur between 1 and 2 months after the last meetup."
-            else
-                mapM_ meetup2html fe
+            if null fe
+                then H.p "There are no planned events now.\
+                    \ In the ideal case next meetup will occur\
+                    \ between 1 and 2 months after the last meetup."
+                else mapM_ meetup2html fe
             H.h2 "Past events"
             mapM_ meetup2html . take 10 $ filter (maybe False ((t >) . zonedTimeToUTC) . time) meetups
             H.div H.! A.class_ "members" $ mempty
