@@ -1,3 +1,4 @@
+{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
 {-# OPTIONS_GHC -fno-warn-unused-do-bind #-}
@@ -35,6 +36,17 @@ data Language
     | Sk
     deriving Show
 
+type Explanation = String
+
+data Possibly a
+    = Present a
+    -- ^ Resource is prsent ant it is 'a'.
+    | NotYet
+    -- ^ Resource not yet available (there is still posibility there will be).
+    | NotPresent Explanation
+    -- ^ Resource probaby won't be available, with some explanation/excuse.
+    deriving Show
+
 type URL = String
 
 data Presentation = Presentation
@@ -43,13 +55,13 @@ data Presentation = Presentation
     , language :: [Language]
     -- ^ In what language(s) talk can\ be/was.
     , tags :: [Tag]
-    , slides :: Maybe URL
+    , slides :: Possibly URL
     -- ^ URL to slides of this presentation. 'Nothing' in case that there are
     -- no slides.
-    , audio :: Maybe URL
+    , audio :: Possibly URL
     -- ^ URL to audio recording of this presentation or 'Nothing' if there is
     -- not any recording.
-    , player :: Maybe URL
+    , player :: Possibly URL
     -- ^ URL to web player able to handle audio recording of this presentation.
     -- Set to 'Nothing' in case that wab player is not provided.
     } deriving Show
@@ -60,9 +72,9 @@ instance Default Presentation where
         , author = "Unknown author"
         , language = [Cz, En]
         , tags = []
-        , slides = Nothing
-        , audio = Nothing
-        , player = Nothing
+        , slides = NotYet
+        , audio = NotYet
+        , player = NotYet
         }
 
 data Meetup = Meetup
@@ -77,6 +89,10 @@ data Meetup = Meetup
     -- ^ Number of participats, for future, or meetups currently being held,
     -- this is set, obviously, to 'Nothing'.
     } deriving Show
+
+possiblyMaybe = \case
+    Present x -> Just x
+    _ -> Nothing
 
 futureMeetup :: Integer -> Meetup
 futureMeetup idx = Meetup
@@ -113,15 +129,15 @@ meetups = checkMeetupsIndex
             [ Presentation
                 { title = "Introduction to Agda"
                 , author = "Adam Krupicka"
-                , language = [En, Sk]
+                , language = [Sk]
                 , tags = [Agda, Theory]
-                , slides = Nothing
-                , audio = Nothing
-                , player = Nothing
+                , slides = NotPresent "Not recorded"
+                , audio = NotYet
+                , player = NotPresent "No audio recording"
                 }
             ]
         , time = Just $ read "2016-10-13 19:00:00 +02:00"
-        , participants = Nothing
+        , participants = Just 20
         }
     , Meetup
         { indexM = 5
@@ -131,9 +147,9 @@ meetups = checkMeetupsIndex
                 , author = "John Bourke"
                 , language = [En]
                 , tags = [HoTT, Theory]
-                , slides = Nothing
-                , audio = Just "fpb-5/fpb-5.ogg"
-                , player = Nothing
+                , slides = NotYet
+                , audio = Present "fpb-5/fpb-5.ogg"
+                , player = NotYet
                 }
             ]
         , time = Just $ read "2016-07-27 18:00:00 +02:00"
@@ -147,9 +163,9 @@ meetups = checkMeetupsIndex
                 , author = "Adam Kövári"
                 , language = [En]
                 , tags = [Elm, Web]
-                , slides = Just "fpb-4/elm_best_of_fp_in_browser.pdf"
-                , audio = Nothing
-                , player = Nothing
+                , slides = Present "fpb-4/elm_best_of_fp_in_browser.pdf"
+                , audio = NotYet
+                , player = NotYet
                 }
             ]
         , time = Just $ read "2016-06-28 18:30:00 +02:00"
@@ -163,9 +179,9 @@ meetups = checkMeetupsIndex
                 , author = "Hynek Vychodil"
                 , language = [Cz]
                 , tags = [Erlang, Concurrent, Reliability, HotCodeSwap]
-                , slides = Just "fpb-3/erlang_for_haskellers.pdf"
-                , audio = Just "fpb-3/fpb-3.ogg"
-                , player = Just "fpb-3/player.html"
+                , slides = Present "fpb-3/erlang_for_haskellers.pdf"
+                , audio = Present "fpb-3/fpb-3.ogg"
+                , player = Present "fpb-3/player.html"
                 }
             ]
         , time = Just $ read "2015-11-25 18:30:00 +01:00"
@@ -180,9 +196,9 @@ meetups = checkMeetupsIndex
                 , author = "Peter"
                 , language = [Sk]
                 , tags = [Haskell, Types]
-                , slides = Just "fpb-2/types-as-values.html"
-                , audio = Nothing -- I forgot to start recording
-                , player = Nothing -- Does not make sense without audio
+                , slides = Present "fpb-2/types-as-values.html"
+                , audio = NotPresent "I forgot to start recording"
+                , player = NotPresent "Does not make sense without audio"
                 }
             ]
         , time = Just $ read "2015-09-30 19:00:00 +02:00"
@@ -196,9 +212,9 @@ meetups = checkMeetupsIndex
                 , author = "Matej"
                 , language = [Sk]
                 , tags = [Haskell, Types]
-                , slides = Just "fpb-1/fpb-1.html"
-                , audio = Just "fpb-1/fpb-1.ogg"
-                , player = Just "fpb-1/player.html"
+                , slides = Present "fpb-1/fpb-1.html"
+                , audio = Present "fpb-1/fpb-1.ogg"
+                , player = Present "fpb-1/player.html"
                 }
             ]
         , time = Just $ read "2015-05-12 18:00:00 +02:00"
@@ -212,9 +228,9 @@ meetups = checkMeetupsIndex
                 , author = "Matej"
                 , language = [Sk]
                 , tags = [Haskell, Compiler]
-                , slides = Just "fpb-0/fpb-0.html"
-                , audio = Just "fpb-0/fpb-0.ogg"
-                , player = Just "fpb-0/player.html"
+                , slides = Present "fpb-0/fpb-0.html"
+                , audio = Present "fpb-0/fpb-0.ogg"
+                , player = Present "fpb-0/player.html"
                 }
             ]
         , time = Just $ read "2015-02-16 19:00:00 +01:00"
@@ -261,7 +277,7 @@ presentation2html Presentation{..} = H.div H.! A.class_ "presentation" $ do
     classed c x = H.span H.! A.class_ c $ H.toHtml x
     classedShow c = classed c . show
     g t u = H.a H.! A.href (H.toValue u) $ t
-    h = Foldable.mapM_ . g
+    h x = Foldable.mapM_ (g x) . possiblyMaybe
 
 presentations2html :: [Presentation] -> H.Html
 presentations2html [] = "No presentations"
