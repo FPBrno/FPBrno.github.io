@@ -309,7 +309,7 @@ site t = H.html $ do
         H.link H.! A.rel "stylesheet" H.! A.type_ "text/css" H.! A.href "style.css"
         cdns
         timeago
-    H.body $ H.div H.! A.class_ "wrapper" $ do
+    H.body . (H.div H.! A.class_ "wrapper") $ do
         H.header $ do
             H.h1 fpbTitle
             H.img H.! A.src "images/FPB.svg" H.! A.alt "Functional Programming Brno"
@@ -319,16 +319,25 @@ site t = H.html $ do
         --     fa "fa-rss fa-fw" >> "Meetups"
         --     fa "fa-rss fa-fw" >> "Talks"
         H.div H.! A.class_ "main" $ do
-            H.p . H.preEscapedToHtml $ intercalate (" " :: String)
-                [ "Functional Programming Brno (FPBrno or FPB for short) is for everyone interested in functional programming who happens to be in <a href=\"https://goo.gl/maps/MIRi3\">Brno</a> or nearby areas."
-                , "Activities include but are not limited to talks and discussions."
-                ]
-            H.p . H.preEscapedToHtml $ intercalate (" " :: String)
-                [ "We have a mailing list (<a href=\"https://groups.google.com/d/forum/fpbrno\">online archive</a>) that you can sign-up to simply by sending an email to fpbrno+subscribe@googlegroups.com (even an empty email will do)."
-                ]
-            H.p . H.preEscapedToHtml $ intercalate (" " :: String)
-                [ "Important news will also be tweeted on <a href=\"https://twitter.com/FPBrno\">@FPBrno</a>."
-                ]
+            H.p $ H.preEscapedToHtml
+                ("Functional Programming Brno (FPBrno or FPB for short) is for\
+                \ everyone interested in functional programming who happens to\
+                \ be in <a href=\"https://goo.gl/maps/MIRi3\">Brno</a> or\
+                \ nearby areas.\
+                \ Activities include but are not limited to talks and\
+                \ discussions." :: String)
+            H.p $ do
+                "We have a mailing list ("
+                H.a H.! A.href "https://groups.google.com/d/forum/fpbrno"
+                    $ "online archive"
+                ") that you can sign-up to simply by sending an email to\
+                \ fpbrno+subscribe@googlegroups.com (even an empty email\
+                \ will do)."
+            H.p $ do
+                "Important news will also be tweeted on "
+                H.a H.! A.href "https://twitter.com/FPBrno"
+                    $ "@FPBrno"
+                "."
             H.p "More to come."
             H.h2 "Upcoming events"
             let fe = filter (maybe True ((t <=) . zonedTimeToUTC) . time) meetups
