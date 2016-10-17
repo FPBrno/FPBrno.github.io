@@ -24,12 +24,19 @@ For example try `oggenc -q 2  -b 16 --resample 22000`
 
 Audio should start with informative message:
 
-This is recording of Functional Programming Brno
-meetup number `__` where `____` `____` talks
-about `____`. Functional Programming Brno is platform
-for everyone with interest in functional programming
-that happens to be in or near Brno. To find out
-more visit <FPBrno.github.io>.
+> This is recording of Functional Programming Brno
+> meetup number `__` where `____` `____` talks
+> about `____`. Functional Programming Brno is platform
+> for everyone with interest in functional programming
+> that happens to be in or near Brno. To find out
+> more visit FPBrno.github.io.
+
+Some of audio files (mostly more work consuming ones) might end with:
+
+> Hi. I have a favour to ask: if you are listening right now, please let
+> us know by tweeting @FPBrno. That way we'll know that recording our
+> meetups makes sense and we'll continue to do so even
+> though it's quite time-consuming. Thanks.
 
 Prepare data for player
 -----------------------
