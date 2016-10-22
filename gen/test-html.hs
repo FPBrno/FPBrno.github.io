@@ -131,8 +131,8 @@ meetups = checkMeetupsIndex
                 , author = "Adam Krupicka"
                 , language = [Sk]
                 , tags = [Agda, Theory]
-                , slides = NotPresent "Not recorded"
-                , audio = NotYet
+                , slides = Present "fpb-6/html/talk.html"
+                , audio = NotPresent "Not recorded"
                 , player = NotPresent "No audio recording"
                 }
             ]

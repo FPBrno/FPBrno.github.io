@@ -1,0 +1,1633 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+><head
+  ><title
+    >talk</title
+    ><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"
+     /><meta http-equiv="Content-Style-Type" content="text/css"
+     /><link href="Agda.css" rel="stylesheet" type="text/css"
+     /></head
+  ><body
+  ><pre
+    ><a name="1" class="Keyword"
+      >data</a
+      ><a name="5"
+      > </a
+      ><a name="6" href="talk.html#6" class="Datatype"
+      >&#8469;</a
+      ><a name="7"
+      > </a
+      ><a name="8" class="Symbol"
+      >:</a
+      ><a name="9"
+      > </a
+      ><a name="10" class="PrimitiveType"
+      >Set</a
+      ><a name="13"
+      > </a
+      ><a name="14" class="Keyword"
+      >where</a
+      ><a name="19"
+      >
+  </a
+      ><a name="22" href="talk.html#22" class="InductiveConstructor"
+      >zero</a
+      ><a name="26"
+      > </a
+      ><a name="27" class="Symbol"
+      >:</a
+      ><a name="28"
+      > </a
+      ><a name="29" href="talk.html#6" class="Datatype"
+      >&#8469;</a
+      ><a name="30"
+      >
+  </a
+      ><a name="33" href="talk.html#33" class="InductiveConstructor"
+      >suc</a
+      ><a name="36"
+      > </a
+      ><a name="37" class="Symbol"
+      >:</a
+      ><a name="38"
+      > </a
+      ><a name="39" href="talk.html#6" class="Datatype"
+      >&#8469;</a
+      ><a name="40"
+      > </a
+      ><a name="41" class="Symbol"
+      >&#8594;</a
+      ><a name="42"
+      > </a
+      ><a name="43" href="talk.html#6" class="Datatype"
+      >&#8469;</a
+      ><a name="44"
+      >
+
+</a
+      ><a name="46" class="Symbol"
+      >{-#</a
+      ><a name="49"
+      > </a
+      ><a name="50" class="Keyword"
+      >BUILTIN</a
+      ><a name="57"
+      > NATURAL </a
+      ><a name="66" href="talk.html#6" class="Datatype"
+      >&#8469;</a
+      ><a name="67"
+      > </a
+      ><a name="68" class="Symbol"
+      >#-}</a
+      ><a name="71"
+      >
+
+</a
+      ><a name="73" href="talk.html#73" class="Function Operator"
+      >_+_</a
+      ><a name="76"
+      > </a
+      ><a name="77" class="Symbol"
+      >:</a
+      ><a name="78"
+      > </a
+      ><a name="79" href="talk.html#6" class="Datatype"
+      >&#8469;</a
+      ><a name="80"
+      > </a
+      ><a name="81" class="Symbol"
+      >&#8594;</a
+      ><a name="82"
+      > </a
+      ><a name="83" href="talk.html#6" class="Datatype"
+      >&#8469;</a
+      ><a name="84"
+      > </a
+      ><a name="85" class="Symbol"
+      >&#8594;</a
+      ><a name="86"
+      > </a
+      ><a name="87" href="talk.html#6" class="Datatype"
+      >&#8469;</a
+      ><a name="88"
+      >
+</a
+      ><a name="89" href="talk.html#22" class="InductiveConstructor"
+      >zero</a
+      ><a name="93"
+      > </a
+      ><a name="94" href="talk.html#73" class="Function Operator"
+      >+</a
+      ><a name="95"
+      > </a
+      ><a name="96" href="talk.html#96" class="Bound"
+      >b</a
+      ><a name="97"
+      > </a
+      ><a name="98" class="Symbol"
+      >=</a
+      ><a name="99"
+      > </a
+      ><a name="100" href="talk.html#96" class="Bound"
+      >b</a
+      ><a name="101"
+      >
+</a
+      ><a name="102" href="talk.html#33" class="InductiveConstructor"
+      >suc</a
+      ><a name="105"
+      > </a
+      ><a name="106" href="talk.html#106" class="Bound"
+      >a</a
+      ><a name="107"
+      > </a
+      ><a name="108" href="talk.html#73" class="Function Operator"
+      >+</a
+      ><a name="109"
+      > </a
+      ><a name="110" href="talk.html#110" class="Bound"
+      >b</a
+      ><a name="111"
+      > </a
+      ><a name="112" class="Symbol"
+      >=</a
+      ><a name="113"
+      > </a
+      ><a name="114" href="talk.html#33" class="InductiveConstructor"
+      >suc</a
+      ><a name="117"
+      > </a
+      ><a name="118" class="Symbol"
+      >(</a
+      ><a name="119" href="talk.html#106" class="Bound"
+      >a</a
+      ><a name="120"
+      > </a
+      ><a name="121" href="talk.html#73" class="Function Operator"
+      >+</a
+      ><a name="122"
+      > </a
+      ><a name="123" href="talk.html#110" class="Bound"
+      >b</a
+      ><a name="124" class="Symbol"
+      >)</a
+      ><a name="125"
+      >
+</a
+      ><a name="126" class="Keyword"
+      >infix</a
+      ><a name="131"
+      > </a
+      ><a name="132" class="Number"
+      >100</a
+      ><a name="135"
+      > _+_
+
+</a
+      ><a name="141" class="Keyword"
+      >data</a
+      ><a name="145"
+      > </a
+      ><a name="146" href="talk.html#146" class="Datatype Operator"
+      >_&#8801;_</a
+      ><a name="149"
+      > </a
+      ><a name="150" class="Symbol"
+      >:</a
+      ><a name="151"
+      > </a
+      ><a name="152" href="talk.html#6" class="Datatype"
+      >&#8469;</a
+      ><a name="153"
+      > </a
+      ><a name="154" class="Symbol"
+      >&#8594;</a
+      ><a name="155"
+      > </a
+      ><a name="156" href="talk.html#6" class="Datatype"
+      >&#8469;</a
+      ><a name="157"
+      > </a
+      ><a name="158" class="Symbol"
+      >&#8594;</a
+      ><a name="159"
+      > </a
+      ><a name="160" class="PrimitiveType"
+      >Set</a
+      ><a name="163"
+      > </a
+      ><a name="164" class="Keyword"
+      >where</a
+      ><a name="169"
+      >
+  </a
+      ><a name="172" href="talk.html#172" class="InductiveConstructor"
+      >refl</a
+      ><a name="176"
+      > </a
+      ><a name="177" class="Symbol"
+      >:</a
+      ><a name="178"
+      > </a
+      ><a name="179" class="Symbol"
+      >{</a
+      ><a name="180" href="talk.html#180" class="Bound"
+      >n</a
+      ><a name="181"
+      > </a
+      ><a name="182" class="Symbol"
+      >:</a
+      ><a name="183"
+      > </a
+      ><a name="184" href="talk.html#6" class="Datatype"
+      >&#8469;</a
+      ><a name="185" class="Symbol"
+      >}</a
+      ><a name="186"
+      > </a
+      ><a name="187" class="Symbol"
+      >&#8594;</a
+      ><a name="188"
+      > </a
+      ><a name="189" href="talk.html#180" class="Bound"
+      >n</a
+      ><a name="190"
+      > </a
+      ><a name="191" href="talk.html#146" class="Datatype Operator"
+      >&#8801;</a
+      ><a name="192"
+      > </a
+      ><a name="193" href="talk.html#180" class="Bound"
+      >n</a
+      ><a name="194"
+      >
+
+</a
+      ><a name="196" href="talk.html#196" class="Function"
+      >sym</a
+      ><a name="199"
+      > </a
+      ><a name="200" class="Symbol"
+      >:</a
+      ><a name="201"
+      > </a
+      ><a name="202" class="Symbol"
+      >{</a
+      ><a name="203" href="talk.html#203" class="Bound"
+      >n</a
+      ><a name="204"
+      > </a
+      ><a name="205" href="talk.html#205" class="Bound"
+      >m</a
+      ><a name="206"
+      > </a
+      ><a name="207" class="Symbol"
+      >:</a
+      ><a name="208"
+      > </a
+      ><a name="209" href="talk.html#6" class="Datatype"
+      >&#8469;</a
+      ><a name="210" class="Symbol"
+      >}</a
+      ><a name="211"
+      > </a
+      ><a name="212" class="Symbol"
+      >&#8594;</a
+      ><a name="213"
+      > </a
+      ><a name="214" href="talk.html#203" class="Bound"
+      >n</a
+      ><a name="215"
+      > </a
+      ><a name="216" href="talk.html#146" class="Datatype Operator"
+      >&#8801;</a
+      ><a name="217"
+      > </a
+      ><a name="218" href="talk.html#205" class="Bound"
+      >m</a
+      ><a name="219"
+      > </a
+      ><a name="220" class="Symbol"
+      >&#8594;</a
+      ><a name="221"
+      > </a
+      ><a name="222" href="talk.html#205" class="Bound"
+      >m</a
+      ><a name="223"
+      > </a
+      ><a name="224" href="talk.html#146" class="Datatype Operator"
+      >&#8801;</a
+      ><a name="225"
+      > </a
+      ><a name="226" href="talk.html#203" class="Bound"
+      >n</a
+      ><a name="227"
+      >
+</a
+      ><a name="228" href="talk.html#196" class="Function"
+      >sym</a
+      ><a name="231"
+      > </a
+      ><a name="232" href="talk.html#172" class="InductiveConstructor"
+      >refl</a
+      ><a name="236"
+      > </a
+      ><a name="237" class="Symbol"
+      >=</a
+      ><a name="238"
+      > </a
+      ><a name="239" href="talk.html#172" class="InductiveConstructor"
+      >refl</a
+      ><a name="243"
+      >
+
+</a
+      ><a name="245" href="talk.html#245" class="Function"
+      >trans</a
+      ><a name="250"
+      > </a
+      ><a name="251" class="Symbol"
+      >:</a
+      ><a name="252"
+      > </a
+      ><a name="253" class="Symbol"
+      >{</a
+      ><a name="254" href="talk.html#254" class="Bound"
+      >m</a
+      ><a name="255"
+      > </a
+      ><a name="256" href="talk.html#256" class="Bound"
+      >n</a
+      ><a name="257"
+      > </a
+      ><a name="258" href="talk.html#258" class="Bound"
+      >o</a
+      ><a name="259"
+      > </a
+      ><a name="260" class="Symbol"
+      >:</a
+      ><a name="261"
+      > </a
+      ><a name="262" href="talk.html#6" class="Datatype"
+      >&#8469;</a
+      ><a name="263" class="Symbol"
+      >}</a
+      ><a name="264"
+      > </a
+      ><a name="265" class="Symbol"
+      >&#8594;</a
+      ><a name="266"
+      > </a
+      ><a name="267" href="talk.html#254" class="Bound"
+      >m</a
+      ><a name="268"
+      > </a
+      ><a name="269" href="talk.html#146" class="Datatype Operator"
+      >&#8801;</a
+      ><a name="270"
+      > </a
+      ><a name="271" href="talk.html#256" class="Bound"
+      >n</a
+      ><a name="272"
+      > </a
+      ><a name="273" class="Symbol"
+      >&#8594;</a
+      ><a name="274"
+      > </a
+      ><a name="275" href="talk.html#256" class="Bound"
+      >n</a
+      ><a name="276"
+      > </a
+      ><a name="277" href="talk.html#146" class="Datatype Operator"
+      >&#8801;</a
+      ><a name="278"
+      > </a
+      ><a name="279" href="talk.html#258" class="Bound"
+      >o</a
+      ><a name="280"
+      > </a
+      ><a name="281" class="Symbol"
+      >&#8594;</a
+      ><a name="282"
+      > </a
+      ><a name="283" href="talk.html#254" class="Bound"
+      >m</a
+      ><a name="284"
+      > </a
+      ><a name="285" href="talk.html#146" class="Datatype Operator"
+      >&#8801;</a
+      ><a name="286"
+      > </a
+      ><a name="287" href="talk.html#258" class="Bound"
+      >o</a
+      ><a name="288"
+      >
+</a
+      ><a name="289" href="talk.html#245" class="Function"
+      >trans</a
+      ><a name="294"
+      > </a
+      ><a name="295" href="talk.html#172" class="InductiveConstructor"
+      >refl</a
+      ><a name="299"
+      > </a
+      ><a name="300" href="talk.html#300" class="Bound"
+      >p&#8322;</a
+      ><a name="302"
+      > </a
+      ><a name="303" class="Symbol"
+      >=</a
+      ><a name="304"
+      > </a
+      ><a name="305" href="talk.html#300" class="Bound"
+      >p&#8322;</a
+      ><a name="307"
+      >
+
+</a
+      ><a name="309" href="talk.html#309" class="Function"
+      >suc-inj</a
+      ><a name="316"
+      > </a
+      ><a name="317" class="Symbol"
+      >:</a
+      ><a name="318"
+      > </a
+      ><a name="319" class="Symbol"
+      >{</a
+      ><a name="320" href="talk.html#320" class="Bound"
+      >m</a
+      ><a name="321"
+      > </a
+      ><a name="322" href="talk.html#322" class="Bound"
+      >n</a
+      ><a name="323"
+      > </a
+      ><a name="324" class="Symbol"
+      >:</a
+      ><a name="325"
+      > </a
+      ><a name="326" href="talk.html#6" class="Datatype"
+      >&#8469;</a
+      ><a name="327" class="Symbol"
+      >}</a
+      ><a name="328"
+      > </a
+      ><a name="329" class="Symbol"
+      >&#8594;</a
+      ><a name="330"
+      > </a
+      ><a name="331" href="talk.html#33" class="InductiveConstructor"
+      >suc</a
+      ><a name="334"
+      > </a
+      ><a name="335" href="talk.html#320" class="Bound"
+      >m</a
+      ><a name="336"
+      > </a
+      ><a name="337" href="talk.html#146" class="Datatype Operator"
+      >&#8801;</a
+      ><a name="338"
+      > </a
+      ><a name="339" href="talk.html#33" class="InductiveConstructor"
+      >suc</a
+      ><a name="342"
+      > </a
+      ><a name="343" href="talk.html#322" class="Bound"
+      >n</a
+      ><a name="344"
+      > </a
+      ><a name="345" class="Symbol"
+      >&#8594;</a
+      ><a name="346"
+      > </a
+      ><a name="347" href="talk.html#320" class="Bound"
+      >m</a
+      ><a name="348"
+      > </a
+      ><a name="349" href="talk.html#146" class="Datatype Operator"
+      >&#8801;</a
+      ><a name="350"
+      > </a
+      ><a name="351" href="talk.html#322" class="Bound"
+      >n</a
+      ><a name="352"
+      >
+</a
+      ><a name="353" href="talk.html#309" class="Function"
+      >suc-inj</a
+      ><a name="360"
+      > </a
+      ><a name="361" href="talk.html#172" class="InductiveConstructor"
+      >refl</a
+      ><a name="365"
+      > </a
+      ><a name="366" class="Symbol"
+      >=</a
+      ><a name="367"
+      > </a
+      ><a name="368" href="talk.html#172" class="InductiveConstructor"
+      >refl</a
+      ><a name="372"
+      >
+
+</a
+      ><a name="374" class="Keyword"
+      >data</a
+      ><a name="378"
+      > </a
+      ><a name="379" href="talk.html#379" class="Datatype"
+      >&#8869;</a
+      ><a name="380"
+      > </a
+      ><a name="381" class="Symbol"
+      >:</a
+      ><a name="382"
+      > </a
+      ><a name="383" class="PrimitiveType"
+      >Set</a
+      ><a name="386"
+      > </a
+      ><a name="387" class="Keyword"
+      >where</a
+      ><a name="392"
+      >
+
+</a
+      ><a name="394" href="talk.html#394" class="Function"
+      >&#172;</a
+      ><a name="395"
+      > </a
+      ><a name="396" class="Symbol"
+      >:</a
+      ><a name="397"
+      > </a
+      ><a name="398" class="PrimitiveType"
+      >Set</a
+      ><a name="401"
+      > </a
+      ><a name="402" class="Symbol"
+      >&#8594;</a
+      ><a name="403"
+      > </a
+      ><a name="404" class="PrimitiveType"
+      >Set</a
+      ><a name="407"
+      >
+</a
+      ><a name="408" href="talk.html#394" class="Function"
+      >&#172;</a
+      ><a name="409"
+      > </a
+      ><a name="410" href="talk.html#410" class="Bound"
+      >A</a
+      ><a name="411"
+      > </a
+      ><a name="412" class="Symbol"
+      >=</a
+      ><a name="413"
+      > </a
+      ><a name="414" href="talk.html#410" class="Bound"
+      >A</a
+      ><a name="415"
+      > </a
+      ><a name="416" class="Symbol"
+      >&#8594;</a
+      ><a name="417"
+      > </a
+      ><a name="418" href="talk.html#379" class="Datatype"
+      >&#8869;</a
+      ><a name="419"
+      >
+
+</a
+      ><a name="421" href="talk.html#421" class="Function Operator"
+      >_&#8802;_</a
+      ><a name="424"
+      > </a
+      ><a name="425" class="Symbol"
+      >:</a
+      ><a name="426"
+      > </a
+      ><a name="427" href="talk.html#6" class="Datatype"
+      >&#8469;</a
+      ><a name="428"
+      > </a
+      ><a name="429" class="Symbol"
+      >&#8594;</a
+      ><a name="430"
+      > </a
+      ><a name="431" href="talk.html#6" class="Datatype"
+      >&#8469;</a
+      ><a name="432"
+      > </a
+      ><a name="433" class="Symbol"
+      >&#8594;</a
+      ><a name="434"
+      > </a
+      ><a name="435" class="PrimitiveType"
+      >Set</a
+      ><a name="438"
+      >
+</a
+      ><a name="439" href="talk.html#439" class="Bound"
+      >m</a
+      ><a name="440"
+      > </a
+      ><a name="441" href="talk.html#421" class="Function Operator"
+      >&#8802;</a
+      ><a name="442"
+      > </a
+      ><a name="443" href="talk.html#443" class="Bound"
+      >n</a
+      ><a name="444"
+      > </a
+      ><a name="445" class="Symbol"
+      >=</a
+      ><a name="446"
+      > </a
+      ><a name="447" href="talk.html#394" class="Function"
+      >&#172;</a
+      ><a name="448" class="Symbol"
+      >(</a
+      ><a name="449" href="talk.html#439" class="Bound"
+      >m</a
+      ><a name="450"
+      > </a
+      ><a name="451" href="talk.html#146" class="Datatype Operator"
+      >&#8801;</a
+      ><a name="452"
+      > </a
+      ><a name="453" href="talk.html#443" class="Bound"
+      >n</a
+      ><a name="454" class="Symbol"
+      >)</a
+      ><a name="455"
+      >
+
+</a
+      ><a name="457" href="talk.html#457" class="Function"
+      >zero-img</a
+      ><a name="465"
+      > </a
+      ><a name="466" class="Symbol"
+      >:</a
+      ><a name="467"
+      > </a
+      ><a name="468" class="Symbol"
+      >&#8704;</a
+      ><a name="469"
+      > </a
+      ><a name="470" class="Symbol"
+      >{</a
+      ><a name="471" href="talk.html#471" class="Bound"
+      >m</a
+      ><a name="472" class="Symbol"
+      >}</a
+      ><a name="473"
+      > </a
+      ><a name="474" class="Symbol"
+      >&#8594;</a
+      ><a name="475"
+      > </a
+      ><a name="476" href="talk.html#33" class="InductiveConstructor"
+      >suc</a
+      ><a name="479"
+      > </a
+      ><a name="480" href="talk.html#471" class="Bound"
+      >m</a
+      ><a name="481"
+      > </a
+      ><a name="482" href="talk.html#421" class="Function Operator"
+      >&#8802;</a
+      ><a name="483"
+      > </a
+      ><a name="484" class="Number"
+      >0</a
+      ><a name="485"
+      >
+</a
+      ><a name="486" href="talk.html#457" class="Function"
+      >zero-img</a
+      ><a name="494"
+      > </a
+      ><a name="495" class="Symbol"
+      >()</a
+      ><a name="497"
+      >
+
+</a
+      ><a name="499" href="talk.html#499" class="Function"
+      >induction</a
+      ><a name="508"
+      > </a
+      ><a name="509" class="Symbol"
+      >:</a
+      ><a name="510"
+      > </a
+      ><a name="511" class="Symbol"
+      >(</a
+      ><a name="512" href="talk.html#512" class="Bound"
+      >P</a
+      ><a name="513"
+      > </a
+      ><a name="514" class="Symbol"
+      >:</a
+      ><a name="515"
+      > </a
+      ><a name="516" href="talk.html#6" class="Datatype"
+      >&#8469;</a
+      ><a name="517"
+      > </a
+      ><a name="518" class="Symbol"
+      >&#8594;</a
+      ><a name="519"
+      > </a
+      ><a name="520" class="PrimitiveType"
+      >Set</a
+      ><a name="523" class="Symbol"
+      >)</a
+      ><a name="524"
+      > </a
+      ><a name="525" class="Symbol"
+      >&#8594;</a
+      ><a name="526"
+      > </a
+      ><a name="527" href="talk.html#512" class="Bound"
+      >P</a
+      ><a name="528"
+      > </a
+      ><a name="529" class="Number"
+      >0</a
+      ><a name="530"
+      > </a
+      ><a name="531" class="Symbol"
+      >&#8594;</a
+      ><a name="532"
+      > </a
+      ><a name="533" class="Symbol"
+      >(&#8704;</a
+      ><a name="535"
+      > </a
+      ><a name="536" class="Symbol"
+      >{</a
+      ><a name="537" href="talk.html#537" class="Bound"
+      >n</a
+      ><a name="538" class="Symbol"
+      >}</a
+      ><a name="539"
+      > </a
+      ><a name="540" class="Symbol"
+      >&#8594;</a
+      ><a name="541"
+      > </a
+      ><a name="542" href="talk.html#512" class="Bound"
+      >P</a
+      ><a name="543"
+      > </a
+      ><a name="544" href="talk.html#537" class="Bound"
+      >n</a
+      ><a name="545"
+      > </a
+      ><a name="546" class="Symbol"
+      >&#8594;</a
+      ><a name="547"
+      > </a
+      ><a name="548" href="talk.html#512" class="Bound"
+      >P</a
+      ><a name="549"
+      > </a
+      ><a name="550" class="Symbol"
+      >(</a
+      ><a name="551" href="talk.html#33" class="InductiveConstructor"
+      >suc</a
+      ><a name="554"
+      > </a
+      ><a name="555" href="talk.html#537" class="Bound"
+      >n</a
+      ><a name="556" class="Symbol"
+      >))</a
+      ><a name="558"
+      > </a
+      ><a name="559" class="Symbol"
+      >&#8594;</a
+      ><a name="560"
+      > </a
+      ><a name="561" class="Symbol"
+      >(&#8704;</a
+      ><a name="563"
+      > </a
+      ><a name="564" href="talk.html#564" class="Bound"
+      >m</a
+      ><a name="565"
+      > </a
+      ><a name="566" class="Symbol"
+      >&#8594;</a
+      ><a name="567"
+      > </a
+      ><a name="568" href="talk.html#512" class="Bound"
+      >P</a
+      ><a name="569"
+      > </a
+      ><a name="570" href="talk.html#564" class="Bound"
+      >m</a
+      ><a name="571" class="Symbol"
+      >)</a
+      ><a name="572"
+      >
+</a
+      ><a name="573" href="talk.html#499" class="Function"
+      >induction</a
+      ><a name="582"
+      > </a
+      ><a name="583" href="talk.html#583" class="Bound"
+      >pred</a
+      ><a name="587"
+      > </a
+      ><a name="588" href="talk.html#588" class="Bound"
+      >base</a
+      ><a name="592"
+      > </a
+      ><a name="593" href="talk.html#593" class="Bound"
+      >hypo</a
+      ><a name="597"
+      > </a
+      ><a name="598" href="talk.html#22" class="InductiveConstructor"
+      >zero</a
+      ><a name="602"
+      > </a
+      ><a name="603" class="Symbol"
+      >=</a
+      ><a name="604"
+      > </a
+      ><a name="605" href="talk.html#588" class="Bound"
+      >base</a
+      ><a name="609"
+      >
+</a
+      ><a name="610" href="talk.html#499" class="Function"
+      >induction</a
+      ><a name="619"
+      > </a
+      ><a name="620" href="talk.html#620" class="Bound"
+      >pred</a
+      ><a name="624"
+      > </a
+      ><a name="625" href="talk.html#625" class="Bound"
+      >base</a
+      ><a name="629"
+      > </a
+      ><a name="630" href="talk.html#630" class="Bound"
+      >hypo</a
+      ><a name="634"
+      > </a
+      ><a name="635" class="Symbol"
+      >(</a
+      ><a name="636" href="talk.html#33" class="InductiveConstructor"
+      >suc</a
+      ><a name="639"
+      > </a
+      ><a name="640" href="talk.html#640" class="Bound"
+      >m</a
+      ><a name="641" class="Symbol"
+      >)</a
+      ><a name="642"
+      > </a
+      ><a name="643" class="Symbol"
+      >=</a
+      ><a name="644"
+      > </a
+      ><a name="645" href="talk.html#630" class="Bound"
+      >hypo</a
+      ><a name="649"
+      > </a
+      ><a name="650" class="Symbol"
+      >(</a
+      ><a name="651" href="talk.html#499" class="Function"
+      >induction</a
+      ><a name="660"
+      > </a
+      ><a name="661" href="talk.html#620" class="Bound"
+      >pred</a
+      ><a name="665"
+      > </a
+      ><a name="666" href="talk.html#625" class="Bound"
+      >base</a
+      ><a name="670"
+      > </a
+      ><a name="671" href="talk.html#630" class="Bound"
+      >hypo</a
+      ><a name="675"
+      > </a
+      ><a name="676" href="talk.html#640" class="Bound"
+      >m</a
+      ><a name="677" class="Symbol"
+      >)</a
+      ><a name="678"
+      >
+
+</a
+      ><a name="680" href="talk.html#680" class="Function"
+      >cong</a
+      ><a name="684"
+      > </a
+      ><a name="685" class="Symbol"
+      >:</a
+      ><a name="686"
+      > </a
+      ><a name="687" class="Symbol"
+      >&#8704;</a
+      ><a name="688"
+      > </a
+      ><a name="689" class="Symbol"
+      >{</a
+      ><a name="690" href="talk.html#690" class="Bound"
+      >m</a
+      ><a name="691"
+      > </a
+      ><a name="692" href="talk.html#692" class="Bound"
+      >n</a
+      ><a name="693" class="Symbol"
+      >}</a
+      ><a name="694"
+      > </a
+      ><a name="695" class="Symbol"
+      >&#8594;</a
+      ><a name="696"
+      > </a
+      ><a name="697" class="Symbol"
+      >(</a
+      ><a name="698" href="talk.html#698" class="Bound"
+      >f</a
+      ><a name="699"
+      > </a
+      ><a name="700" class="Symbol"
+      >:</a
+      ><a name="701"
+      > </a
+      ><a name="702" href="talk.html#6" class="Datatype"
+      >&#8469;</a
+      ><a name="703"
+      > </a
+      ><a name="704" class="Symbol"
+      >&#8594;</a
+      ><a name="705"
+      > </a
+      ><a name="706" href="talk.html#6" class="Datatype"
+      >&#8469;</a
+      ><a name="707" class="Symbol"
+      >)</a
+      ><a name="708"
+      > </a
+      ><a name="709" class="Symbol"
+      >&#8594;</a
+      ><a name="710"
+      > </a
+      ><a name="711" href="talk.html#690" class="Bound"
+      >m</a
+      ><a name="712"
+      > </a
+      ><a name="713" href="talk.html#146" class="Datatype Operator"
+      >&#8801;</a
+      ><a name="714"
+      > </a
+      ><a name="715" href="talk.html#692" class="Bound"
+      >n</a
+      ><a name="716"
+      > </a
+      ><a name="717" class="Symbol"
+      >&#8594;</a
+      ><a name="718"
+      > </a
+      ><a name="719" href="talk.html#698" class="Bound"
+      >f</a
+      ><a name="720"
+      > </a
+      ><a name="721" href="talk.html#690" class="Bound"
+      >m</a
+      ><a name="722"
+      > </a
+      ><a name="723" href="talk.html#146" class="Datatype Operator"
+      >&#8801;</a
+      ><a name="724"
+      > </a
+      ><a name="725" href="talk.html#698" class="Bound"
+      >f</a
+      ><a name="726"
+      > </a
+      ><a name="727" href="talk.html#692" class="Bound"
+      >n</a
+      ><a name="728"
+      >
+</a
+      ><a name="729" href="talk.html#680" class="Function"
+      >cong</a
+      ><a name="733"
+      > </a
+      ><a name="734" href="talk.html#734" class="Bound"
+      >f</a
+      ><a name="735"
+      > </a
+      ><a name="736" href="talk.html#172" class="InductiveConstructor"
+      >refl</a
+      ><a name="740"
+      > </a
+      ><a name="741" class="Symbol"
+      >=</a
+      ><a name="742"
+      > </a
+      ><a name="743" href="talk.html#172" class="InductiveConstructor"
+      >refl</a
+      ><a name="747"
+      >
+
+</a
+      ><a name="749" href="talk.html#749" class="Function"
+      >assoc</a
+      ><a name="754"
+      > </a
+      ><a name="755" class="Symbol"
+      >:</a
+      ><a name="756"
+      > </a
+      ><a name="757" class="Symbol"
+      >&#8704;</a
+      ><a name="758"
+      > </a
+      ><a name="759" href="talk.html#759" class="Bound"
+      >m</a
+      ><a name="760"
+      > </a
+      ><a name="761" href="talk.html#761" class="Bound"
+      >n</a
+      ><a name="762"
+      > </a
+      ><a name="763" href="talk.html#763" class="Bound"
+      >o</a
+      ><a name="764"
+      > </a
+      ><a name="765" class="Symbol"
+      >&#8594;</a
+      ><a name="766"
+      > </a
+      ><a name="767" href="talk.html#759" class="Bound"
+      >m</a
+      ><a name="768"
+      > </a
+      ><a name="769" href="talk.html#73" class="Function Operator"
+      >+</a
+      ><a name="770"
+      > </a
+      ><a name="771" class="Symbol"
+      >(</a
+      ><a name="772" href="talk.html#761" class="Bound"
+      >n</a
+      ><a name="773"
+      > </a
+      ><a name="774" href="talk.html#73" class="Function Operator"
+      >+</a
+      ><a name="775"
+      > </a
+      ><a name="776" href="talk.html#763" class="Bound"
+      >o</a
+      ><a name="777" class="Symbol"
+      >)</a
+      ><a name="778"
+      > </a
+      ><a name="779" href="talk.html#146" class="Datatype Operator"
+      >&#8801;</a
+      ><a name="780"
+      > </a
+      ><a name="781" class="Symbol"
+      >(</a
+      ><a name="782" href="talk.html#759" class="Bound"
+      >m</a
+      ><a name="783"
+      > </a
+      ><a name="784" href="talk.html#73" class="Function Operator"
+      >+</a
+      ><a name="785"
+      > </a
+      ><a name="786" href="talk.html#761" class="Bound"
+      >n</a
+      ><a name="787" class="Symbol"
+      >)</a
+      ><a name="788"
+      > </a
+      ><a name="789" href="talk.html#73" class="Function Operator"
+      >+</a
+      ><a name="790"
+      > </a
+      ><a name="791" href="talk.html#763" class="Bound"
+      >o</a
+      ><a name="792"
+      >
+</a
+      ><a name="793" href="talk.html#749" class="Function"
+      >assoc</a
+      ><a name="798"
+      > </a
+      ><a name="799" href="talk.html#22" class="InductiveConstructor"
+      >zero</a
+      ><a name="803"
+      > </a
+      ><a name="804" href="talk.html#804" class="Bound"
+      >n</a
+      ><a name="805"
+      > </a
+      ><a name="806" href="talk.html#806" class="Bound"
+      >o</a
+      ><a name="807"
+      > </a
+      ><a name="808" class="Symbol"
+      >=</a
+      ><a name="809"
+      > </a
+      ><a name="810" href="talk.html#172" class="InductiveConstructor"
+      >refl</a
+      ><a name="814"
+      >
+</a
+      ><a name="815" href="talk.html#749" class="Function"
+      >assoc</a
+      ><a name="820"
+      > </a
+      ><a name="821" class="Symbol"
+      >(</a
+      ><a name="822" href="talk.html#33" class="InductiveConstructor"
+      >suc</a
+      ><a name="825"
+      > </a
+      ><a name="826" href="talk.html#826" class="Bound"
+      >m</a
+      ><a name="827" class="Symbol"
+      >)</a
+      ><a name="828"
+      > </a
+      ><a name="829" href="talk.html#829" class="Bound"
+      >n</a
+      ><a name="830"
+      > </a
+      ><a name="831" href="talk.html#831" class="Bound"
+      >o</a
+      ><a name="832"
+      > </a
+      ><a name="833" class="Symbol"
+      >=</a
+      ><a name="834"
+      > </a
+      ><a name="835" href="talk.html#680" class="Function"
+      >cong</a
+      ><a name="839"
+      > </a
+      ><a name="840" href="talk.html#33" class="InductiveConstructor"
+      >suc</a
+      ><a name="843"
+      > </a
+      ><a name="844" class="Symbol"
+      >(</a
+      ><a name="845" href="talk.html#749" class="Function"
+      >assoc</a
+      ><a name="850"
+      > </a
+      ><a name="851" href="talk.html#826" class="Bound"
+      >m</a
+      ><a name="852"
+      > </a
+      ><a name="853" href="talk.html#829" class="Bound"
+      >n</a
+      ><a name="854"
+      > </a
+      ><a name="855" href="talk.html#831" class="Bound"
+      >o</a
+      ><a name="856" class="Symbol"
+      >)</a
+      ><a name="857"
+      >
+
+</a
+      ><a name="859" href="talk.html#859" class="Function"
+      >n+zero</a
+      ><a name="865"
+      > </a
+      ><a name="866" class="Symbol"
+      >:</a
+      ><a name="867"
+      > </a
+      ><a name="868" class="Symbol"
+      >&#8704;</a
+      ><a name="869"
+      > </a
+      ><a name="870" href="talk.html#870" class="Bound"
+      >n</a
+      ><a name="871"
+      > </a
+      ><a name="872" class="Symbol"
+      >&#8594;</a
+      ><a name="873"
+      > </a
+      ><a name="874" href="talk.html#870" class="Bound"
+      >n</a
+      ><a name="875"
+      > </a
+      ><a name="876" href="talk.html#146" class="Datatype Operator"
+      >&#8801;</a
+      ><a name="877"
+      > </a
+      ><a name="878" href="talk.html#870" class="Bound"
+      >n</a
+      ><a name="879"
+      > </a
+      ><a name="880" href="talk.html#73" class="Function Operator"
+      >+</a
+      ><a name="881"
+      > </a
+      ><a name="882" class="Number"
+      >0</a
+      ><a name="883"
+      >
+</a
+      ><a name="884" href="talk.html#859" class="Function"
+      >n+zero</a
+      ><a name="890"
+      > </a
+      ><a name="891" href="talk.html#22" class="InductiveConstructor"
+      >zero</a
+      ><a name="895"
+      > </a
+      ><a name="896" class="Symbol"
+      >=</a
+      ><a name="897"
+      > </a
+      ><a name="898" href="talk.html#172" class="InductiveConstructor"
+      >refl</a
+      ><a name="902"
+      >
+</a
+      ><a name="903" href="talk.html#859" class="Function"
+      >n+zero</a
+      ><a name="909"
+      > </a
+      ><a name="910" class="Symbol"
+      >(</a
+      ><a name="911" href="talk.html#33" class="InductiveConstructor"
+      >suc</a
+      ><a name="914"
+      > </a
+      ><a name="915" href="talk.html#915" class="Bound"
+      >n</a
+      ><a name="916" class="Symbol"
+      >)</a
+      ><a name="917"
+      > </a
+      ><a name="918" class="Symbol"
+      >=</a
+      ><a name="919"
+      > </a
+      ><a name="920" href="talk.html#680" class="Function"
+      >cong</a
+      ><a name="924"
+      > </a
+      ><a name="925" href="talk.html#33" class="InductiveConstructor"
+      >suc</a
+      ><a name="928"
+      > </a
+      ><a name="929" class="Symbol"
+      >(</a
+      ><a name="930" href="talk.html#859" class="Function"
+      >n+zero</a
+      ><a name="936"
+      > </a
+      ><a name="937" href="talk.html#915" class="Bound"
+      >n</a
+      ><a name="938" class="Symbol"
+      >)</a
+      ><a name="939"
+      >
+
+</a
+      ><a name="941" href="talk.html#941" class="Function"
+      >suc+</a
+      ><a name="945"
+      > </a
+      ><a name="946" class="Symbol"
+      >:</a
+      ><a name="947"
+      > </a
+      ><a name="948" class="Symbol"
+      >&#8704;</a
+      ><a name="949"
+      > </a
+      ><a name="950" href="talk.html#950" class="Bound"
+      >m</a
+      ><a name="951"
+      > </a
+      ><a name="952" href="talk.html#952" class="Bound"
+      >n</a
+      ><a name="953"
+      > </a
+      ><a name="954" class="Symbol"
+      >&#8594;</a
+      ><a name="955"
+      > </a
+      ><a name="956" href="talk.html#33" class="InductiveConstructor"
+      >suc</a
+      ><a name="959"
+      > </a
+      ><a name="960" class="Symbol"
+      >(</a
+      ><a name="961" href="talk.html#952" class="Bound"
+      >n</a
+      ><a name="962"
+      > </a
+      ><a name="963" href="talk.html#73" class="Function Operator"
+      >+</a
+      ><a name="964"
+      > </a
+      ><a name="965" href="talk.html#950" class="Bound"
+      >m</a
+      ><a name="966" class="Symbol"
+      >)</a
+      ><a name="967"
+      > </a
+      ><a name="968" href="talk.html#146" class="Datatype Operator"
+      >&#8801;</a
+      ><a name="969"
+      > </a
+      ><a name="970" class="Symbol"
+      >(</a
+      ><a name="971" href="talk.html#952" class="Bound"
+      >n</a
+      ><a name="972"
+      > </a
+      ><a name="973" href="talk.html#73" class="Function Operator"
+      >+</a
+      ><a name="974"
+      > </a
+      ><a name="975" href="talk.html#33" class="InductiveConstructor"
+      >suc</a
+      ><a name="978"
+      > </a
+      ><a name="979" href="talk.html#950" class="Bound"
+      >m</a
+      ><a name="980" class="Symbol"
+      >)</a
+      ><a name="981"
+      >
+</a
+      ><a name="982" href="talk.html#941" class="Function"
+      >suc+</a
+      ><a name="986"
+      > </a
+      ><a name="987" href="talk.html#987" class="Bound"
+      >m</a
+      ><a name="988"
+      > </a
+      ><a name="989" href="talk.html#22" class="InductiveConstructor"
+      >zero</a
+      ><a name="993"
+      > </a
+      ><a name="994" class="Symbol"
+      >=</a
+      ><a name="995"
+      > </a
+      ><a name="996" href="talk.html#172" class="InductiveConstructor"
+      >refl</a
+      ><a name="1000"
+      >
+</a
+      ><a name="1001" href="talk.html#941" class="Function"
+      >suc+</a
+      ><a name="1005"
+      > </a
+      ><a name="1006" href="talk.html#1006" class="Bound"
+      >m</a
+      ><a name="1007"
+      > </a
+      ><a name="1008" class="Symbol"
+      >(</a
+      ><a name="1009" href="talk.html#33" class="InductiveConstructor"
+      >suc</a
+      ><a name="1012"
+      > </a
+      ><a name="1013" href="talk.html#1013" class="Bound"
+      >n</a
+      ><a name="1014" class="Symbol"
+      >)</a
+      ><a name="1015"
+      > </a
+      ><a name="1016" class="Symbol"
+      >=</a
+      ><a name="1017"
+      > </a
+      ><a name="1018" href="talk.html#680" class="Function"
+      >cong</a
+      ><a name="1022"
+      > </a
+      ><a name="1023" href="talk.html#33" class="InductiveConstructor"
+      >suc</a
+      ><a name="1026"
+      > </a
+      ><a name="1027" class="Symbol"
+      >(</a
+      ><a name="1028" href="talk.html#941" class="Function"
+      >suc+</a
+      ><a name="1032"
+      > </a
+      ><a name="1033" href="talk.html#1006" class="Bound"
+      >m</a
+      ><a name="1034"
+      > </a
+      ><a name="1035" href="talk.html#1013" class="Bound"
+      >n</a
+      ><a name="1036" class="Symbol"
+      >)</a
+      ><a name="1037"
+      >
+
+</a
+      ><a name="1039" href="talk.html#1039" class="Function"
+      >comm</a
+      ><a name="1043"
+      > </a
+      ><a name="1044" class="Symbol"
+      >:</a
+      ><a name="1045"
+      > </a
+      ><a name="1046" class="Symbol"
+      >&#8704;</a
+      ><a name="1047"
+      > </a
+      ><a name="1048" href="talk.html#1048" class="Bound"
+      >m</a
+      ><a name="1049"
+      > </a
+      ><a name="1050" href="talk.html#1050" class="Bound"
+      >n</a
+      ><a name="1051"
+      > </a
+      ><a name="1052" class="Symbol"
+      >&#8594;</a
+      ><a name="1053"
+      > </a
+      ><a name="1054" href="talk.html#1048" class="Bound"
+      >m</a
+      ><a name="1055"
+      > </a
+      ><a name="1056" href="talk.html#73" class="Function Operator"
+      >+</a
+      ><a name="1057"
+      > </a
+      ><a name="1058" href="talk.html#1050" class="Bound"
+      >n</a
+      ><a name="1059"
+      > </a
+      ><a name="1060" href="talk.html#146" class="Datatype Operator"
+      >&#8801;</a
+      ><a name="1061"
+      > </a
+      ><a name="1062" href="talk.html#1050" class="Bound"
+      >n</a
+      ><a name="1063"
+      > </a
+      ><a name="1064" href="talk.html#73" class="Function Operator"
+      >+</a
+      ><a name="1065"
+      > </a
+      ><a name="1066" href="talk.html#1048" class="Bound"
+      >m</a
+      ><a name="1067"
+      >
+</a
+      ><a name="1068" href="talk.html#1039" class="Function"
+      >comm</a
+      ><a name="1072"
+      > </a
+      ><a name="1073" href="talk.html#22" class="InductiveConstructor"
+      >zero</a
+      ><a name="1077"
+      > </a
+      ><a name="1078" href="talk.html#1078" class="Bound"
+      >n</a
+      ><a name="1079"
+      > </a
+      ><a name="1080" class="Symbol"
+      >=</a
+      ><a name="1081"
+      > </a
+      ><a name="1082" href="talk.html#859" class="Function"
+      >n+zero</a
+      ><a name="1088"
+      > </a
+      ><a name="1089" href="talk.html#1078" class="Bound"
+      >n</a
+      ><a name="1090"
+      >
+</a
+      ><a name="1091" href="talk.html#1039" class="Function"
+      >comm</a
+      ><a name="1095"
+      > </a
+      ><a name="1096" class="Symbol"
+      >(</a
+      ><a name="1097" href="talk.html#33" class="InductiveConstructor"
+      >suc</a
+      ><a name="1100"
+      > </a
+      ><a name="1101" href="talk.html#1101" class="Bound"
+      >m</a
+      ><a name="1102" class="Symbol"
+      >)</a
+      ><a name="1103"
+      > </a
+      ><a name="1104" href="talk.html#1104" class="Bound"
+      >n</a
+      ><a name="1105"
+      > </a
+      ><a name="1106" class="Symbol"
+      >=</a
+      ><a name="1107"
+      > </a
+      ><a name="1108" href="talk.html#245" class="Function"
+      >trans</a
+      ><a name="1113"
+      > </a
+      ><a name="1114" class="Symbol"
+      >(</a
+      ><a name="1115" href="talk.html#680" class="Function"
+      >cong</a
+      ><a name="1119"
+      > </a
+      ><a name="1120" href="talk.html#33" class="InductiveConstructor"
+      >suc</a
+      ><a name="1123"
+      > </a
+      ><a name="1124" class="Symbol"
+      >(</a
+      ><a name="1125" href="talk.html#1039" class="Function"
+      >comm</a
+      ><a name="1129"
+      > </a
+      ><a name="1130" href="talk.html#1101" class="Bound"
+      >m</a
+      ><a name="1131"
+      > </a
+      ><a name="1132" href="talk.html#1104" class="Bound"
+      >n</a
+      ><a name="1133" class="Symbol"
+      >))</a
+      ><a name="1135"
+      > </a
+      ><a name="1136" class="Symbol"
+      >(</a
+      ><a name="1137" href="talk.html#941" class="Function"
+      >suc+</a
+      ><a name="1141"
+      > </a
+      ><a name="1142" href="talk.html#1101" class="Bound"
+      >m</a
+      ><a name="1143"
+      > </a
+      ><a name="1144" href="talk.html#1104" class="Bound"
+      >n</a
+      ><a name="1145" class="Symbol"
+      >)</a
+      ><a name="1146"
+      >
+
+
+</a
+      ><a name="1149" class="Comment"
+      >-- Where to go from here?</a
+      ><a name="1174"
+      >
+</a
+      ><a name="1175" class="Comment"
+      >-- Agda:</a
+      ><a name="1183"
+      >
+</a
+      ><a name="1184" class="Comment"
+      >--   &#8226; Aaron Stump - Verified Functional Programming in Agda, https://svn.divms.uiowa.edu/repos/clc/projects/agda/book/book.pdf</a
+      ><a name="1311"
+      >
+</a
+      ><a name="1312" class="Comment"
+      >--   &#8226; Conor McBride - Dependently Typed Metaprogramming (in Agda), http://cs.ioc.ee/ewscs/2014/mcbride/mcbride-deptypedmetaprog.pdf</a
+      ><a name="1444"
+      >
+</a
+      ><a name="1445" class="Comment"
+      >-- Type theory:</a
+      ><a name="1460"
+      >
+</a
+      ><a name="1461" class="Comment"
+      >--   &#8226; So you want to learn type theory, http://purelytheoretical.com/sywtltt.html</a
+      ><a name="1543"
+      >
+</a
+      ></pre
+    ></body
+  ></html
+>
