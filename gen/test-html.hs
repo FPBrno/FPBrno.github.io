@@ -68,9 +68,9 @@ data Presentation = Presentation
 
 instance Default Presentation where
     def = Presentation
-        { title = "Unknown title"
-        , author = "Unknown author"
-        , language = [Cz, En]
+        { title = "{Title currently unknown; looking for author(s)}"
+        , author = ""
+        , language = []
         , tags = []
         , slides = NotYet
         , audio = NotYet
@@ -124,6 +124,31 @@ checkMeetupsIndex ms = case areCorrectlyOrdered ms of
 meetups :: [Meetup]
 meetups = checkMeetupsIndex
     [ Meetup
+        { indexM = 7
+        , presentations =
+            [ Presentation
+                { title = title def
+                , author = author def
+                , language = []
+                , tags = []
+                , slides = NotYet
+                , audio = NotYet
+                , player = NotYet
+                }
+            , Presentation
+                { title = title def
+                , author = author def
+                , language = []
+                , tags = []
+                , slides = NotYet
+                , audio = NotYet
+                , player = NotYet
+                }
+            ]
+        , time = Just $ read "2017-02-22 19:00:00 +02:00"
+        , participants = Nothing
+        }
+    , Meetup
         { indexM = 6
         , presentations =
             [ Presentation
@@ -263,11 +288,12 @@ time2Html t = H.time H.! A.class_ "timeago" H.! A.datetime (H.toValue . formatIS
 presentation2html :: Presentation -> H.Html
 presentation2html Presentation{..} = H.div H.! A.class_ "presentation" $ do
     classed "presentation_title" title
-    " (by "
-    H.toHtml author
-    ", "
-    sequence . intersperse ", " $ map (classedShow "lang") language
-    ")"
+    unless (null author) $ do
+        " (by "
+        H.toHtml author
+        ", "
+        sequence . intersperse ", " $ map (classedShow "lang") language
+        ")"
     mapM_ ((" " >>) . classedShow "tag") tags
     H.div H.! A.class_ "pres_goodies" $ do
         h "Slides" slides
