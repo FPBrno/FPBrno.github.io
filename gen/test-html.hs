@@ -124,6 +124,12 @@ checkMeetupsIndex ms = case areCorrectlyOrdered ms of
 meetups :: [Meetup]
 meetups = checkMeetupsIndex
     [ Meetup
+        { indexM = 7
+        , presentations = []
+        , time = Just $ read "2017-02-22 19:00:00 +02:00"
+        , participants = Nothing
+        }
+    , Meetup
         { indexM = 6
         , presentations =
             [ Presentation
