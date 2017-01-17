@@ -219,7 +219,7 @@ meetups = checkMeetupsIndex
             ]
         , time = Just $ read "2016-06-28 18:30:00 +02:00"
         , participants = Just 8
-        , sponsors = []
+        , sponsors = [Ixperta]
         }
     , Meetup
         { indexM = 3
