@@ -8,9 +8,9 @@ import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 -- import qualified Text.Blaze.Html.Renderer.Pretty as R
 
-import Control.Monad (sequence, unless, zipWithM_)
+import Control.Monad (sequence, unless, when, zipWithM_)
 import Data.Default.Class (Default(def))
-import Data.List (intercalate, intersperse)
+import Data.List (intercalate, intersperse, uncons)
 import Data.Monoid
 import Data.Time
 import Data.Time.ISO8601 (formatISO8601)
@@ -29,6 +29,25 @@ data Tag
     | Types
     | Web
     deriving Show
+
+data Sponsor
+    = KiwiCom
+    | Ixperta
+
+instance Show Sponsor where
+    showsPrec _ = showString . \case
+        KiwiCom -> "Kiwi.com"
+        Ixperta -> "IXPERTA"
+
+class HasLink a where
+    getLink :: a -> URL
+
+instance HasLink Sponsor where
+    getLink = \case
+        KiwiCom -> "https://www.kiwi.com/"
+        Ixperta -> "http://www.ixperta.com/"
+
+-- TODO: Maybe we could add a logo for each sponsor.
 
 data Language
     = Cz
@@ -88,6 +107,7 @@ data Meetup = Meetup
     , participants :: Maybe Integer
     -- ^ Number of participats, for future, or meetups currently being held,
     -- this is set, obviously, to 'Nothing'.
+    , sponsors :: [Sponsor]
     } deriving Show
 
 possiblyMaybe = \case
@@ -100,6 +120,7 @@ futureMeetup idx = Meetup
     , presentations = []
     , time = Nothing
     , participants = Nothing
+    , sponsors = []
     }
 
 -- | Assign index to a 'Meetup'. It expects them to be in reverse order, i.e.
@@ -128,6 +149,7 @@ meetups = checkMeetupsIndex
         , presentations = []
         , time = Just $ read "2017-02-22 19:00:00 +02:00"
         , participants = Nothing
+        , sponsors = [KiwiCom]
         }
     , Meetup
         { indexM = 6
@@ -144,6 +166,7 @@ meetups = checkMeetupsIndex
             ]
         , time = Just $ read "2016-10-13 19:00:00 +02:00"
         , participants = Just 20
+        , sponsors = []
         }
     , Meetup
         { indexM = 5
@@ -160,6 +183,7 @@ meetups = checkMeetupsIndex
             ]
         , time = Just $ read "2016-07-27 18:00:00 +02:00"
         , participants = Just 12
+        , sponsors = []
         }
     , Meetup
         { indexM = 4
@@ -176,6 +200,7 @@ meetups = checkMeetupsIndex
             ]
         , time = Just $ read "2016-06-28 18:30:00 +02:00"
         , participants = Just 8
+        , sponsors = [Ixperta]
         }
     , Meetup
         { indexM = 3
@@ -192,6 +217,7 @@ meetups = checkMeetupsIndex
             ]
         , time = Just $ read "2015-11-25 18:30:00 +01:00"
         , participants = Just 28
+        , sponsors = []
         }
     , Meetup
         { indexM = 2
@@ -209,6 +235,7 @@ meetups = checkMeetupsIndex
             ]
         , time = Just $ read "2015-09-30 19:00:00 +02:00"
         , participants = Just 14
+        , sponsors = []
         }
     , Meetup
         { indexM = 1
@@ -225,6 +252,7 @@ meetups = checkMeetupsIndex
             ]
         , time = Just $ read "2015-05-12 18:00:00 +02:00"
         , participants = Just $ 4 + 18
+        , sponsors = []
         }
     , Meetup
         { indexM = 0
@@ -241,6 +269,7 @@ meetups = checkMeetupsIndex
             ]
         , time = Just $ read "2015-02-16 19:00:00 +01:00"
         , participants = Just 6
+        , sponsors = []
         }
     ]
 
@@ -302,7 +331,15 @@ meetup2html Meetup{..} = H.div H.! A.class_ "meetup" $ do
             "Time: "
             maybe "To be determined" time2Html time
         maybe mempty (\ n -> H.li ("Participants: " >> H.toHtml (show n))) participants
+        unless (null sponsors) . H.li $ do
+            "Sponsor" >> when (length sponsors > 1) "s" >> ": "
+            renderSponsors sponsors
         H.li $ presentations2html presentations
+  where
+    renderSponsors = sequence_ . intersperse ", " . map renderSponsor
+
+    renderSponsor s =
+        H.a H.! A.href (H.toValue $ getLink s) $ H.toHtml (show s)
 
 fpbTitle :: H.Html
 fpbTitle = "Functional Programming Brno"
