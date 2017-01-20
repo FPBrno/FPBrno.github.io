@@ -70,7 +70,7 @@ instance Default Presentation where
     def = Presentation
         { title = "Unknown title"
         , author = "Unknown author"
-        , language = [Cz, En]
+        , language = []
         , tags = []
         , slides = NotYet
         , audio = NotYet
