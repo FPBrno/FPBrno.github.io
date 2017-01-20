@@ -8,9 +8,9 @@ import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 -- import qualified Text.Blaze.Html.Renderer.Pretty as R
 
-import Control.Monad (sequence, unless, when, zipWithM_)
+import Control.Monad (unless, when, zipWithM_)
 import Data.Default.Class (Default(def))
-import Data.List (intercalate, intersperse, uncons)
+import Data.List (intersperse)
 import Data.Monoid
 import Data.Time
 import Data.Time.ISO8601 (formatISO8601)
@@ -110,6 +110,7 @@ data Meetup = Meetup
     , sponsors :: [Sponsor]
     } deriving Show
 
+possiblyMaybe :: Possibly a -> Maybe a
 possiblyMaybe = \case
     Present x -> Just x
     _ -> Nothing
@@ -325,7 +326,7 @@ presentations2html s = do
 
 meetup2html :: Meetup -> H.Html
 meetup2html Meetup{..} = H.div H.! A.class_ "meetup" $ do
-    H.h3 . H.toHtml $ "Meetup " ++ show indexM
+    H.h3 . H.toHtml $ "Meetup " <> show indexM
     H.ul $ do
         H.li $ do
             "Time: "
@@ -358,7 +359,7 @@ timeago :: H.Html
 timeago = H.script $ H.preEscapedToHtml localjs
 
 fa :: String -> H.Html
-fa x = H.i H.! A.class_ (H.toValue $ "fa " ++ x) $ mempty
+fa x = H.i H.! A.class_ (H.toValue $ "fa " <> x) $ mempty
 
 site :: UTCTime -> H.Html
 site t = H.html $ do
