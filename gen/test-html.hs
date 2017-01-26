@@ -400,7 +400,7 @@ site t = H.html $ do
                 "."
             H.p $ do
                 "We also have a "
-                H.a H.! A.href "http://www.meetup.com/Functional-Programming-Brno"
+                H.a H.! A.href "https://www.meetup.com/fpbrno/"
                     $ "Meetup group"
                 " so feel free to join us there as well."
             H.p "More to come."
@@ -430,7 +430,7 @@ site t = H.html $ do
             " "
             H.a H.! A.href "https://twitter.com/FPBrno" $ "@FPBrno on Twitter"
             " "
-            H.a H.! A.href "http://www.meetup.com/Functional-Programming-Brno" $ "FPBrno on Meetup"
+            H.a H.! A.href "https://www.meetup.com/fpbrno/" $ "FPBrno on Meetup"
             H.div "© 2015-2017 Functional Programming Brno"
 
 main :: IO ()
