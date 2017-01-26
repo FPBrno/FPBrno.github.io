@@ -398,6 +398,11 @@ site t = H.html $ do
                 H.a H.! A.href "https://twitter.com/FPBrno"
                     $ "@FPBrno"
                 "."
+            H.p $ do
+                "We also have a "
+                H.a H.! A.href "http://www.meetup.com/Functional-Programming-Brno"
+                    $ "Meetup group"
+                " so feel free to join us there as well."
             H.p "More to come."
             H.h2 "Upcoming events"
             let fe = filter (maybe True ((t <=) . zonedTimeToUTC) . time) meetups
@@ -424,6 +429,8 @@ site t = H.html $ do
             H.a H.! A.href "https://groups.google.com/d/forum/fpbrno" $ "FPBrno mailing list"
             " "
             H.a H.! A.href "https://twitter.com/FPBrno" $ "@FPBrno on Twitter"
+            " "
+            H.a H.! A.href "http://www.meetup.com/Functional-Programming-Brno" $ "FPBrno on Meetup"
             H.div "© 2015-2016 Functional Programming Brno"
 
 main :: IO ()
