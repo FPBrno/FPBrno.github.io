@@ -431,7 +431,7 @@ site t = H.html $ do
             H.a H.! A.href "https://twitter.com/FPBrno" $ "@FPBrno on Twitter"
             " "
             H.a H.! A.href "http://www.meetup.com/Functional-Programming-Brno" $ "FPBrno on Meetup"
-            H.div "© 2015-2016 Functional Programming Brno"
+            H.div "© 2015-2017 Functional Programming Brno"
 
 main :: IO ()
 main = do
