@@ -316,12 +316,12 @@ presentation2html Presentation{..} = H.div H.! A.class_ "presentation" $ do
     h x = Foldable.mapM_ (g x) . possiblyMaybe
 
 presentations2html :: [Presentation] -> H.Html
-presentations2html [] = "No presentations"
+presentations2html [] = "No presentations."
 presentations2html [x] = do
     "Presentation: "
     presentation2html x
 presentations2html s = do
-    "Presentatios: "
+    "Presentations: "
     mapM_ presentation2html s
 
 meetup2html :: Meetup -> H.Html
