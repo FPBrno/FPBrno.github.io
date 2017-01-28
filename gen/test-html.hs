@@ -102,6 +102,8 @@ data Meetup = Meetup
     -- of 'Integer' numbers starting from 0.
     , presentations :: [Presentation]
     -- ^ List of presentations presented during meetup.
+    , lookingForPresentations :: Bool
+    -- ^ Are wre still looking for speakers?
     , time :: Maybe ZonedTime
     -- ^ Time when the meetup occurred
     , participants :: Maybe Integer
@@ -119,6 +121,7 @@ futureMeetup :: Integer -> Meetup
 futureMeetup idx = Meetup
     { indexM = idx
     , presentations = []
+    , lookingForPresentations = True
     , time = Nothing
     , participants = Nothing
     , sponsors = []
@@ -148,6 +151,7 @@ meetups = checkMeetupsIndex
     [ Meetup
         { indexM = 7
         , presentations = []
+        , lookingForPresentations = True
         , time = Just $ read "2017-02-22 19:00:00 +02:00"
         , participants = Nothing
         , sponsors = [KiwiCom]
@@ -165,6 +169,7 @@ meetups = checkMeetupsIndex
                 , player = NotPresent "No audio recording"
                 }
             ]
+        , lookingForPresentations = False
         , time = Just $ read "2016-10-13 19:00:00 +02:00"
         , participants = Just 20
         , sponsors = []
@@ -182,6 +187,7 @@ meetups = checkMeetupsIndex
                 , player = NotYet
                 }
             ]
+        , lookingForPresentations = False
         , time = Just $ read "2016-07-27 18:00:00 +02:00"
         , participants = Just 12
         , sponsors = []
@@ -199,6 +205,7 @@ meetups = checkMeetupsIndex
                 , player = NotYet
                 }
             ]
+        , lookingForPresentations = False
         , time = Just $ read "2016-06-28 18:30:00 +02:00"
         , participants = Just 8
         , sponsors = [Ixperta]
@@ -216,6 +223,7 @@ meetups = checkMeetupsIndex
                 , player = Present "fpb-3/player.html"
                 }
             ]
+        , lookingForPresentations = False
         , time = Just $ read "2015-11-25 18:30:00 +01:00"
         , participants = Just 28
         , sponsors = []
@@ -234,6 +242,7 @@ meetups = checkMeetupsIndex
                 , player = NotPresent "Does not make sense without audio"
                 }
             ]
+        , lookingForPresentations = False
         , time = Just $ read "2015-09-30 19:00:00 +02:00"
         , participants = Just 14
         , sponsors = []
@@ -251,6 +260,7 @@ meetups = checkMeetupsIndex
                 , player = Present "fpb-1/player.html"
                 }
             ]
+        , lookingForPresentations = False
         , time = Just $ read "2015-05-12 18:00:00 +02:00"
         , participants = Just $ 4 + 18
         , sponsors = []
@@ -268,6 +278,7 @@ meetups = checkMeetupsIndex
                 , player = Present "fpb-0/player.html"
                 }
             ]
+        , lookingForPresentations = False
         , time = Just $ read "2015-02-16 19:00:00 +01:00"
         , participants = Just 6
         , sponsors = []
@@ -335,6 +346,8 @@ meetup2html Meetup{..} = H.div H.! A.class_ "meetup" $ do
         unless (null sponsors) . H.li $ do
             "Sponsor" >> when (length sponsors > 1) "s" >> ": "
             renderSponsors sponsors
+        when lookingForPresentations . H.li . H.b $ do
+            "We are looking for more speakers. Interested? Get in touch on the mailing list."
         H.li $ presentations2html presentations
   where
     renderSponsors = sequence_ . intersperse ", " . map renderSponsor
