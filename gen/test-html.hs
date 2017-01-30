@@ -152,7 +152,7 @@ meetups = checkMeetupsIndex
         { indexM = 7
         , presentations = []
         , lookingForPresentations = True
-        , time = Just $ read "2017-02-22 19:00:00 +02:00"
+        , time = Just $ read "2017-02-22 19:00:00 +01:00"
         , participants = Nothing
         , sponsors = [KiwiCom]
         }
