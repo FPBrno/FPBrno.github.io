@@ -415,8 +415,10 @@ site t = H.html $ do
                 "We also have a "
                 H.a H.! A.href "https://www.meetup.com/fpbrno/"
                     $ "Meetup group"
+                " and "
+                H.a H.! A.href "https://www.facebook.com/FPBrno/"
+                    $ "Facebook community"
                 " so feel free to join us there as well."
-            H.p "More to come."
             H.h2 "Upcoming events"
             let fe = filter (maybe True ((t <=) . zonedTimeToUTC) . time) meetups
             if null fe
@@ -437,13 +439,15 @@ site t = H.html $ do
                     $ "people page"
                 ". (No pressure.)"
         H.footer $ do
-            H.a H.! A.href "https://github.com/FPBrno" $ "FPBrno on GitHub"
-            " "
             H.a H.! A.href "https://groups.google.com/d/forum/fpbrno" $ "FPBrno mailing list"
-            " "
-            H.a H.! A.href "https://twitter.com/FPBrno" $ "@FPBrno on Twitter"
-            " "
-            H.a H.! A.href "https://www.meetup.com/fpbrno/" $ "FPBrno on Meetup"
+            " and FPBrno on "
+            H.a H.! A.href "https://github.com/FPBrno" $ "GitHub"
+            ", "
+            H.a H.! A.href "https://twitter.com/FPBrno" $ "Twitter"
+            ", "
+            H.a H.! A.href "https://www.meetup.com/fpbrno/" $ "Meetup"
+            ", and "
+            H.a H.! A.href "https://www.facebook.com/FPBrno/" $ " Facebook"
             H.div "© 2015-2017 Functional Programming Brno"
 
 main :: IO ()
