@@ -17,15 +17,19 @@ import Data.Time.ISO8601 (formatISO8601)
 
 data Tag
     = Agda
+    | CaseStudy
     | Compiler
     | Concurrent
     | Elm
     | Erlang
-    | Theory
     | Haskell
-    | HotCodeSwap
     | HoTT
+    | HotCodeSwap
+    | Introduction
+    | Motivation
+    | PurelyFunctionalProgramming
     | Reliability
+    | Theory
     | Types
     | Web
     deriving Show
@@ -150,8 +154,25 @@ meetups :: [Meetup]
 meetups = checkMeetupsIndex
     [ Meetup
         { indexM = 7
-        , presentations = []
-        , lookingForPresentations = True
+        , presentations =
+            [ Presentation
+                { title = "Purely functional programming essentials"
+                , author = "Marek Kidoň"
+                , language = [Cz]
+                , tags =
+                    [ CaseStudy
+                    , Haskell
+                    , Introduction
+                    , Motivation
+                    , PurelyFunctionalProgramming
+                    , Types
+                    ]
+                , slides = NotYet
+                , audio = NotYet
+                , player = NotYet
+                }
+            ]
+        , lookingForPresentations = False
         , time = Just $ read "2017-02-22 19:00:00 +01:00"
         , participants = Nothing
         , sponsors = [KiwiCom]
