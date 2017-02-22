@@ -20,6 +20,7 @@ data Tag
     | CaseStudy
     | Compiler
     | Concurrent
+    | Effects
     | Elm
     | Erlang
     | Haskell
@@ -156,7 +157,7 @@ meetups = checkMeetupsIndex
         { indexM = 7
         , presentations =
             [ Presentation
-                { title = "Purely functional programming essentials"
+                { title = "Purely Functional Programming Essentials"
                 , author = "Marek Kidoň"
                 , language = [Cz]
                 , tags =
@@ -167,6 +168,15 @@ meetups = checkMeetupsIndex
                     , PurelyFunctional
                     , Types
                     ]
+                , slides = NotYet
+                , audio = NotYet
+                , player = NotYet
+                }
+            , Presentation
+                { title = "Extensible Effects"
+                , author = "Matej"
+                , language = [Sk]
+                , tags = [Haskell, Effects]
                 , slides = NotYet
                 , audio = NotYet
                 , player = NotYet
