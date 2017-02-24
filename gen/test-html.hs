@@ -168,7 +168,7 @@ meetups = checkMeetupsIndex
                     , PurelyFunctional
                     , Types
                     ]
-                , slides = NotYet
+                , slides = Present "fpb-7/thereIsNoTurningBack.pdf"
                 , audio = NotYet
                 , player = NotYet
                 }
