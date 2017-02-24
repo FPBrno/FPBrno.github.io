@@ -182,9 +182,9 @@ meetups = checkMeetupsIndex
                 , player = NotYet
                 }
             ]
-        , lookingForPresentations = True
+        , lookingForPresentations = False
         , time = Just $ read "2017-02-22 19:00:00 +01:00"
-        , participants = Nothing
+        , participants = Just 55
         , sponsors = [KiwiCom]
         }
     , Meetup
