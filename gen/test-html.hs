@@ -20,6 +20,7 @@ data Tag
     | CaseStudy
     | Compiler
     | Concurrent
+    | Effects
     | Elm
     | Erlang
     | Haskell
@@ -27,7 +28,7 @@ data Tag
     | HotCodeSwap
     | Introduction
     | Motivation
-    | PurelyFunctionalProgramming
+    | PurelyFunctional
     | Reliability
     | Theory
     | Types
@@ -156,7 +157,7 @@ meetups = checkMeetupsIndex
         { indexM = 7
         , presentations =
             [ Presentation
-                { title = "Purely functional programming essentials"
+                { title = "Purely Functional Programming Essentials"
                 , author = "Marek Kidoň"
                 , language = [Cz]
                 , tags =
@@ -164,15 +165,24 @@ meetups = checkMeetupsIndex
                     , Haskell
                     , Introduction
                     , Motivation
-                    , PurelyFunctionalProgramming
+                    , PurelyFunctional
                     , Types
                     ]
+                , slides = Present "fpb-7/thereIsNoTurningBack.pdf"
+                , audio = NotYet
+                , player = NotYet
+                }
+            , Presentation
+                { title = "Extensible Effects"
+                , author = "Matej"
+                , language = [Sk]
+                , tags = [Haskell, Effects]
                 , slides = NotYet
                 , audio = NotYet
                 , player = NotYet
                 }
             ]
-        , lookingForPresentations = False
+        , lookingForPresentations = True
         , time = Just $ read "2017-02-22 19:00:00 +01:00"
         , participants = Nothing
         , sponsors = [KiwiCom]
