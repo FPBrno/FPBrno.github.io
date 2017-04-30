@@ -177,7 +177,7 @@ meetups = checkMeetupsIndex
                 , author = "Matej"
                 , language = [Sk]
                 , tags = [Haskell, Effects]
-                , slides = NotYet
+                , slides = Present "fpb-7/freer-effects/slides.html"
                 , audio = NotYet
                 , player = NotYet
                 }

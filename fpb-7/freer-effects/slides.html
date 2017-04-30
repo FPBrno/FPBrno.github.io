@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Matej Kollár  github.com/xkollar" />
+  <meta name="date" content="2017-02-22" />
+  <title>Extensible Effects</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+   href="slides.css" />
+  <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body>
+<div class="slide titlepage">
+  <h1 class="title">Extensible Effects</h1>
+  <h1 class="subtitle">Effectful Computations Composable</h1>
+  <p class="author">
+Matej Kollár <br/><a href="https://github.com/xkollar">github.com/xkollar</a>
+  </p>
+  <p class="date">2017-02-22</p>
+</div>
+<div id="programs-that-do-something" class="slide section level1">
+<h1>Programs that <em>do</em> something</h1>
+<div class="sourceCode"><pre class="sourceCode hs"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> <span class="kw">do</span>
+    putStrLn <span class="st">&quot;Hello, what is your name?&quot;</span>
+    name <span class="ot">&lt;-</span> readLine
+    putStrLn (<span class="st">&quot;Hello &quot;</span> <span class="fu">&lt;&gt;</span> name <span class="fu">&lt;&gt;</span> <span class="st">&quot;!&quot;</span>)</code></pre></div>
+<div class="handout">
+<ul>
+<li>Sequence</li>
+<li>Bind “variable”</li>
+</ul>
+</div>
+</div>
+<div id="monads" class="slide section level1">
+<h1>Monads</h1>
+<ul>
+<li><p><code class="sourceCode haskell"><span class="dt">IO</span></code>, <code class="sourceCode haskell"><span class="dt">State</span></code>, <code class="sourceCode haskell"><span class="dt">Reader</span></code>, <code class="sourceCode haskell"><span class="dt">Writer</span></code>, <code class="sourceCode haskell"><span class="dt">Except</span></code>, <code class="sourceCode haskell">[]</code>, <code class="sourceCode haskell"><span class="dt">Maybe</span></code>, …</p></li>
+<li><p>You are free to create your own as long as you obey <em>monad laws</em>.</p></li>
+</ul>
+</div>
+<div id="monad-transformers" class="slide section level1">
+<h1>Monad Transformers</h1>
+<ul>
+<li><p>Monads do not compose well</p></li>
+<li><p><code class="sourceCode haskell"><span class="dt">State</span> s a</code> → <code class="sourceCode haskell"><span class="dt">Monad</span> m <span class="ot">=&gt;</span> <span class="dt">StateT</span> s m a</code></p></li>
+</ul>
+<div class="incremental">
+<div class="sourceCode"><pre class="sourceCode hs"><code class="sourceCode haskell"><span class="kw">newtype</span> <span class="dt">ProtocolT</span> m a <span class="fu">=</span> <span class="dt">ProtocolT</span> (<span class="dt">ReaderT</span> <span class="dt">Request</span> (<span class="dt">WriterT</span> <span class="dt">Response</span> (<span class="dt">MaybeT</span> m)) a)
+  <span class="kw">deriving</span> (<span class="dt">Applicative</span>, <span class="dt">Functor</span>, <span class="dt">Monad</span>)</code></pre></div>
+<p><code>:-(</code></p>
+</div>
+<div class="handout">
+<ul>
+<li>All operations on the protocol depend on whole stack
+<ul>
+<li>send only needs writer, yet from its (specialized) type signature it is impossible to deduce so…</li>
+</ul></li>
+<li>Low flexibility</li>
+</ul>
+</div>
+</div>
+<div id="extensible-effects" class="slide section level1">
+<h1>Extensible Effects</h1>
+<ul>
+<li>One monad to rule them all, into effects bind them.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode hs"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">Protocol</span> <span class="fu">=</span> <span class="ch">&#39;[Reader Request, Writer Response, Exc ()]</span>
+<span class="ot">action ::</span> <span class="dt">Members</span> <span class="dt">Protocol</span> effs <span class="ot">=&gt;</span> <span class="dt">Eff</span> effs a
+<span class="co">--  action :: Monad m =&gt; ProtocolT m a</span></code></pre></div>
+<div class="handout">
+<ul>
+<li>Also called <em>Algebraic Effects</em></li>
+<li>Quite recent idea (2001)</li>
+<li><p>Approach to computational effects based on a premise that impure behaviour arises from a set of operations</p></li>
+<li>One monad instead of monad ZOO.</li>
+<li>No more need for deriving instances (everything needed is in <code>Eff</code>)</li>
+<li>Order of effects is insignificant (until we start handling them)</li>
+<li>Given <code class="sourceCode haskell">action</code> uses only those effects it requires, but stack can contain any, even our custom ones.</li>
+</ul>
+</div>
+</div>
+<div id="console" class="slide section level1">
+<h1>Console</h1>
+<div class="sourceCode"><pre class="sourceCode hs"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Console</span> s <span class="kw">where</span>
+    <span class="dt">PutStrLn</span><span class="ot"> ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Console</span> ()
+    <span class="dt">GetLine</span><span class="ot"> ::</span> <span class="dt">Console</span> <span class="dt">String</span>
+
+<span class="ot">putStrLn&#39; ::</span> <span class="dt">Member</span> <span class="dt">Console</span> r <span class="ot">=&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Eff</span> r ()
+putStrLn&#39; <span class="fu">=</span> send <span class="fu">.</span> <span class="dt">PutStrLn</span>
+
+<span class="ot">getLine&#39; ::</span> <span class="dt">Member</span> <span class="dt">Console</span> r <span class="ot">=&gt;</span> <span class="dt">Eff</span> r <span class="dt">String</span>
+getLine&#39; <span class="fu">=</span> send <span class="dt">GetLine</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode hs"><code class="sourceCode haskell"><span class="ot">hello ::</span> <span class="dt">Member</span> <span class="dt">Console</span> effs <span class="ot">=&gt;</span> <span class="dt">Eff</span> effs ()
+hello <span class="fu">=</span> <span class="kw">do</span>
+    putStrLn&#39; <span class="st">&quot;Hello, what is your name?&quot;</span>
+    name <span class="ot">&lt;-</span> readLine&#39;
+    putStrLn&#39; (<span class="st">&quot;Hello &quot;</span> <span class="fu">&lt;&gt;</span> name <span class="fu">&lt;&gt;</span> <span class="st">&quot;!&quot;</span>)</code></pre></div>
+</div>
+<div id="handlers" class="slide section level1">
+<h1>Handlers</h1>
+<div class="sourceCode"><pre class="sourceCode hs"><code class="sourceCode haskell"><span class="ot">runConsoleIO ::</span> <span class="dt">Member</span> <span class="dt">IO</span> r <span class="ot">=&gt;</span> <span class="dt">Eff</span> (<span class="dt">Console</span> <span class="ch">&#39;: r) w -&gt; Eff r w</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode hs"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span>     runM (runConsoleIO hello)
+<span class="co">--         |     |            |</span>
+<span class="co">--  IO () -&#39;     |            |</span>
+<span class="co">-- Eff &#39;[IO] () -&#39;            |</span>
+<span class="co">--     Eff &#39;[Console, IO] () -&#39;</span></code></pre></div>
+<div class="incremental">
+<div class="sourceCode"><pre class="sourceCode hs"><code class="sourceCode haskell"><span class="ot">runConsolePure ::</span> [<span class="dt">String</span>] <span class="ot">-&gt;</span> <span class="dt">Eff</span> (<span class="dt">Console</span> <span class="ch">&#39;: r) a</span>
+    <span class="ot">-&gt;</span> <span class="dt">Eff</span> r (a, ([<span class="dt">String</span>], [<span class="dt">String</span>]))
+    <span class="co">-- ^ (value, (unconsumed input, produced output))</span></code></pre></div>
+</div>
+<div class="handout">
+<ul>
+<li>Pure interpreter: how to test things without need for dark wizardry.</li>
+</ul>
+</div>
+</div>
+<div id="use-in-other-languages" class="slide section level1">
+<h1>Use in Other Languages</h1>
+<ul>
+<li>PureScript</li>
+<li>OCaml</li>
+<li>Idris</li>
+<li>Eff</li>
+</ul>
+</div>
+<div id="conclusion" class="slide section level1">
+<h1>Conclusion</h1>
+<ul>
+<li>I hope you got curious</li>
+<li><a href="https://github.com/IxpertaSolutions/freer-effects" class="uri">https://github.com/IxpertaSolutions/freer-effects</a></li>
+<li>Pull requests are welcome <code>:-)</code></li>
+</ul>
+</div>
+<div id="questions" class="slide section level1">
+<h1>Questions?</h1>
+<ul>
+<li>Thank you for your attention…</li>
+</ul>
+</div>
+<div id="references" class="slide section level1">
+<h1>References</h1>
+<h2 id="haskell">Haskell</h2>
+<ul>
+<li><a href="http://okmij.org/ftp/Haskell/extensible/exteff.pdf">Extensible Effects, An Alternative to Monad Transformers</a></li>
+<li><a href="http://okmij.org/ftp/Haskell/extensible/more.pdf">Freer Monads, More Extensible Effects</a></li>
+</ul>
+<h2 id="other-languages">Other Languages</h2>
+<ul>
+<li><a href="http://math.andrej.com/wp-content/uploads/2012/03/eff.pdf">Programming with Algebraic Effects and Handlers</a> (Eff)</li>
+<li><a href="http://web.archive.org/web/20150102181601/http://eb.host.cs.st-andrews.ac.uk/drafts/effects.pdf">Programming and Reasoning with Algebraic Effects and Dependent Types</a> (Idris)</li>
+</ul>
+<h2 id="original-paper">Original paper</h2>
+<ul>
+<li><a href="http://homepages.inf.ed.ac.uk/gdp/publications/Op_Sem_Comp_Lam.pdf">Adequacy for Algebraic Effects</a></li>
+</ul>
+</div>
+<div id="haskell-1" class="slide section level1">
+<h1>Haskell</h1>
+<ul>
+<li>Purely functional</li>
+<li>Statically typed</li>
+<li>Lazy</li>
+</ul>
+</div>
+<div id="problems-with-monad-transformers" class="slide section level1">
+<h1>Problems With Monad Transformers</h1>
+<ul>
+<li>Order in which transformers apply matters</li>
+<li>Complications when only a subset of the transformers stack is needed. (<code>lift</code>, …)</li>
+<li>It lures you into putting everything into one huge state where you can access everything from everywhere…</li>
+<li>(Yet we grew love them and use them every day)</li>
+</ul>
+</div>
+<div id="examples" class="slide section level1">
+<h1>Examples</h1>
+<div class="sourceCode"><pre class="sourceCode hs"><code class="sourceCode haskell"><span class="ot">exampleEcho ::</span> <span class="dt">Member</span> <span class="dt">Console</span> r <span class="ot">=&gt;</span> <span class="dt">Eff</span> r ()
+exampleEcho <span class="fu">=</span> forever <span class="fu">$</span> <span class="kw">do</span>
+    putStrLn&#39; <span class="st">&quot;Send me something to echo...&quot;</span>
+    s <span class="ot">&lt;-</span> getLine&#39;
+    putStrLn&#39; (<span class="st">&quot;Thanks for sending &quot;</span> <span class="fu">++</span> show s)
+
+<span class="ot">mainEcho ::</span> <span class="dt">IO</span> ()
+mainEcho <span class="fu">=</span> runM (runConsoleM exampleEcho)
+<span class="co">--         |     |            |</span>
+<span class="co">--  IO () -&#39;     |            |</span>
+<span class="co">-- Eff &#39;[IO] () -&#39;            |</span>
+<span class="co">--    Eff &#39;[Console, IO] () -&#39;</span></code></pre></div>
+</div>
+<div class="slide section level1">
+
+<h2 id="capitalization-as-a-service">Capitalization as a Service</h2>
+<div class="sourceCode"><pre class="sourceCode hs"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Capitalize</span> v <span class="kw">where</span>
+    <span class="dt">Capitalize</span><span class="ot"> ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Capitalize</span> <span class="dt">String</span>
+
+<span class="ot">capitalize ::</span> <span class="dt">Member</span> <span class="dt">Capitalize</span> r <span class="ot">=&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Eff</span> r <span class="dt">String</span>
+capitalize <span class="fu">=</span> send <span class="fu">.</span> <span class="dt">Capitalize</span>
+
+<span class="ot">runCapitalizeM ::</span> <span class="dt">Eff</span> (<span class="dt">Capitalize</span> <span class="ch">&#39;: r) w -&gt; Eff r w</span></code></pre></div>
+</div>
+<div class="slide section level1">
+
+<h2 id="composing">Composing</h2>
+<div class="sourceCode"><pre class="sourceCode hs"><code class="sourceCode haskell"><span class="ot">exampleCapitalize ::</span> <span class="dt">Members</span> <span class="ch">&#39;[Console, Capitalize] effs =&gt; Eff effs ()</span>
+exampleCapitalize <span class="fu">=</span> forever <span class="fu">$</span> <span class="kw">do</span>
+    putStrLn&#39; <span class="st">&quot;Send me something to capitalize...&quot;</span>
+    l <span class="ot">&lt;-</span> getLine&#39;
+    when (null l) exitSuccess&#39;
+    capitalize l <span class="fu">&gt;&gt;=</span> putStrLn&#39;</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode hs"><code class="sourceCode haskell"><span class="ot">mainCapitalize1 ::</span> <span class="dt">IO</span> ()
+mainCapitalize1 <span class="fu">=</span> runM (runConsoleM (runCapitalizeM exampleCapitalize))
+<span class="co">--                |     |             |              |</span>
+<span class="co">--         IO () -&#39;     |             |              |</span>
+<span class="co">--        Eff &#39;[IO] () -&#39;             |              |</span>
+<span class="co">--             Eff &#39;[Console, IO] () -&#39;              |</span>
+<span class="co">--                Eff &#39;[Capitalize, Console, IO] () -&#39;</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode hs"><code class="sourceCode haskell"><span class="ot">mainCapitalize2 ::</span> <span class="dt">IO</span> ()
+mainCapitalize2 <span class="fu">=</span> runM (runCapitalizeM (runConsoleM exampleCapitalize))
+<span class="co">--                |     |             |              |</span>
+<span class="co">--         IO () -&#39;     |             |              |</span>
+<span class="co">--        Eff &#39;[IO] () -&#39;             |              |</span>
+<span class="co">--          Eff &#39;[Capitalize, IO] () -&#39;              |</span>
+<span class="co">--                Eff &#39;[Console, Capitalize, IO] () -&#39;</span></code></pre></div>
+</div>
+<div id="extra-notes" class="slide section level1">
+<h1>Extra notes</h1>
+<ul>
+<li>Extending stack locally (exceptions)</li>
+<li>Testability
+<ul>
+<li>Pure vs Effectful interpreters</li>
+</ul></li>
+<li>Combining with existing transformer stack</li>
+<li>Disadvantages</li>
+</ul>
+</div>
+<div id="instances-for-eff" class="slide section level1">
+<h1>Instances for Eff</h1>
+<ul>
+<li><code>Functor</code>, <code>Applicative</code>, <code>Monad</code></li>
+</ul>
+</div>
+<div id="effects-readily-available" class="slide section level1">
+<h1>Effects Readily available</h1>
+<ul>
+<li><code>Reader</code></li>
+<li><code>Writer</code></li>
+<li><code>State</code></li>
+<li><code>Exception</code></li>
+<li><code>NonDet</code></li>
+<li>And couple of half-baked ones
+<ul>
+<li><code>Coroutine</code></li>
+<li><code>Fresh</code></li>
+<li><code>Trace</code></li>
+<li><code>Cut</code></li>
+</ul></li>
+</ul>
+</div>
+</body>
+</html>
