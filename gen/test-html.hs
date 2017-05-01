@@ -178,7 +178,7 @@ meetups = checkMeetupsIndex
                 , language = [Sk]
                 , tags = [Haskell, Effects]
                 , slides = Present "fpb-7/freer-effects/slides.html"
-                , audio = NotYet
+                , audio = Present "fpb-7/fpb-7-2-extensible-effects.ogg"
                 , player = NotYet
                 }
             ]
