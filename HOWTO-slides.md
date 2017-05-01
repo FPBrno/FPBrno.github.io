@@ -19,7 +19,7 @@ oggenc -q 4 \
     "${outfile}.wav"
 ~~~~
 
-Try to play with options to make file as small as possible, with as good qualit as possible.
+Try to play with options to make file as small as possible, with as good quality as possible.
 For example try `oggenc -q 2  -b 16 --resample 22000`
 
 Audio should start with informative message:
