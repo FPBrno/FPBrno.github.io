@@ -80,14 +80,14 @@ data Presentation = Presentation
     -- ^ In what language(s) talk can\ be/was.
     , tags :: [Tag]
     , slides :: Possibly URL
-    -- ^ URL to slides of this presentation. 'Nothing' in case that there are
-    -- no slides.
+    -- ^ URL to slides of this presentation.
+    -- 'NotPresent' if there are no slides.
     , audio :: Possibly URL
-    -- ^ URL to audio recording of this presentation or 'Nothing' if there is
-    -- not any recording.
+    -- ^ URL to audio recording of this presentation.
+    -- 'NotPresent' if there is no audio.
     , player :: Possibly URL
-    -- ^ URL to web player able to handle audio recording of this presentation.
-    -- Set to 'Nothing' in case that wab player is not provided.
+    -- ^ URL to web player able to handle audio recording of this presentation or video.
+    -- 'NotPresent' if there is no player or video.
     } deriving Show
 
 instance Default Presentation where
