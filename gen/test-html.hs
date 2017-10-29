@@ -79,15 +79,15 @@ data Presentation = Presentation
     , language :: [Language]
     -- ^ In what language(s) talk can\ be/was.
     , tags :: [Tag]
+    , video :: Possibly URL
+    -- ^ URL of video recording of this presentation. 'NotPresent' if there is no video
     , slides :: Possibly URL
-    -- ^ URL to slides of this presentation. 'Nothing' in case that there are
-    -- no slides.
+    -- ^ URL to slides of this presentation. 'NotPresent' if there are no slides.
     , audio :: Possibly URL
-    -- ^ URL to audio recording of this presentation or 'Nothing' if there is
-    -- not any recording.
+    -- ^ URL to audio recording of this presentation or 'NotPresent' if there is no audio
     , player :: Possibly URL
     -- ^ URL to web player able to handle audio recording of this presentation.
-    -- Set to 'Nothing' in case that wab player is not provided.
+    -- Set to 'NotPresent' if web player is not provided.
     } deriving Show
 
 instance Default Presentation where
@@ -99,6 +99,7 @@ instance Default Presentation where
         , slides = NotYet
         , audio = NotYet
         , player = NotYet
+        , video = NotYet
         }
 
 data Meetup = Meetup
@@ -171,6 +172,7 @@ meetups = checkMeetupsIndex
                 , slides = Present "fpb-7/thereIsNoTurningBack.pdf"
                 , audio = NotYet
                 , player = NotYet
+                , video = NotPresent "No video recorded"
                 }
             , Presentation
                 { title = "Extensible Effects"
@@ -180,6 +182,7 @@ meetups = checkMeetupsIndex
                 , slides = Present "fpb-7/freer-effects/slides.html"
                 , audio = Present "fpb-7/fpb-7-2-extensible-effects.ogg"
                 , player = NotYet
+                , video = NotPresent "No video recorded"
                 }
             ]
         , lookingForPresentations = False
@@ -198,6 +201,7 @@ meetups = checkMeetupsIndex
                 , slides = Present "fpb-6/html/talk.html"
                 , audio = NotPresent "Not recorded"
                 , player = NotPresent "No audio recording"
+                , video = NotPresent "No video recorded"
                 }
             ]
         , lookingForPresentations = False
@@ -216,6 +220,7 @@ meetups = checkMeetupsIndex
                 , slides = NotYet
                 , audio = Present "fpb-5/fpb-5.ogg"
                 , player = NotYet
+                , video = NotPresent "No video recorded"
                 }
             ]
         , lookingForPresentations = False
@@ -234,6 +239,7 @@ meetups = checkMeetupsIndex
                 , slides = Present "fpb-4/elm_best_of_fp_in_browser.pdf"
                 , audio = NotYet
                 , player = NotYet
+                , video = NotPresent "No video recorded"
                 }
             ]
         , lookingForPresentations = False
@@ -252,6 +258,7 @@ meetups = checkMeetupsIndex
                 , slides = Present "fpb-3/erlang_for_haskellers.pdf"
                 , audio = Present "fpb-3/fpb-3.ogg"
                 , player = Present "fpb-3/player.html"
+                , video = NotPresent "No video recorded"
                 }
             ]
         , lookingForPresentations = False
@@ -271,6 +278,7 @@ meetups = checkMeetupsIndex
                 , slides = Present "fpb-2/types-as-values.html"
                 , audio = NotPresent "I forgot to start recording"
                 , player = NotPresent "Does not make sense without audio"
+                , video = NotPresent "No video recorded"
                 }
             ]
         , lookingForPresentations = False
@@ -289,6 +297,7 @@ meetups = checkMeetupsIndex
                 , slides = Present "fpb-1/fpb-1.html"
                 , audio = Present "fpb-1/fpb-1.ogg"
                 , player = Present "fpb-1/player.html"
+                , video = NotPresent "No video recorded"
                 }
             ]
         , lookingForPresentations = False
@@ -307,6 +316,7 @@ meetups = checkMeetupsIndex
                 , slides = Present "fpb-0/fpb-0.html"
                 , audio = Present "fpb-0/fpb-0.ogg"
                 , player = Present "fpb-0/player.html"
+                , video = NotPresent "No video recorded"
                 }
             ]
         , lookingForPresentations = False
@@ -350,6 +360,7 @@ presentation2html Presentation{..} = H.div H.! A.class_ "presentation" $ do
     H.div H.! A.class_ "pres_goodies" $ do
         h "Slides" slides
         h "Audio" audio
+        h "Video" video
         h "Player" player
     where
     classed c x = H.span H.! A.class_ c $ H.toHtml x
