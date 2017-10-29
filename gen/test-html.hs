@@ -18,6 +18,7 @@ import Data.Time.ISO8601 (formatISO8601)
 data Tag
     = Agda
     | CaseStudy
+    | Clojure
     | Compiler
     | Concurrent
     | Effects
@@ -27,6 +28,7 @@ data Tag
     | HoTT
     | HotCodeSwap
     | Introduction
+    | LISP
     | Motivation
     | PurelyFunctional
     | Reliability
@@ -155,6 +157,30 @@ checkMeetupsIndex ms = case areCorrectlyOrdered ms of
 meetups :: [Meetup]
 meetups = checkMeetupsIndex
     [ Meetup
+      { indexM = 8
+        , presentations =
+            [ Presentation
+                { title = "Clojure: A Functional LISP on the JVM"
+                , author = "Juraj Martinka"
+                , language = [Sk]
+                , tags =
+                    [ Clojure
+                    , LISP
+                    , Introduction
+                    , Motivation
+                    ]
+                , slides = Present "https://www.slideshare.net/FPBrno/fpbrno-20171024-clojure-a-functional-lisp-on-the-jvm"
+                , audio = Present "https://soundcloud.com/fpbrno/fpbrno-clojure-presentation-oct-24-1809"
+                , player = NotPresent "Use Youtube/SoundCloud built-in players"
+                , video = Present "https://www.youtube.com/watch?v=YeUOWaM_Gk8"
+                }
+            ]
+        , lookingForPresentations = False
+        , time = Just $ read "2017-10-24 18:00:00 +02:00"
+        , participants = Just 18
+        , sponsors = [KiwiCom]
+        }
+      , Meetup
         { indexM = 7
         , presentations =
             [ Presentation
