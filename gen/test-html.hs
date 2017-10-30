@@ -28,7 +28,7 @@ data Tag
     | HoTT
     | HotCodeSwap
     | Introduction
-    | LISP
+    | Lisp
     | Motivation
     | PurelyFunctional
     | Reliability
@@ -159,12 +159,12 @@ meetups = checkMeetupsIndex
       { indexM = 8
         , presentations =
             [ Presentation
-                { title = "Clojure: A Functional LISP on the JVM"
+                { title = "Clojure: A Functional Lisp on the JVM"
                 , author = "Juraj Martinka"
                 , language = [Sk]
                 , tags =
                     [ Clojure
-                    , LISP
+                    , Lisp
                     , Introduction
                     , Motivation
                     ]
