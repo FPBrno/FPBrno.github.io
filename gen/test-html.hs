@@ -23,6 +23,7 @@ data Tag
     | Concurrent
     | Effects
     | Elm
+    | Elixir
     | Erlang
     | Haskell
     | HoTT
@@ -40,11 +41,13 @@ data Tag
 data Sponsor
     = KiwiCom
     | Ixperta
+    | Altworx
 
 instance Show Sponsor where
     showsPrec _ = showString . \case
         KiwiCom -> "Kiwi.com"
         Ixperta -> "IXPERTA"
+        Altworx -> "Altworx"
 
 class HasLink a where
     getLink :: a -> URL
@@ -53,6 +56,7 @@ instance HasLink Sponsor where
     getLink = \case
         KiwiCom -> "https://www.kiwi.com/"
         Ixperta -> "http://www.ixperta.com/"
+        Altworx -> "http://altworx.com/"
 
 -- TODO: Maybe we could add a logo for each sponsor.
 
@@ -156,7 +160,30 @@ checkMeetupsIndex ms = case areCorrectlyOrdered ms of
 meetups :: [Meetup]
 meetups = checkMeetupsIndex
     [ Meetup
-      { indexM = 8
+      { indexM = 9
+        , presentations =
+            [ Presentation
+                { title = "Elixir"
+                , author = "Zdeněk Mejzlík (Altworx)"
+                , language = [Sk]
+                , tags =
+                    [ Elixir
+                    , Introduction
+                    , Motivation
+                    , Concurrent
+                    ]
+                , slides = Present "https://github.com/altworx/elixir-presentation"
+                , audio = NotPresent "Not recorded"
+                , player = NotPresent "Not recorded" 
+                }
+            ]
+        , lookingForPresentations = False
+        , time = Just $ read "2018-02-27 18:00:00 +01:00"
+        , participants = Just 30
+        , sponsors = [Altworx, KiwiCom]
+        }
+      , Meetup
+        { indexM = 8
         , presentations =
             [ Presentation
                 { title = "Clojure: A Functional Lisp on the JVM"
