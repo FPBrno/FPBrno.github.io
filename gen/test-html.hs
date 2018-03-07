@@ -17,13 +17,12 @@ import Data.Time.ISO8601 (formatISO8601)
 
 data Tag
     = Agda
-    | CaseStudy
     | Clojure
     | Compiler
     | Concurrent
     | Effects
-    | Elm
     | Elixir
+    | Elm
     | Erlang
     | Haskell
     | HoTT
@@ -161,84 +160,83 @@ meetups :: [Meetup]
 meetups = checkMeetupsIndex
     [ Meetup
       { indexM = 9
-        , presentations =
-            [ Presentation
-                { title = "Elixir"
-                , author = "Zdeněk Mejzlík (Altworx)"
-                , language = [Sk]
-                , tags =
-                    [ Elixir
-                    , Introduction
-                    , Motivation
-                    , Concurrent
-                    ]
-                , slides = Present "https://github.com/altworx/elixir-presentation"
-                , audio = NotPresent "Not recorded"
-                , player = NotPresent "Not recorded" 
-                }
-            ]
-        , lookingForPresentations = False
-        , time = Just $ read "2018-02-27 18:00:00 +01:00"
-        , participants = Just 30
-        , sponsors = [Altworx, KiwiCom]
-        }
-      , Meetup
-        { indexM = 8
-        , presentations =
-            [ Presentation
-                { title = "Clojure: A Functional Lisp on the JVM"
-                , author = "Juraj Martinka"
-                , language = [Sk]
-                , tags =
-                    [ Clojure
-                    , Lisp
-                    , Introduction
-                    , Motivation
-                    ]
-                , slides = Present "https://www.slideshare.net/FPBrno/fpbrno-20171024-clojure-a-functional-lisp-on-the-jvm"
-                , audio = Present "https://soundcloud.com/fpbrno/fpbrno-clojure-presentation-oct-24-1809"
-                , player = Present "https://www.youtube.com/watch?v=YeUOWaM_Gk8"
-                }
-            ]
-        , lookingForPresentations = False
-        , time = Just $ read "2017-10-24 18:00:00 +02:00"
-        , participants = Just 18
-        , sponsors = [KiwiCom]
-        }
-      , Meetup
-        { indexM = 7
-        , presentations =
-            [ Presentation
-                { title = "Purely Functional Programming Essentials"
-                , author = "Marek Kidoň"
-                , language = [Cz]
-                , tags =
-                    [ CaseStudy
-                    , Haskell
-                    , Introduction
-                    , Motivation
-                    , PurelyFunctional
-                    , Types
-                    ]
-                , slides = Present "fpb-7/thereIsNoTurningBack.pdf"
-                , audio = NotYet
-                , player = NotYet
-                }
-            , Presentation
-                { title = "Extensible Effects"
-                , author = "Matej"
-                , language = [Sk]
-                , tags = [Haskell, Effects]
-                , slides = Present "fpb-7/freer-effects/slides.html"
-                , audio = Present "fpb-7/fpb-7-2-extensible-effects.ogg"
-                , player = NotYet
-                }
-            ]
-        , lookingForPresentations = False
-        , time = Just $ read "2017-02-22 19:00:00 +01:00"
-        , participants = Just 55
-        , sponsors = [KiwiCom]
-        }
+      , presentations =
+          [ Presentation
+              { title = "Elixir"
+              , author = "Zdeněk Mejzlík (Altworx)"
+              , language = [Sk]
+              , tags =
+                  [ Elixir
+                  , Introduction
+                  , Motivation
+                  , Concurrent
+                  ]
+              , slides = Present "https://github.com/altworx/elixir-presentation"
+              , audio = NotPresent "Not recorded"
+              , player = NotPresent "Not recorded"
+              }
+          ]
+      , lookingForPresentations = False
+      , time = Just $ read "2018-02-27 18:00:00 +01:00"
+      , participants = Just 30
+      , sponsors = [Altworx, KiwiCom]
+      }
+    , Meetup
+      { indexM = 8
+      , presentations =
+          [ Presentation
+              { title = "Clojure: A Functional Lisp on the JVM"
+              , author = "Juraj Martinka"
+              , language = [Sk]
+              , tags =
+                  [ Clojure
+                  , Lisp
+                  , Introduction
+                  , Motivation
+                  ]
+              , slides = Present "https://www.slideshare.net/FPBrno/fpbrno-20171024-clojure-a-functional-lisp-on-the-jvm"
+              , audio = Present "https://soundcloud.com/fpbrno/fpbrno-clojure-presentation-oct-24-1809"
+              , player = Present "https://www.youtube.com/watch?v=YeUOWaM_Gk8"
+              }
+          ]
+      , lookingForPresentations = False
+      , time = Just $ read "2017-10-24 18:00:00 +02:00"
+      , participants = Just 18
+      , sponsors = [KiwiCom]
+      }
+    , Meetup
+      { indexM = 7
+      , presentations =
+          [ Presentation
+              { title = "Purely Functional Programming Essentials"
+              , author = "Marek Kidoň"
+              , language = [Cz]
+              , tags =
+                  [ Haskell
+                  , Introduction
+                  , Motivation
+                  , PurelyFunctional
+                  , Types
+                  ]
+              , slides = Present "fpb-7/thereIsNoTurningBack.pdf"
+              , audio = NotYet
+              , player = NotYet
+              }
+          , Presentation
+              { title = "Extensible Effects"
+              , author = "Matej"
+              , language = [Sk]
+              , tags = [Haskell, Effects]
+              , slides = Present "fpb-7/freer-effects/slides.html"
+              , audio = Present "fpb-7/fpb-7-2-extensible-effects.ogg"
+              , player = NotYet
+              }
+          ]
+      , lookingForPresentations = False
+      , time = Just $ read "2017-02-22 19:00:00 +01:00"
+      , participants = Just 55
+      , sponsors = [KiwiCom]
+      }
     , Meetup
         { indexM = 6
         , presentations =
