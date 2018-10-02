@@ -18,3 +18,12 @@ liskin
 * Erlang
 * Perl
 * bicycles :-)
+
+jhrcek
+------
+
+* FP
+* Haskell
+* Purescript
+* Elm
+* Math
