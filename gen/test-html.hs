@@ -6,13 +6,12 @@ import qualified Data.Foldable as Foldable
 import qualified Text.Blaze.Html.Renderer.String as R
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
--- import qualified Text.Blaze.Html.Renderer.Pretty as R
 
 import Control.Monad (unless, when, zipWithM_)
 import Data.Default.Class (Default(def))
 import Data.List (intersperse)
 import Data.Monoid
-import Data.Time
+import Data.Time (UTCTime, ZonedTime, defaultTimeLocale, formatTime, getCurrentTime, zonedTimeToUTC)
 import Data.Time.ISO8601 (formatISO8601)
 
 data Tag
@@ -529,7 +528,11 @@ site t = H.html $ do
             H.a H.! A.href "https://www.meetup.com/fpbrno/" $ "Meetup"
             ", and "
             H.a H.! A.href "https://www.facebook.com/FPBrno/" $ " Facebook"
-            H.div "© 2015-2017 Functional Programming Brno"
+            H.div $ "© 2015-" <> H.toHtml (getYear t) <> " Functional Programming Brno"
+
+
+getYear :: UTCTime -> String
+getYear = formatTime defaultTimeLocale "%Y"
 
 main :: IO ()
 main = do
