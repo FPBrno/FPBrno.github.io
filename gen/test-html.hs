@@ -29,7 +29,9 @@ data Tag
     | Introduction
     | Lisp
     | Motivation
+    | Performance
     | PurelyFunctional
+    | ReasonML
     | Reliability
     | Theory
     | Types
@@ -158,6 +160,40 @@ checkMeetupsIndex ms = case areCorrectlyOrdered ms of
 meetups :: [Meetup]
 meetups = checkMeetupsIndex
     [ Meetup
+      { indexM = 10
+      , presentations =
+          [ Presentation
+              { title = "Reason - krátký úvod do jazyka z pohledu JS vývojáře"
+              , author = "Pavel Kepka (Blueberry)"
+              , language = [Cz]
+              , tags =
+                  [ ReasonML
+                  , Introduction
+                  , Motivation
+                  ]
+              , slides = Present "https://www.slideshare.net/FPBrno/fpbrno-20180522-reason-intro"
+              , audio = Present "https://soundcloud.com/fpbrno/functional-programming-brno-2018-05-22-reasonml-intro-pavel-kepka"
+              , player = NotPresent "Not recorded" 
+              }
+              , Presentation
+              { title = "Benchmarking in Elixir"
+              , author = "Antonín Hackenberg (Blueberry)"
+              , language = [Cz]
+              , tags =
+                  [ Elixir
+                  , Performance
+                  ]
+              , slides = Present "https://www.slideshare.net/FPBrno/fpbrno-20180522-benchmarking-in-elixir"
+              , audio = Present "https://soundcloud.com/fpbrno/functional-programming-brno-2018-05-22-benchamarking-in-elixir-antonin-hackenberg"
+              , player = NotPresent "Not recorded" 
+              }
+          ]
+      , lookingForPresentations = False
+      , time = Just $ read "2018-05-22 18:00:00 +01:00"
+      , participants = Just 20
+      , sponsors = [KiwiCom]
+      }
+      , Meetup
       { indexM = 9
       , presentations =
           [ Presentation
