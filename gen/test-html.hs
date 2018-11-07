@@ -23,6 +23,7 @@ data Tag
     | Elixir
     | Elm
     | Erlang
+    | FixPoint
     | Haskell
     | HoTT
     | HotCodeSwap
@@ -32,7 +33,9 @@ data Tag
     | Performance
     | PurelyFunctional
     | ReasonML
+    | RecursionSchemes
     | Reliability
+    | Scala
     | Theory
     | Types
     | Web
@@ -160,6 +163,29 @@ checkMeetupsIndex ms = case areCorrectlyOrdered ms of
 meetups :: [Meetup]
 meetups = checkMeetupsIndex
     [ Meetup
+      { indexM = 11
+      , presentations =
+          [ Presentation
+              { title = "DSLs and Generalized Recursion Schemes"
+              , author = "Marek Kidoň (Tymbe)"
+              , language = [Cz]
+              , tags =
+                  [ FixPoint
+                  , RecursionSchemes
+                  , Scala
+                  , Theory
+                  ]
+              , slides = NotYet
+              , audio = NotYet
+              , player = NotYet
+              }
+          ]
+      , lookingForPresentations = False
+      , time = Just $ read "2018-11-22 18:00:00 +01:00"
+      , participants = Nothing
+      , sponsors = []
+      }
+      , Meetup
       { indexM = 10
       , presentations =
           [ Presentation
@@ -173,7 +199,7 @@ meetups = checkMeetupsIndex
                   ]
               , slides = Present "https://www.slideshare.net/FPBrno/fpbrno-20180522-reason-intro"
               , audio = Present "https://soundcloud.com/fpbrno/functional-programming-brno-2018-05-22-reasonml-intro-pavel-kepka"
-              , player = NotPresent "Not recorded" 
+              , player = NotPresent "Not recorded"
               }
               , Presentation
               { title = "Benchmarking in Elixir"
@@ -185,7 +211,7 @@ meetups = checkMeetupsIndex
                   ]
               , slides = Present "https://www.slideshare.net/FPBrno/fpbrno-20180522-benchmarking-in-elixir"
               , audio = Present "https://soundcloud.com/fpbrno/functional-programming-brno-2018-05-22-benchamarking-in-elixir-antonin-hackenberg"
-              , player = NotPresent "Not recorded" 
+              , player = NotPresent "Not recorded"
               }
           ]
       , lookingForPresentations = False
