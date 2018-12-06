@@ -169,6 +169,20 @@ meetups = checkMeetupsIndex
       { indexM = 11
       , presentations =
           [ Presentation
+              { title = "Functional Programming Introduction"
+              , author = "František Kocun (CEAi)"
+              , language = [Sk]
+              , tags =
+                  [ Effects
+                  , Introduction
+                  , PurelyFunctional
+                  , Scala
+                  ]
+              , slides = Present "https://docs.google.com/presentation/d/190Q6FdXV2cziu0_sWR7CRS3t2V3jmj5yRKgNl7rBtQc/edit#slide=id.p"
+              , audio = NotPresent "Player available"
+              , player = Present "https://www.youtube.com/watch?v=aue7s8WLwOU"
+              }
+          , Presentation
               { title = "DSLs and Generalized Recursion Schemes"
               , author = "Marek Kidoň (Tymbe)"
               , language = [Cz]
