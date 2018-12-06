@@ -199,7 +199,7 @@ meetups = checkMeetupsIndex
           ]
       , lookingForPresentations = False
       , time = Just $ read "2018-11-22 18:00:00 +01:00"
-      , participants = Nothing
+      , participants = Just 20
       , sponsors = [CEAI]
       }
       , Meetup
