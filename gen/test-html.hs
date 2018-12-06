@@ -42,24 +42,27 @@ data Tag
     deriving Show
 
 data Sponsor
-    = KiwiCom
+    = Altworx
+    | CEAI
     | Ixperta
-    | Altworx
+    | KiwiCom
 
 instance Show Sponsor where
     showsPrec _ = showString . \case
-        KiwiCom -> "Kiwi.com"
-        Ixperta -> "IXPERTA"
         Altworx -> "Altworx"
+        CEAI -> "CEAi"
+        Ixperta -> "IXPERTA"
+        KiwiCom -> "Kiwi.com"
 
 class HasLink a where
     getLink :: a -> URL
 
 instance HasLink Sponsor where
     getLink = \case
-        KiwiCom -> "https://www.kiwi.com/"
-        Ixperta -> "http://www.ixperta.com/"
         Altworx -> "http://altworx.com/"
+        CEAI -> "https://ceai.io/"
+        Ixperta -> "http://www.ixperta.com/"
+        KiwiCom -> "https://www.kiwi.com/"
 
 -- TODO: Maybe we could add a logo for each sponsor.
 
@@ -183,7 +186,7 @@ meetups = checkMeetupsIndex
       , lookingForPresentations = False
       , time = Just $ read "2018-11-22 18:00:00 +01:00"
       , participants = Nothing
-      , sponsors = []
+      , sponsors = [CEAI]
       }
       , Meetup
       { indexM = 10
