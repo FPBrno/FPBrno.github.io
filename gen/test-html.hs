@@ -178,9 +178,9 @@ meetups = checkMeetupsIndex
                   , Scala
                   , Theory
                   ]
-              , slides = NotYet
-              , audio = NotYet
-              , player = NotYet
+              , slides = Present "https://github.com/Tr1p0d/talks/tree/master/DSLs-and-Recursion-Schemes/presentation"
+              , audio = NotPresent "Player available"
+              , player = Present "https://www.youtube.com/watch?v=Xr9ryB-1U1Q"
               }
           ]
       , lookingForPresentations = False
