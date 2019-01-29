@@ -42,24 +42,27 @@ data Tag
     deriving Show
 
 data Sponsor
-    = KiwiCom
+    = Altworx
+    | CEAI
     | Ixperta
-    | Altworx
+    | KiwiCom
 
 instance Show Sponsor where
     showsPrec _ = showString . \case
-        KiwiCom -> "Kiwi.com"
-        Ixperta -> "IXPERTA"
         Altworx -> "Altworx"
+        CEAI -> "CEAi"
+        Ixperta -> "IXPERTA"
+        KiwiCom -> "Kiwi.com"
 
 class HasLink a where
     getLink :: a -> URL
 
 instance HasLink Sponsor where
     getLink = \case
-        KiwiCom -> "https://www.kiwi.com/"
-        Ixperta -> "http://www.ixperta.com/"
         Altworx -> "http://altworx.com/"
+        CEAI -> "https://ceai.io/"
+        Ixperta -> "http://www.ixperta.com/"
+        KiwiCom -> "https://www.kiwi.com/"
 
 -- TODO: Maybe we could add a logo for each sponsor.
 
@@ -166,6 +169,20 @@ meetups = checkMeetupsIndex
       { indexM = 11
       , presentations =
           [ Presentation
+              { title = "Functional Programming Introduction"
+              , author = "František Kocun (CEAi)"
+              , language = [Sk]
+              , tags =
+                  [ Effects
+                  , Introduction
+                  , PurelyFunctional
+                  , Scala
+                  ]
+              , slides = Present "https://docs.google.com/presentation/d/190Q6FdXV2cziu0_sWR7CRS3t2V3jmj5yRKgNl7rBtQc/edit#slide=id.p"
+              , audio = NotPresent "Player available"
+              , player = Present "https://www.youtube.com/watch?v=aue7s8WLwOU"
+              }
+          , Presentation
               { title = "DSLs and Generalized Recursion Schemes"
               , author = "Marek Kidoň (Tymbe)"
               , language = [Cz]
@@ -175,15 +192,15 @@ meetups = checkMeetupsIndex
                   , Scala
                   , Theory
                   ]
-              , slides = NotYet
-              , audio = NotYet
-              , player = NotYet
+              , slides = Present "https://github.com/Tr1p0d/talks/tree/master/DSLs-and-Recursion-Schemes/presentation"
+              , audio = NotPresent "Player available"
+              , player = Present "https://www.youtube.com/watch?v=Xr9ryB-1U1Q"
               }
           ]
       , lookingForPresentations = False
       , time = Just $ read "2018-11-22 18:00:00 +01:00"
-      , participants = Nothing
-      , sponsors = []
+      , participants = Just 20
+      , sponsors = [CEAI]
       }
       , Meetup
       { indexM = 10
